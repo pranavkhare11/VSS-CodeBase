@@ -1,0 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+.logo {
+  color: rgb(227, 84, 255);
+}
+.heading {
+  color: rgb(255, 0, 0);
+  background-color: rgb(155, 238, 130);
+}
