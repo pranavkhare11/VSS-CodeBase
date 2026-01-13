@@ -18,12 +18,13 @@ I organize my work by keeping the HTML pages in the root and resources in an `as
 
 ```text
 VSS-CodeBase/
-├── 1.intro.html            # HTML Task 1
-├── 2.forms.html            # HTML Task 2
-├── 3.table.html            # HTML Task 3
-├── 4.table.html            # HTML Task 4
-├── assets/
-│   └── css/
-│       ├── 2.style.css     # Styles specifically for Task 2
-│       └── 4.style.css     # Styles specifically for Task 4
+├── CSS/
+│   ├── 1.intro.html            # HTML Task 1
+│   ├── 2.forms.html            # HTML Task 2
+│   ├── 3.table.html            # HTML Task 3
+│   ├── 4.table.html            # HTML Task 4
+│   └── assets/
+│       └── css/
+│           ├── 2.style.css     # Styles specifically for Task 2
+│           └── 4.style.css     # Styles specifically for Task 4
 └── README.md
