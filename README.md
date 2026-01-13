@@ -2,16 +2,16 @@
 
 **Mentorship Submission & Learning Repository**
 
-This repository contains my daily practice code and task submissions. I use this codebase to track my learning progress and submit tasks directly to my mentor.
+This repository tracks my learning progress and daily task submissions. It is organized by **topic**, allowing for clear separation of different technologies as I master them.
 
-## 📂 Repository Structure & Naming Convention
+## 📂 Repository Structure
 
-I organize my work by keeping the HTML pages in the root and resources in an `assets` folder.
+The codebase is divided into **Topic Modules**. Currently, the active module is **CSS**.
 
-### How to Navigate:
-* **HTML Files (Root):** These are the main entry points, numbered sequentially by task (e.g., `1.task.html`, `2.task.html`).
-* **Styles & Resources:** Located in the `assets/` directory.
-* **Mapping:** The number on the HTML file corresponds to the number on the CSS file inside `assets/css/`.
+### Folder Hierarchy:
+1.  **Main Topic Folder:** (e.g., `CSS/`) Contains all work related to that technology.
+2.  **Task Files:** Numbered HTML files located directly inside the topic folder.
+3.  **Assets:** A dedicated `assets` folder inside the topic folder holds styles, images, and scripts.
 
 **Example:**
 * `2.login.html` (Root) ↔️ links to `assets/css/2.style.css`
