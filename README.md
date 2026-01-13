@@ -26,7 +26,7 @@ VSS-CodeBase/
 │   │           ├── 2.style.css     # Styles specifically for Task 2
 │   │           └── 4.style.css     # Styles specifically for Task 4
 │   └── Assignments/
-│       └── Task-Tame/
+│       └── Task-Name/
 │           ├── task.html            # HTML Task
 │           └── assets/
 │               └── css/
