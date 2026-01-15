@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nested Selectors</title>
+    <style>
+        #firstId p {
+            color: tomato;
+        }
+
+        #firstId>p {
+            color: rgb(243, 255, 71);
+        }
+
+        p {
+            color: violet;
+        }
+
+        /*  body div.primary-header nav#first ul li.even
+            1-0-0 #first
+            0-2-0 .primary-header, .even
+            0-0-5  body, div, nav, ul, li 
+            1-2-5 */
+    </style>
+</head>
+
+<body>
+    <p>Hello from Body container 18</p>
+    <div id="firstId">
+        <p>Hello from firstId container 20</p>
+        <div id="secondId">
+            <div id="thirId">
+                <div class="para-class-container">
+                    <p>Hello From para-class-container 24</p>
+                    <p>Inside Inner section</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
