@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <style>
+    #demo {color: blue;} /* weight: 1-0-0 */
+    p#demo {color: orange;} /* weight: 1-0-1 WINS! */
+    .test {color: green;} /* weight: 0-1-0 */
+    p.test {color: green;} /* weight: 0-1-1 */
+    p {color: red;} /* weight: 0-0-1 */
+  </style>
+</head>
+<body>
+
+<p id="demo" class="test">Hello World!</p>
+
+</body>
+</html>
