@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .product-cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .cards{
+            flex: auto;
+            width: calc(10% - 10px);
+            aspect-ratio: 1/1.75;
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            font-weight: bold;
+            border: 2px solid black;
+            box-sizing: border-box;
+            text-align: center;
+            padding: 10px 10px 0px 10px;
+            flex-direction: column;
+            border-radius: 5px;
+        }
+        body>.product-cards>.cards:nth-child(odd){
+            background-color: lightblue;
+        }
+        body>.product-cards >.cards:nth-child(even){
+            background-color: lightgreen;
+        }
+
+        div>div>div {
+            font-size: 1rem;
+            font-weight: normal;
+            border-top: 2px solid rgba(0, 0, 0, 0.39);
+            background-color: rgba(0, 0, 0, 0.671);
+            width: 112.5%;
+            box-sizing: border-box;
+            height: 40%;
+            margin-top: 150px;
+        }
+        .cards:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-cards">
+        <div class="cards">A <div>s</div></div>
+        <div class="cards">B <div>s</div></div>
+        <div class="cards">C <div>s</div></div>
+        <div class="cards">D <div>s</div></div>
+        <div class="cards">E <div>s</div></div>
+        <div class="cards">F <div>s</div></div>
+        <div class="cards">G <div>s</div></div>
+        <div class="cards">H <div>s</div></div>
+        <div class="cards">I <div>s</div></div>
+        <div class="cards">J <div>s</div></div>
+        <div class="cards">K <div>s</div></div>
+        <div class="cards">L <div>s</div></div>
+        <div class="cards">M <div>s</div></div>
+        <div class="cards">N <div>s</div></div>
+        <div class="cards">O <div>s</div></div>
+        <div class="cards">P <div>s</div></div>
+        <div class="cards">Q <div>s</div></div>
+        <div class="cards">R <div>s</div></div>
+        <div class="cards">S <div>s</div></div>
+        <div class="cards">T <div>s</div></div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Latest Men's T-shirts Online at Best Price | Myntra Clone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+        /* #region Global & Reset */
+        @font-face {
+            font-family: 'Assistant';
+            src: url(https://constant.myntassets.com/www/fonts/Assistant-Regular.eot);
+            src: url(https://constant.myntassets.com/www/fonts/Assistant-Regular.eot?#iefix) format('embedded-opentype'), url(https://constant.myntassets.com/www/fonts/Assistant-Regular.woff) format('woff'), url(https://constant.myntassets.com/www/fonts/Assistant-Regular.ttf) format('truetype');
+            font-weight: 400;
+            font-display: swap;
+            font-style: normal;
+        }
+
+        html {
+            font-family: sans-serif;
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #ffffff;
+            /* Removed #fcfcfc, set to white */
+            width: 100%;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0px;
+        }
+
+        /* remove underline from links */
+        a {
+            text-decoration: none;
+            color: #282d3e;
+        }
+
+        /* #endregion */
+
+        /* #region Navbar */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .jump-links {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+        }
+
+        .jump-links a {
+            display: inline-block;
+            line-height: 80px;
+            padding: 0 15px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #282c3f;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border-bottom: 4px solid transparent;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .jump-links a:hover {
+            border-bottom: 4px solid #ee5f73;
+        }
+
+        .jump-links sup {
+            color: #ff3f6c;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .search-container {
+            display: flex;
+            align-items: center;
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 0px 15px 0px 0px;
+            min-width: 375px;
+            height: 45px;
+            border: 1px solid #d4d5d9;
+        }
+
+        .search-container:focus-within {
+            background-color: #fff;
+            border: 1px solid #d4d5d9;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            color: #282c3f;
+            margin-left: 10px;
+        }
+
+        .myntra-sprite {
+            background-image: url("assets/media/icons.png");
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+
+        .nav-icons-container {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .nav-icons span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #282c3f;
+            margin-top: 2px;
+        }
+
+        .nav-icons:hover span {
+            color: #ee5f73;
+        }
+
+        .logo-container {
+            width: 53px;
+            height: 36px;
+            display: block;
+            overflow: hidden;
+            position: relative;
+            margin-right: 10px;
+        }
+
+        .logo {
+            width: 136px;
+            height: 95px;
+            background-position: -1148px 0px;
+            transform: scale(0.4);
+            transform-origin: top left;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .icon-profile {
+            width: 33px;
+            height: 32px;
+            background-position: -603px -117px;
+        }
+
+        .icon-wishlist {
+            width: 33px;
+            height: 32px;
+            background-position: -431px -117px;
+        }
+
+        .icon-bag {
+            width: 33px;
+            height: 32px;
+            background-position: -685px -117px;
+        }
+
+        .icon-search {
+            background-position: -320px -117px;
+            transform: scale(0.6);
+            width: 30px;
+            height: 30px;
+            opacity: 0.7;
+        }
+
+        /* #endregion */
+
+        /* #region Breadcrumbs & Page Info */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 30px;
+            font-size: 13px;
+            color: #7d7d7d;
+            box-sizing: border-box;
+        }
+
+        .breadcrumb span:last-child {
+            font-weight: 800;
+            color: #282c3f;
+        }
+
+        .page-name-item-count {
+            max-width: 1400px;
+            margin: 0px auto 20px auto;
+            padding: 0 30px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .page-name-item-count span:first-child {
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        .page-name-item-count span:last-child {
+            color: #888b93;
+        }
+
+        /* #endregion */
+
+        /* #region Layout Structure */
+        .content-wrapper {
+            max-width: 1400px;
+            display: flex;
+            gap: 0;
+            padding: 0 30px 0px 30px;
+            box-sizing: border-box;
+            margin: 0 auto;
+        }
+
+        main {
+            flex-grow: 1;
+            padding: 0 0 20px 25px;
+            box-sizing: border-box;
+        }
+
+        /* #endregion */
+
+        /* #region Sidebar Filters */
+        aside {
+            width: 250px;
+            min-width: 250px;
+            padding: 0;
+            box-sizing: border-box;
+            border-right: 1px solid #e9e9ed;
+        }
+
+        .filter-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: #282c3f;
+            border-bottom: 1px solid #e9e9ed;
+            padding: 0 20px 20px 0;
+            margin: 15px 0 20px 0;
+        }
+
+        .filter-types {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e9e9ed;
+            padding: 0 20px 20px 0;
+        }
+
+        .filter-types:last-child {
+            border-bottom: none;
+        }
+
+        .filter-types-names {
+            font-size: 14px;
+            font-weight: 700;
+            color: #282c3f;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .filter-types-list {
+            font-size: 14px;
+            line-height: 2;
+            color: #282c3f;
+        }
+
+        .circular-search-icon {
+            display: inline-block;
+            position: relative;
+            margin-left: auto;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            border: 1px solid #d4d5d9;
+            text-align: center;
+        }
+
+        #filter-search-icon {
+            margin: 5px;
+            background-position: -320px -117px;
+            transform: scale(0.5);
+            width: 20px;
+            height: 20px;
+        }
+
+        .color-box {
+            display: inline-block;
+            width: 15px;
+            height: 15px;
+            border: 1px solid #ccc;
+            margin-right: 8px;
+            vertical-align: middle;
+            border-radius: 50%;
+        }
+
+        input[type="checkbox"],
+        input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+            accent-color: #ff3f6c;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+            accent-color: #ff3f6c;
+        }
+
+        label {
+            cursor: pointer;
+        }
+
+        .pink-more {
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: 32px;
+            color: #ff3f6c;
+            cursor: pointer;
+        }
+
+        /* #endregion */
+
+        /* #region Main Content Header */
+        .main-header {
+            display: flex;
+            flex-direction: column;
+            border-bottom: 1px solid #e9e9ed;
+            margin-bottom: 20px;
+            margin-top: 1px;
+            margin-left: -25px;
+            padding-left: 25px;
+            width: calc(100% + 25px);
+            position: relative;
+            box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.05);
+            /* Added Shadow */
+        }
+
+        /* The row containing buttons and sort */
+        .header-top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            width: 100%;
+        }
+
+        .main-header-container {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Hidden Radios for Toggle Logic */
+        .header-radio {
+            display: none;
+        }
+
+        /* Full Width Dropdown Content */
+        .dropdown-content-full {
+            display: none;
+            /* Hidden by default */
+            width: 100%;
+            padding-top: 10px;
+            padding-bottom: 15px;
+            background-color: white;
+            /* No border/shadow as requested, just content flow */
+        }
+
+        /* Display content based on checked radio */
+        #bundles-opt:checked~.dropdown-bundles {
+            display: block;
+        }
+
+        #country-opt:checked~.dropdown-country {
+            display: block;
+        }
+
+        #size-opt:checked~.dropdown-size {
+            display: block;
+        }
+
+        /* Style Active Buttons */
+        #bundles-opt:checked~.header-top-row label[for="bundles-opt"],
+        #country-opt:checked~.header-top-row label[for="country-opt"],
+        #size-opt:checked~.header-top-row label[for="size-opt"] {
+            background-color: #f5f5f6;
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        /* Rotate arrow on active */
+        #bundles-opt:checked~.header-top-row label[for="bundles-opt"] i,
+        #country-opt:checked~.header-top-row label[for="country-opt"] i,
+        #size-opt:checked~.header-top-row label[for="size-opt"] i {
+            transform: rotate(180deg);
+        }
+
+        /* The Button Style */
+        .dropdown-button {
+            cursor: pointer;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background-color: white;
+            font-size: 13px;
+            font-weight: 400;
+            color: #282c3f;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .dropdown-button:hover {
+            background-color: #f5f5f6;
+        }
+
+        /* Grid Layouts for Content */
+        .grid-options-simple {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .grid-options-size {
+            display: grid;
+            /* Full width grid */
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 10px;
+            width: 100%;
+        }
+
+        .dropdown-content-full label {
+            display: block;
+            font-size: 13px;
+            color: #282c3f;
+            white-space: nowrap;
+            padding: 5px;
+            cursor: pointer;
+        }
+
+        .dropdown-content-full label:hover {
+            color: #ff3f6c;
+        }
+
+        /* Sort Dropdown */
+        .sort-container {
+            position: relative;
+            cursor: pointer;
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #282c3f;
+            border: 1px solid transparent;
+            box-sizing: border-box;
+            width: 255px;
+            border: 1px solid #e9e9ed;
+            /* FIXED WIDTH to match dropdown */
+        }
+
+        .sort-container:hover {
+            background-color: white;
+            border: 1px solid #e9e9ed;
+            border-bottom: 1px solid white;
+            z-index: 102;
+        }
+
+        .sort-label {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            justify-content: space-between;
+            /* Ensures arrow pushes to edge if desired */
+            width: 100%;
+        }
+
+        .sort-options-box {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -1px;
+            /* Align to left border */
+            width: 255px;
+            /* Exact match with container */
+            background: white;
+            border: 1px solid #e9e9ed;
+            border-top: none;
+            /* Merged border look */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            z-index: 101;
+            padding: 10px 0;
+            margin-top: 0;
+        }
+
+        .sort-container:hover .sort-options-box {
+            display: block;
+        }
+
+        .sort-option {
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #282c3f;
+            cursor: pointer;
+        }
+
+        .sort-option:hover {
+            background-color: #f5f5f6;
+            font-weight: 700;
+        }
+
+        .sort-option.selected {
+            font-weight: 700;
+        }
+
+        /* #endregion */
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav>
+            <div class="nav-left">
+                <a href="#" class="logo-container">
+                    <div class="logo myntra-sprite"></div>
+                </a>
+                <div class="jump-links">
+                    <a href="#">Men</a>
+                    <a href="#">Women</a>
+                    <a href="#">Kids</a>
+                    <a href="#">Home</a>
+                    <a href="#">Beauty</a>
+                    <a href="#" style="margin-top: -5px;">Studio<sup>NEW</sup></a>
+                </div>
+            </div>
+
+            <div class="nav-right">
+                <div class="search-container">
+                    <div class="myntra-sprite icon-search"></div>
+                    <input type="text" placeholder="Search for products, brands and more" class="search-input">
+                </div>
+                <div class="nav-icons-container">
+                    <div class="nav-icons">
+                        <div class="myntra-sprite icon-profile"></div>
+                        <span>Profile</span>
+                    </div>
+                    <div class="nav-icons">
+                        <div class="myntra-sprite icon-wishlist"></div>
+                        <span>Wishlist</span>
+                    </div>
+                    <div class="nav-icons">
+                        <div class="myntra-sprite icon-bag"></div>
+                        <span>Bag</span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="breadcrumb">
+        <span><a href="#">Home</a></span>
+        <span> / </span>
+        <span><a href="#">Clothing</a></span>
+        <span> / </span>
+        <span>Men T-Shirts</span>
+    </div>
+
+    <div class="page-name-item-count">
+        <span>Men T-Shirts</span>
+        <span> - 252594 items</span>
+    </div>
+
+    <div class="content-wrapper">
+        <aside class="filters-section">
+            <div class="filter-header">FILTERS</div>
+            <div class="filters-container">
+                <div class="filter-types">
+                    <div class="filter-types-names">CATEGORIES</div>
+                    <div class="filter-types-list">
+                        <input type="checkbox" id="tshirts"><label for="tshirts">Tshirts</label>
+                        <br>
+                        <input type="checkbox" id="lounge-tshirts"><label for="lounge-tshirts">Lounge Tshirts</label>
+                    </div>
+                </div>
+                <div class="filter-types">
+                    <div class="filter-types-names">BRAND
+                        <div class="circular-search-icon">
+                            <div class="myntra-sprite icon-search" id="filter-search-icon"></div>
+                        </div>
+                    </div>
+                    <div class="filter-types-list">
+                        <input type="checkbox" id="woostro"><label for="woostro">WOOSTRO</label>
+                        <br>
+                        <input type="checkbox" id="puma"><label for="puma">PUMA</label>
+                        <br>
+                        <input type="checkbox" id="hrx"><label for="hrx">HRX by Hrithik Roshan</label>
+                        <br>
+                        <input type="checkbox" id="adidas"><label for="adidas">ADIDAS</label>
+                        <br>
+                        <input type="checkbox" id="us-polo-assn"><label for="us-polo-assn">U.S. Polo Assn.</label>
+                        <br>
+                        <input type="checkbox" id="here-now"><label for="here-now">HERE&NOW</label>
+                        <br>
+                        <input type="checkbox" id="dennis-lingo"><label for="dennis-lingo">DENNIS LINGO</label>
+                        <br>
+                        <input type="checkbox" id="roadster"><label for="roadster">Roadster</label>
+                        <br>
+                        <span class="pink-more">+1477 more</span>
+                    </div>
+                </div>
+                <div class="filter-types">
+                    <div class="filter-types-names">PRICE</div>
+                    <input type="range" class="min" id="min-price" min="0" max="10001" step="100" value="0">
+                    <input type="range" class="max" id="max-price" min="0" max="10001" step="100" value="10001">
+                    <div>
+                        &#8377;<output id="min-price-output">0</output>
+                        -
+                        &#8377;<output id="max-price-output">10001</output>
+                    </div>
+                </div>
+                <div class="filter-types">
+                    <div class="filter-types-names">COLOR
+                        <div class="circular-search-icon">
+                            <div class="myntra-sprite icon-search" id="filter-search-icon"></div>
+                        </div>
+                    </div>
+                    <div class="filter-types-list">
+                        <input type="checkbox" id="black-color"> <label for="black-color">
+                            <div class="color-box" style="background-color: black;"></div>Black
+                        </label><br>
+                        <input type="checkbox" id="white-color"> <label for="white-color">
+                            <div class="color-box" style="background-color: white;"></div>White
+                        </label><br>
+                        <input type="checkbox" id="blue-color"> <label for="blue-color">
+                            <div class="color-box" style="background-color: blue;"></div>Blue
+                        </label><br>
+                        <input type="checkbox" id="green-color"> <label for="green-color">
+                            <div class="color-box" style="background-color: green;"></div>Green
+                        </label><br>
+                        <input type="checkbox" id="navy-blue-color"> <label for="navy-blue-color">
+                            <div class="color-box" style="background-color: navy;"></div>Navy Blue
+                        </label><br>
+                        <input type="checkbox" id="grey-color"> <label for="grey-color">
+                            <div class="color-box" style="background-color: grey;"></div>Grey
+                        </label><br>
+                        <input type="checkbox" id="red-color"> <label for="red-color">
+                            <div class="color-box" style="background-color: red;"></div>Red
+                        </label><br>
+                        <span class="pink-more">+45 more</span>
+                    </div>
+                </div>
+
+                <div class="filter-types">
+                    <div class="filter-types-names">DISCOUNT RANGE</div>
+                    <div class="filter-types-list">
+                        <input type="radio" id="discount-10" name="discount"> <label for="discount-10">10% and
+                            above</label><br>
+                        <input type="radio" id="discount-20" name="discount"> <label for="discount-20">20% and
+                            above</label><br>
+                        <input type="radio" id="discount-30" name="discount"> <label for="discount-30">30% and
+                            above</label><br>
+                        <input type="radio" id="discount-40" name="discount"> <label for="discount-40">40% and
+                            above</label><br>
+                        <input type="radio" id="discount-50" name="discount"> <label for="discount-50">50% and
+                            above</label><br>
+                        <input type="radio" id="discount-60" name="discount"> <label for="discount-60">60% and
+                            above</label><br>
+                        <input type="radio" id="discount-70" name="discount"> <label for="discount-70">70% and
+                            above</label><br>
+                        <input type="radio" id="discount-80" name="discount"> <label for="discount-80">80% and
+                            above</label>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main>
+            <div class="main-header">
+                <!-- Radio Controls for Exclusive Toggle -->
+                <input type="radio" name="filter_nav" id="bundles-opt" class="header-radio">
+                <input type="radio" name="filter_nav" id="country-opt" class="header-radio">
+                <input type="radio" name="filter_nav" id="size-opt" class="header-radio">
+
+                <!-- Top Row with Buttons and Sort -->
+                <div class="header-top-row">
+                    <div class="main-header-container">
+                        <label for="bundles-opt" class="dropdown-button" onclick="toggleRadio(event, 'bundles-opt')">
+                            Bundles <i class="fa fa-angle-down" style="font-weight: 600; color: #ccc;"></i>
+                        </label>
+
+                        <label for="country-opt" class="dropdown-button" onclick="toggleRadio(event, 'country-opt')">
+                            Country of Origin <i class="fa fa-angle-down" style="font-weight: 600; color: #ccc;"></i>
+                        </label>
+
+                        <label for="size-opt" class="dropdown-button" onclick="toggleRadio(event, 'size-opt')">
+                            Size <i class="fa fa-angle-down" style="font-weight: 600; color: #ccc;"></i>
+                        </label>
+                    </div>
+
+                    <div class="sort-container">
+                        <div class="sort-label">
+                            Sort by : <strong>Recommended</strong> <i class="fa fa-angle-down"
+                                style="font-weight: 600; color: #ccc; margin-top: 3px;"></i>
+                        </div>
+                        <div class="sort-options-box">
+                            <div class="sort-option selected">Recommended</div>
+                            <div class="sort-option">What's New</div>
+                            <div class="sort-option">Popularity</div>
+                            <div class="sort-option">Better Discount</div>
+                            <div class="sort-option">Price: High to Low</div>
+                            <div class="sort-option">Price: Low to High</div>
+                            <div class="sort-option">Customer Rating</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Full Width Dropdown Contents (Placed below row) -->
+                <div class="dropdown-content-full dropdown-bundles">
+                    <div class="grid-options-simple">
+                        <label><input type="checkbox"> Bundles</label>
+                        <label><input type="checkbox"> Single Styles</label>
+                    </div>
+                </div>
+
+                <div class="dropdown-content-full dropdown-country">
+                    <div class="grid-options-simple">
+                        <label><input type="checkbox"> All Countries</label>
+                        <label><input type="checkbox"> India</label>
+                    </div>
+                </div>
+
+                <div class="dropdown-content-full dropdown-size">
+                    <div class="grid-options-size">
+                        <label><input type="checkbox"> 3XS</label>
+                        <label><input type="checkbox"> XXS</label>
+                        <label><input type="checkbox"> XS</label>
+                        <label><input type="checkbox"> S</label>
+                        <label><input type="checkbox"> M</label>
+                        <label><input type="checkbox"> L</label>
+                        <label><input type="checkbox"> XL</label>
+                        <label><input type="checkbox"> XXL</label>
+                        <label><input type="checkbox"> 3XL</label>
+                        <label><input type="checkbox"> 4XL</label>
+                        <label><input type="checkbox"> 5XL</label>
+                        <label><input type="checkbox"> 6XL</label>
+                        <label><input type="checkbox"> 7XL</label>
+                        <label><input type="checkbox"> 8XL</label>
+                        <label><input type="checkbox"> 9XL</label>
+                        <label><input type="checkbox"> 10XL</label>
+                        <label><input type="checkbox"> 0-6M</label>
+                        <label><input type="checkbox"> 6-12M</label>
+                        <label><input type="checkbox"> 1-2Y</label>
+                        <label><input type="checkbox"> 2-4Y</label>
+                        <label><input type="checkbox"> 4-6Y</label>
+                        <label><input type="checkbox"> 6-8Y</label>
+                        <label><input type="checkbox"> 8-10Y</label>
+                        <label><input type="checkbox"> 10-12Y</label>
+                        <label><input type="checkbox"> 12-16Y</label>
+                        <label><input type="checkbox"> 16-20Y</label>
+                        <label><input type="checkbox"> 20+</label>
+                        <label><input type="checkbox"> OneSize</label>
+                        <label><input type="checkbox"> Customise</label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                
+            </div>
+        </main>
+
+    </div>
+</body>
+<script>
+    var slider = document.getElementById("min-price");
+    var output = document.getElementById("min-price-output");
+    output.innerHTML = slider.value;
+    slider.oninput = function () { output.innerHTML = this.value; }
+
+    // Logic for Max Price Slider
+    var maxSlider = document.getElementById("max-price");
+    var maxOutput = document.getElementById("max-price-output");
+    maxOutput.innerHTML = maxSlider.value;
+    maxSlider.oninput = function () { maxOutput.innerHTML = this.value; }
+
+    // Logic to toggle Radio Buttons (Uncheck if clicked again)
+    function toggleRadio(e, id) {
+        const radio = document.getElementById(id);
+        if (radio.checked) {
+            e.preventDefault(); // Stop the browser from keeping it checked
+            radio.checked = false; // Manually uncheck
+        }
+    }
+</script>
+
+</html>

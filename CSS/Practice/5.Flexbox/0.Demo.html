@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS FlexBox</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px;
+            background-color: bisque;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 16px;
+        }
+
+        .header-nav a {
+            color: cadetblue;
+            text-decoration: none;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.1);
+            padding: 6px 2px;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <span>IC logo</span>
+
+        <nav class="header-nav">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact A</a>
+            <a href="#">Contact B</a>
+            <a href="#">Contact C</a>
+        </nav>
+    </header>
+</body>
+
+</html>
