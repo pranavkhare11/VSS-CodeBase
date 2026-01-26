@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task</title>
+    <style>
+        .row{
+            display: flex;
+            background: linear-gradient(135deg, #89f7fe, #66a6ff);
+            gap: 10px;
+            padding: 10px;
+            height: 200px;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-radius: 10px;
+
+            margin: 20px;
+        }
+        .column{
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #eea19c, #f5d0c3);
+            gap: 10px;
+            padding: 10px;
+            height: 200px;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            margin: 20px;
+        }
+        body{
+            font-family: Arial, sans-serif;
+            background-color: #dfe2ec;
+        }
+        .A, .B, .C{
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            font-weight: bold;
+            font-size: 10px;
+            background: linear-gradient(135deg,#6a7fdc, #6e569e);
+            color: white;
+        }
+        .A{
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+        }
+        .C{
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="row">
+        <div class="A">A</div>
+        <div class="B">B</div>
+        <div class="C">C</div>
+    </div>
+    <div class="column">
+        <div class="A">A</div>
+        <div class="B">B</div>
+        <div class="C">C</div>
+    </div>
+</body>
+</html>

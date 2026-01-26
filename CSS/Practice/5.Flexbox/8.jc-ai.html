@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AlignItems vs JustifyContent</title>
+    <style>
+      .row {
+        display: flex;
+        background-color: aqua;
+        gap: 12px;
+        padding: 12px;
+        justify-content: center;
+        align-items: center;
+        height: 300px;
+      }
+
+      .item {
+        background-color: cornflowerblue;
+        color: white;
+        padding: 20px;
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .column {
+        display: flex;
+        flex-direction: column;
+        margin-top: 12px;
+        background-color: rgb(255, 111, 0);
+        gap: 12px;
+        padding: 12px;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="row">
+      <div class="item">A</div>
+      <div class="item">B</div>
+      <div class="item">C</div>
+      <div class="item">D</div>
+      <div class="item">E</div>
+      <div class="item">D</div>
+    </div>
+
+    <div class="column">
+      <div class="item">A</div>
+      <div class="item">B</div>
+      <div class="item">C</div>
+      <div class="item">D</div>
+      <div class="item">E</div>
+      <div class="item">D</div>
+    </div>
+  </body>
+</html>

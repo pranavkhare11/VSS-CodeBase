@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Align-Item</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .container, .container-1, .container-2, .container-3 {
+            justify-content: center;
+        }
+        .container {
+            display: flex;
+            height: 200px;
+            background-color: green;
+            align-items: stretch;
+        }
+        .container-1 {
+            display: flex;
+            height: 200px;
+            background-color: green;
+            align-items: flex-start;
+        }
+        .container-2 {
+            display: flex;
+            height: 200px;
+            background-color: green;
+            align-items: center;
+        }
+        .container-3 {
+            display: flex;
+            height: 200px;
+            background-color: green;
+            align-items: flex-end;
+        }
+        .collumn-A {
+            height: 50px;
+        }
+        .collumn-B {
+            height: 100px;
+        }
+        .collumn-C {
+            height: 150px;
+        }
+        .collumn-D {
+            height: 180px;
+        }
+        .collumn-E {
+            height: 150px;
+        }
+        .collumn-F {
+            height: 100px;
+        }
+        .collumn-G {
+            height: 50px;
+        }
+        .collumn {
+            background-color: red;
+            width: 50px;
+        }
+    </style>
+
+</head>
+<body>
+    
+    <div class="container">
+        <div class="collumn">Item 1</div>
+        <div class="collumn">Item 2</div>
+        <div class="collumn">Item 3</div>
+        <div class="collumn">Item 4</div>
+        <div class="collumn">Item 5</div>
+        <div class="collumn">Item 6</div>
+        <div class="collumn">Item 7</div>
+    </div>
+    <br>
+    <div class="container-1">
+        <div class="collumn collumn-A">Item 1</div>
+        <div class="collumn collumn-B">Item 2</div>
+        <div class="collumn collumn-C">Item 3</div>
+        <div class="collumn collumn-D">Item 4</div>
+        <div class="collumn collumn-E">Item 5</div>
+        <div class="collumn collumn-F">Item 6</div>
+        <div class="collumn collumn-G">Item 7</div>
+    </div>
+    <br>
+    <div class="container-2">
+        <div class="collumn collumn-A">Item 1</div>
+        <div class="collumn collumn-B">Item 2</div>
+        <div class="collumn collumn-C">Item 3</div>
+        <div class="collumn collumn-D">Item 4</div>
+        <div class="collumn collumn-E">Item 5</div>
+        <div class="collumn collumn-F">Item 6</div>
+        <div class="collumn collumn-G">Item 7</div>
+    </div>
+    <br>
+    <div class="container-3">
+        <div class="collumn collumn-A">Item 1</div>
+        <div class="collumn collumn-B">Item 2</div>
+        <div class="collumn collumn-C">Item 3</div>
+        <div class="collumn collumn-D">Item 4</div>
+        <div class="collumn collumn-E">Item 5</div>
+        <div class="collumn collumn-F">Item 6</div>
+        <div class="collumn collumn-G">Item 7</div>
+    </div>
+</body>
+</html>

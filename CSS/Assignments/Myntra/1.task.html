@@ -18,6 +18,15 @@
             font-style: normal;
         }
 
+        @font-face {
+            font-family: 'Assistant';
+            src: url(https://constant.myntassets.com/www/fonts/Assistant-Bold.eot);
+            src: url(https://constant.myntassets.com/www/fonts/Assistant-Bold.eot?#iefix) format('embedded-opentype'), url(https://constant.myntassets.com/www/fonts/Assistant-Bold.woff) format('woff'), url(https://constant.myntassets.com/www/fonts/Assistant-Bold.ttf) format('truetype');
+            font-weight: 700;
+            font-display: swap;
+            font-style: normal;
+        }
+
         html {
             font-family: sans-serif;
             -ms-text-size-adjust: 100%;
@@ -58,8 +67,7 @@
             align-items: center;
             height: 80px;
             padding: 0 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            margin: 0;
         }
 
         .nav-left {
@@ -109,7 +117,7 @@
             background-color: #ffffff;
             border-radius: 4px;
             padding: 0px 15px 0px 0px;
-            min-width: 375px;
+            min-width: 200px;
             height: 45px;
             border: 1px solid #d4d5d9;
         }
@@ -192,6 +200,7 @@
             background-position: -631px -170px;
             transform: scale(0.65);
         }
+
         .icon-bag {
             width: 33px;
             height: 32px;
@@ -211,8 +220,7 @@
 
         /* #region Breadcrumbs & Page Info */
         .breadcrumb {
-            max-width: 1400px;
-            margin: 20px auto;
+            margin: 20px 0;
             padding: 0 30px;
             font-size: 13px;
             color: #7d7d7d;
@@ -225,8 +233,7 @@
         }
 
         .page-name-item-count {
-            max-width: 1400px;
-            margin: 0px auto 20px auto;
+            margin: 0px 0 20px 0;
             padding: 0 30px;
             font-size: 15px;
             box-sizing: border-box;
@@ -245,19 +252,14 @@
 
         /* #region Layout Structure */
         .content-wrapper {
-            max-width: 1400px;
             display: flex;
             gap: 0;
-            padding: 0 30px 0px 30px;
+            padding: 0 30px 0px 0px;
             box-sizing: border-box;
-            margin: 0 auto;
+            margin: 0;
         }
 
-        main {
-            flex-grow: 1;
-            padding: 0 0 20px 25px;
-            box-sizing: border-box;
-        }
+
 
         /* #endregion */
 
@@ -267,7 +269,10 @@
             min-width: 250px;
             padding: 0;
             box-sizing: border-box;
-            border-right: 1px solid #e9e9ed;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            align-self: flex-start;
         }
 
         .filter-header {
@@ -275,14 +280,14 @@
             font-weight: 700;
             color: #282c3f;
             border-bottom: 1px solid #e9e9ed;
-            padding: 0 20px 20px 0;
-            margin: 15px 0 20px 0;
+            padding: 15px 20px 15px 30px;
         }
-
+        
         .filter-types {
-            margin-bottom: 20px;
             border-bottom: 1px solid #e9e9ed;
-            padding: 0 20px 20px 0;
+            padding: 15px 20px 20px 30px;
+            border-right: 1px solid #e9e9ed;
+
         }
 
         .filter-types:last-child {
@@ -320,7 +325,7 @@
 
         #filter-search-icon {
             background-position: -1509px -1px;
-            transform: scale(0.4) translate(-15px,-12px);
+            transform: scale(0.4) translate(-15px, -12px);
             margin: 0px;
             padding: 0px;
             width: 45px;
@@ -363,19 +368,20 @@
         }
 
         /* #endregion */
+        main {
+            flex-grow: 1;
+            /* padding: 0 0 20px 25px; */
+            box-sizing: border-box;
+        }
 
         /* #region Main Content Header */
         .main-header {
             display: flex;
             flex-direction: column;
             border-bottom: 1px solid #e9e9ed;
-            margin-bottom: 20px;
-            margin-top: 1px;
-            margin-left: -25px;
             padding-left: 25px;
             width: calc(100% + 25px);
             position: relative;
-            box-shadow: 0 0 12px 0 rgba(0, 0, 0, 0.05);
             /* Added Shadow */
         }
 
@@ -384,7 +390,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 15px;
+            padding: 6px 0 5px 0;
             width: 100%;
         }
 
@@ -491,6 +497,7 @@
             position: relative;
             cursor: pointer;
             padding: 10px 15px;
+            transform: translate(0, -5px);
             font-size: 14px;
             color: #282c3f;
             border: 1px solid transparent;
@@ -529,13 +536,26 @@
             border-top: none;
             /* Merged border look */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            z-index: 101;
+            z-index: 1001;
             padding: 10px 0;
             margin-top: 0;
         }
 
         .sort-container:hover .sort-options-box {
             display: block;
+        }
+
+        @media (max-width: 900px) {
+            aside {
+                display: none;
+            }
+            .search-container {
+                min-width: unset;
+                width: 100%;
+            }
+            .content-wrapper {
+                padding-right: 20px;
+            }
         }
 
         .sort-option {
@@ -552,96 +572,194 @@
 
         /* #endregion */
 
-        /* #region Products Grid */
-        #products-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
+
+        #main-wrapper {
+            padding: 20px 20px 0 30px;
             width: 100%;
+
+            border-bottom: 1px solid #e9e9ed;
+
         }
 
+
+        /* #region Products Grid */
+
+
+        /* Ensure the product listing uses the grid layout */
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            padding-bottom: 20px;
+            gap: 20px;
+        }
+
+
+
         .product-card {
-            background-color: #fff;
-            border-radius: 4px;
+            width: 200px;
+            height: 350px;
             overflow: hidden;
-            transition: box-shadow 0.2s ease;
+            background-color: #ffffff;
+            position: relative;
             cursor: pointer;
+            transition: box-shadow 0.2s;
         }
 
         .product-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.534);
+        }
+
+        .image-section {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
         }
 
         .product-image {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            background-color: #f5f5f5;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
             object-fit: cover;
-            transition: transform 0.2s ease;
+            z-index: 100;
+            width: 100%;
         }
 
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .discount-badge {
+        .wishlist-overlay {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #ff3f6c;
-            color: #fff;
-            padding: 4px 8px;
-            border-radius: 3px;
-            font-size: 11px;
-            font-weight: 700;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255);
+            opacity: 0;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            top: 230px;
+            padding: 20px 0 0 0;
         }
 
-        .product-info {
-            padding: 15px;
+        .image-section:hover .wishlist-overlay {
+            /* width: 100%;
+            height: 100%; */
+            opacity: 1;
+            transition: opacity 0.3s;
         }
 
-        .product-info .brand {
-            font-size: 11px;
-            color: #9e9e9e;
-            font-weight: 700;
-            margin: 0 0 5px 0;
+        .wishlist-section {
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            height: 30px;
+            padding: 0px 50px;
+            border-radius: 2px;
+            border: solid 1px #d4d5d9;
         }
 
-        .product-info .name {
-            font-size: 13px;
-            color: #282c3f;
-            margin: 0 0 10px 0;
-            line-height: 1.4;
-            height: 26px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .wishlist-section:hover {
+            border: solid 1px #000000;
+            transition: 0.2s;
         }
 
-        .product-info .price {
-            font-size: 13px;
-            color: #282c3f;
-            margin: 0 0 8px 0;
-            font-weight: 700;
+        .icon-wishlist {
+            width: 32px;
+            height: 29px;
+            background-position: -631px -170px;
+            transform: scale(0.5);
         }
 
-        .original-price {
-            color: #9e9e9e;
-            text-decoration: line-through;
-            margin-left: 5px;
-            font-weight: 400;
-        }
-
-        .product-info .rating {
+        .wishlist-section span {
             font-size: 12px;
-            color: #666;
-            margin: 0;
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        .size-container {
+            align-self: start;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #282c3f;
+            text-align: center;
+            padding: 0 15px;
+        }
+
+        .ratings-container {
+            position: absolute;
+            transform: translate(10px, -40px);
+            max-height: 22px;
+            left: 10px;
+            background-color: #ffffffe3;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            padding: 2px 6px;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            gap: 2px;
+        }
+
+        .rating-value,
+        .ratings-count {
+            margin-right: 0;
+            padding: 0;
+            color: #282c3f;
+        }
+
+        .icon-box-rating {
+            margin: 0 -10px;
+            padding: 0;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+        }
+
+        .icon-rating {
+            width: 40px;
+            height: 40px;
+            background-position: -346px -58px;
+            transform: scale(0.3);
+        }
+
+        .details-section {
+            padding: 5px 15px 0 15px;
+            transform: translate(0px, -80px);
+            box-sizing: border-box;
+        }
+
+        .product-brand {
+            font-size: 15.5px;
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        .product-name {
+            font-size: 14px;
+            color: #55575d;
+            padding: 2px 0;
+        }
+
+        .product-pricing {
+            transform: translate(0px, -80px);
+            box-sizing: border-box;
+            padding: 0 15px;
+        }
+
+        .product-original-price,
+        .product-discount-percentage {
+            font-size: 12px;
+        }
+
+        .product-discounted-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        .product-original-price {
+            text-decoration: line-through;
+            color: #888b93;
+            margin-left: 2px;
+        }
+
+        .product-discount-percentage {
+            color: #f39461;
+            margin-left: 2px;
         }
 
         /* #endregion */
@@ -672,18 +790,18 @@
                     <input type="text" placeholder="Search for products, brands and more" class="search-input">
                 </div>
                 <div class="nav-icons-container">
-                    <div class="nav-icons">
+                    <a href="#" class="nav-icons">
                         <div class="myntra-sprite icon-profile"></div>
                         <span>Profile</span>
-                    </div>
-                    <div class="nav-icons">
+                    </a>
+                    <a href="#" class="nav-icons">
                         <div class="myntra-sprite icon-wishlist"></div>
                         <span>Wishlist</span>
-                    </div>
-                    <div class="nav-icons">
+                    </a>
+                    <a href="#" class="nav-icons">
                         <div class="myntra-sprite icon-bag"></div>
                         <span>Bag</span>
-                    </div>
+                    </a>
                 </div>
             </div>
         </nav>
@@ -896,8 +1014,1145 @@
                 </div>
             </div>
 
-            <div id="products-container"></div>
-        </main>
+            <div id="main-wrapper">
+                <section class="main-section">
+                    <div class="product-container" id="products-container">
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/dpr_2,q_60,w_210,c_limit,fl_progressive/assets/images/12027436/2022/9/15/ea90445c-a37b-43ac-948b-8e291ec78dc31663221311972LevisMenWhiteSolidRoundNeckLoungeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.4</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 18.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Levis</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.799</span>
+                                <span class="product-original-price">Rs.999</span>
+                                <span class="product-discount-percentage">(20% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/OCTOBER/6/0Vn2py54_863f651e9b56491ca08c6a07124d2a89.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: L</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.2</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 1k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">PRONK</div>
+                                <div class="product-name">Men Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.556</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(63% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11468714/2025/7/25/438722c5-edef-4bf9-b416-58bdf0224b851753446336612-HM-Men-White-Solid-Cotton-Pure-Cotton-T-shirt-Regular-Fit-82-7.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                        <div class="rating-value">4.2</div>
+                                        <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 50.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">H&M</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.499</span>
+                                <span class="product-original-price"></span>
+                                <span class="product-discount-percentage"></span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/24943064/2023/9/25/71cb5970-fb75-428e-94a4-a5c55d4af7451695628700885-Crazymonk-Unisex-Black-Printed-T-shirt-7101695628700591-1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.5</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 207</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Crazymonk</div>
+                                <div class="product-name">Unisex Black Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.497</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(67% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/29027528/2024/4/17/aa2779ff-4290-4be5-abac-0b4a31b0d9e11713360574795BROWNBROTHERSUnisexPureCottonRawEdgeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 416</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">BROWN BROTHERS</div>
+                                <div class="product-name">Unisex Pure Cotton Raw Edge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.471</span>
+                                <span class="product-original-price">Rs.1299</span>
+                                <span class="product-discount-percentage">(Rs. 828 OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/V2dd3H1y_b32378b3f719413c931dcb407f705044.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.1</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 161</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Rigo</div>
+                                <div class="product-name">Unisex Printed Cotton T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.428</span>
+                                <span class="product-original-price">Rs.1599</span>
+                                <span class="product-discount-percentage">(73% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/32193183/2025/1/3/20101921-9818-4aa6-be47-d4ea96af4ec51735885407991CampusSutraMenStripedPoloCollarPocketsT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: S</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 11.7k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Campus Sutra</div>
+                                <div class="product-name">Men Solid Cotton Polo T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.713</span>
+                                <span class="product-original-price">Rs.1699</span>
+                                <span class="product-discount-percentage">(58% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/dpr_2,q_60,w_210,c_limit,fl_progressive/assets/images/12027436/2022/9/15/ea90445c-a37b-43ac-948b-8e291ec78dc31663221311972LevisMenWhiteSolidRoundNeckLoungeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.4</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 18.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Levis</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.799</span>
+                                <span class="product-original-price">Rs.999</span>
+                                <span class="product-discount-percentage">(20% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/OCTOBER/6/0Vn2py54_863f651e9b56491ca08c6a07124d2a89.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: L</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.2</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 1k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">PRONK</div>
+                                <div class="product-name">Men Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.556</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(63% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11468714/2025/7/25/438722c5-edef-4bf9-b416-58bdf0224b851753446336612-HM-Men-White-Solid-Cotton-Pure-Cotton-T-shirt-Regular-Fit-82-7.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                        <div class="rating-value">4.2</div>
+                                        <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 50.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">H&M</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.499</span>
+                                <span class="product-original-price"></span>
+                                <span class="product-discount-percentage"></span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/24943064/2023/9/25/71cb5970-fb75-428e-94a4-a5c55d4af7451695628700885-Crazymonk-Unisex-Black-Printed-T-shirt-7101695628700591-1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.5</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 207</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Crazymonk</div>
+                                <div class="product-name">Unisex Black Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.497</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(67% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/29027528/2024/4/17/aa2779ff-4290-4be5-abac-0b4a31b0d9e11713360574795BROWNBROTHERSUnisexPureCottonRawEdgeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 416</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">BROWN BROTHERS</div>
+                                <div class="product-name">Unisex Pure Cotton Raw Edge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.471</span>
+                                <span class="product-original-price">Rs.1299</span>
+                                <span class="product-discount-percentage">(Rs. 828 OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/V2dd3H1y_b32378b3f719413c931dcb407f705044.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.1</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 161</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Rigo</div>
+                                <div class="product-name">Unisex Printed Cotton T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.428</span>
+                                <span class="product-original-price">Rs.1599</span>
+                                <span class="product-discount-percentage">(73% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/32193183/2025/1/3/20101921-9818-4aa6-be47-d4ea96af4ec51735885407991CampusSutraMenStripedPoloCollarPocketsT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: S</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 11.7k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Campus Sutra</div>
+                                <div class="product-name">Men Solid Cotton Polo T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.713</span>
+                                <span class="product-original-price">Rs.1699</span>
+                                <span class="product-discount-percentage">(58% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/dpr_2,q_60,w_210,c_limit,fl_progressive/assets/images/12027436/2022/9/15/ea90445c-a37b-43ac-948b-8e291ec78dc31663221311972LevisMenWhiteSolidRoundNeckLoungeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.4</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 18.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Levis</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.799</span>
+                                <span class="product-original-price">Rs.999</span>
+                                <span class="product-discount-percentage">(20% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/OCTOBER/6/0Vn2py54_863f651e9b56491ca08c6a07124d2a89.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: L</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.2</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 1k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">PRONK</div>
+                                <div class="product-name">Men Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.556</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(63% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11468714/2025/7/25/438722c5-edef-4bf9-b416-58bdf0224b851753446336612-HM-Men-White-Solid-Cotton-Pure-Cotton-T-shirt-Regular-Fit-82-7.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                        <div class="rating-value">4.2</div>
+                                        <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 50.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">H&M</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.499</span>
+                                <span class="product-original-price"></span>
+                                <span class="product-discount-percentage"></span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/24943064/2023/9/25/71cb5970-fb75-428e-94a4-a5c55d4af7451695628700885-Crazymonk-Unisex-Black-Printed-T-shirt-7101695628700591-1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.5</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 207</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Crazymonk</div>
+                                <div class="product-name">Unisex Black Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.497</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(67% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/29027528/2024/4/17/aa2779ff-4290-4be5-abac-0b4a31b0d9e11713360574795BROWNBROTHERSUnisexPureCottonRawEdgeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 416</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">BROWN BROTHERS</div>
+                                <div class="product-name">Unisex Pure Cotton Raw Edge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.471</span>
+                                <span class="product-original-price">Rs.1299</span>
+                                <span class="product-discount-percentage">(Rs. 828 OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/V2dd3H1y_b32378b3f719413c931dcb407f705044.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.1</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 161</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Rigo</div>
+                                <div class="product-name">Unisex Printed Cotton T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.428</span>
+                                <span class="product-original-price">Rs.1599</span>
+                                <span class="product-discount-percentage">(73% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/32193183/2025/1/3/20101921-9818-4aa6-be47-d4ea96af4ec51735885407991CampusSutraMenStripedPoloCollarPocketsT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: S</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 11.7k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Campus Sutra</div>
+                                <div class="product-name">Men Solid Cotton Polo T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.713</span>
+                                <span class="product-original-price">Rs.1699</span>
+                                <span class="product-discount-percentage">(58% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/dpr_2,q_60,w_210,c_limit,fl_progressive/assets/images/12027436/2022/9/15/ea90445c-a37b-43ac-948b-8e291ec78dc31663221311972LevisMenWhiteSolidRoundNeckLoungeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.4</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 18.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Levis</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.799</span>
+                                <span class="product-original-price">Rs.999</span>
+                                <span class="product-discount-percentage">(20% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/OCTOBER/6/0Vn2py54_863f651e9b56491ca08c6a07124d2a89.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: L</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.2</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 1k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">PRONK</div>
+                                <div class="product-name">Men Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.556</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(63% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11468714/2025/7/25/438722c5-edef-4bf9-b416-58bdf0224b851753446336612-HM-Men-White-Solid-Cotton-Pure-Cotton-T-shirt-Regular-Fit-82-7.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                        <div class="rating-value">4.2</div>
+                                        <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 50.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">H&M</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.499</span>
+                                <span class="product-original-price"></span>
+                                <span class="product-discount-percentage"></span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/24943064/2023/9/25/71cb5970-fb75-428e-94a4-a5c55d4af7451695628700885-Crazymonk-Unisex-Black-Printed-T-shirt-7101695628700591-1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.5</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 207</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Crazymonk</div>
+                                <div class="product-name">Unisex Black Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.497</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(67% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/29027528/2024/4/17/aa2779ff-4290-4be5-abac-0b4a31b0d9e11713360574795BROWNBROTHERSUnisexPureCottonRawEdgeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 416</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">BROWN BROTHERS</div>
+                                <div class="product-name">Unisex Pure Cotton Raw Edge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.471</span>
+                                <span class="product-original-price">Rs.1299</span>
+                                <span class="product-discount-percentage">(Rs. 828 OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/V2dd3H1y_b32378b3f719413c931dcb407f705044.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.1</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 161</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Rigo</div>
+                                <div class="product-name">Unisex Printed Cotton T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.428</span>
+                                <span class="product-original-price">Rs.1599</span>
+                                <span class="product-discount-percentage">(73% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/32193183/2025/1/3/20101921-9818-4aa6-be47-d4ea96af4ec51735885407991CampusSutraMenStripedPoloCollarPocketsT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: S</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 11.7k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Campus Sutra</div>
+                                <div class="product-name">Men Solid Cotton Polo T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.713</span>
+                                <span class="product-original-price">Rs.1699</span>
+                                <span class="product-discount-percentage">(58% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/dpr_2,q_60,w_210,c_limit,fl_progressive/assets/images/12027436/2022/9/15/ea90445c-a37b-43ac-948b-8e291ec78dc31663221311972LevisMenWhiteSolidRoundNeckLoungeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.4</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 18.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Levis</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.799</span>
+                                <span class="product-original-price">Rs.999</span>
+                                <span class="product-discount-percentage">(20% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/OCTOBER/6/0Vn2py54_863f651e9b56491ca08c6a07124d2a89.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: L</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.2</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 1k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">PRONK</div>
+                                <div class="product-name">Men Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.556</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(63% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/11468714/2025/7/25/438722c5-edef-4bf9-b416-58bdf0224b851753446336612-HM-Men-White-Solid-Cotton-Pure-Cotton-T-shirt-Regular-Fit-82-7.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                        <div class="rating-value">4.2</div>
+                                        <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 50.5k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">H&M</div>
+                                <div class="product-name">Solid Lounge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.499</span>
+                                <span class="product-original-price"></span>
+                                <span class="product-discount-percentage"></span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/24943064/2023/9/25/71cb5970-fb75-428e-94a4-a5c55d4af7451695628700885-Crazymonk-Unisex-Black-Printed-T-shirt-7101695628700591-1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.5</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 207</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Crazymonk</div>
+                                <div class="product-name">Unisex Black Printed T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.497</span>
+                                <span class="product-original-price">Rs.1499</span>
+                                <span class="product-discount-percentage">(67% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/29027528/2024/4/17/aa2779ff-4290-4be5-abac-0b4a31b0d9e11713360574795BROWNBROTHERSUnisexPureCottonRawEdgeT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 416</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">BROWN BROTHERS</div>
+                                <div class="product-name">Unisex Pure Cotton Raw Edge T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.471</span>
+                                <span class="product-original-price">Rs.1299</span>
+                                <span class="product-discount-percentage">(Rs. 828 OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/2025/AUGUST/26/V2dd3H1y_b32378b3f719413c931dcb407f705044.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: XL</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.1</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 161</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Rigo</div>
+                                <div class="product-name">Unisex Printed Cotton T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.428</span>
+                                <span class="product-original-price">Rs.1599</span>
+                                <span class="product-discount-percentage">(73% OFF)</span>
+                            </div>
+                        </div>
+                        <div class="product-card">
+                            <div class="image-section">
+                                <img class="product-image"
+                                    src="https://assets.myntassets.com/f_webp,dpr_1.0,q_60,w_210,c_limit,fl_progressive/assets/images/32193183/2025/1/3/20101921-9818-4aa6-be47-d4ea96af4ec51735885407991CampusSutraMenStripedPoloCollarPocketsT-shirt1.jpg"
+                                    alt="Product Image" class="product-image">
+                                <div class="wishlist-overlay">
+                                    <div class="wishlist-section">
+                                        <div class="myntra-sprite icon-wishlist"></div>
+                                        <span>WISHLIST</span>
+                                    </div>
+                                    <div class="size-container">Sizes: S</div>
+                                </div>
+
+                                <div class="ratings-container">
+                                    <div class="rating-value">4.3</div>
+                                    <div class="icon-box-rating">
+                                        <div class="myntra-sprite icon-rating"></div>
+                                    </div>
+                                    <div> | </div>
+                                    <div class="ratings-count"> 11.7k</div>
+                                </div>
+                            </div>
+                            <div class="details-section">
+                                <div class="product-brand">Campus Sutra</div>
+                                <div class="product-name">Men Solid Cotton Polo T-shirt</div>
+                            </div>
+                            <div class="product-pricing">
+                                <span class="product-discounted-price">Rs.713</span>
+                                <span class="product-original-price">Rs.1699</span>
+                                <span class="product-discount-percentage">(58% OFF)</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="card-navigation">
+                <div class="card-nav-buttons">
+                    <div class="page-1-button"> << Page 1</div>
+                    <div class="previous-next-page-button"> < Previous</div>
+                    <div class="current-total-page"> page 1 of 5072</div>
+                    <div class="previous-next-page-button"> Next ></div>
+                </div>
+            </div>
+            <div></div>
+            
+
+    </div>
+    </main>
 
     </div>
 </body>
@@ -922,29 +2177,6 @@
             radio.checked = false; // Manually uncheck
         }
     }
-
-    // Display Products
-    const container = document.getElementById("products-container");
-    productList.forEach(product => {
-        const productDiv = document.createElement("div");
-        productDiv.className = "product-card";
-        productDiv.innerHTML = `
-            <div class="product-image">
-                <img src="${product.image}" alt="${product.name}">
-                <div class="discount-badge">${product.discount}% OFF</div>
-            </div>
-            <div class="product-info">
-                <p class="brand">${product.brand}</p>
-                <p class="name">${product.name}</p>
-                <p class="price">
-                    ₹${product.sellingPrice} 
-                    <span class="original-price">₹${product.price}</span>
-                </p>
-                <p class="rating">⭐ ${product.rating} (${product.ratingCount})</p>
-            </div>
-        `;
-        container.appendChild(productDiv);
-    });
 </script>
 
 </html>
