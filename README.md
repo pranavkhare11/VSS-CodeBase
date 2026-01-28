@@ -17,7 +17,8 @@ The codebase is structured to distinguish between concept learning and project i
 VSS-CodeBase/
 ├── CSS/
 │   ├── Practice/
-│   │   └── Topic/
+│   │   ├── Topic 1/
+│   │   └── Topic 2/
 │   │       ├── 1.intro.html            # HTML File 1
 │   │       ├── 2.forms.html            # HTML File 2
 │   │       ├── 3.table.html            # HTML File 3
@@ -27,6 +28,7 @@ VSS-CodeBase/
 │   │               ├── 2.style.css     # Styles specifically for File 2
 │   │               └── 4.style.css     # Styles specifically for file 4
 │   └── Assignments/
+│       ├── Task-Name/
 │       └── Task-Name/
 │           ├── task.html            # HTML Task
 │           └── assets/
