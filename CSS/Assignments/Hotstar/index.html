@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JioHotstar - Watch TV Shows, Movies, Specials, Live Cricket &amp; Football</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .main-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .side-bar {
+            position: absolute;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(90deg, rgb(0, 0, 0), rgba(0, 0, 0, 0));
+            display: flex;
+            left: 0px;
+        }
+
+        .side-bar img {
+            position: absolute;
+            width: 50px;
+            height: auto;
+            margin: 20px;
+        }
+
+        .icon-svg {
+            width: 24px;
+            height: 24px;
+            fill: #dddddd;
+        }
+
+        .menu-category-sidebar {
+            position: absolute;
+            justify-self: center;
+            align-self: center;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin-left: 20px;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+
+        .video-background-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .poster-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/4975/1769566194975-i');
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: opacity 0.5s ease;
+            opacity: 0.8;
+        }
+
+        .poster-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .bg-video {
+            position: absolute;
+            object-fit: cover;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            transform: translate(0px, -22px) scale(1.4);
+        }
+
+        .content-overlay {
+            position: absolute;
+            top: 375px;
+            left: 50px;
+            opacity: 0.7;
+            transform: scale(0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+            color: white;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .content-overlay.hovered {
+            opacity: 1;
+        }
+
+        .blue-text {
+            color: #1b95e0;
+            font-size: 20px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .show-info {
+            font-size: 16x;
+            font-weight: normal;
+            margin-top: 10px;
+        }
+
+        .show-meta {
+            margin-bottom: 10px;
+            font-size: 30px;
+            line-height: 2;
+        }
+
+        .show-description {
+            margin-bottom: 10px;
+            max-width: 600px;
+        }
+
+        .show-genres .genre {
+            font-size: 30px;
+            margin-right: 5px;
+            line-height: 2;
+        }
+
+        #muteButton {
+            position: absolute;
+            /* Position the button relative to the container */
+            bottom: 175px;
+            /* Adjust top position */
+            right: 80px;
+            /* Adjust right position */
+            cursor: pointer;
+            /* Change cursor to pointer on hover */
+            padding: 8px;
+            background-color: transparent;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            color: #fff;
+        }
+
+        #muteButton:hover {
+            transform: scale(1.1);
+        }
+
+        .svg-mute-unmute {
+            width: 20px;
+            height: 20px;
+            fill: #dddddd;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div>
+        <div class="main-container">
+            <div class="side-bar">
+                <img src="https://img.hotstar.com/image/upload/v1737554969/web-assets/prod/images/rebrand/logo.png"
+                    alt="Hotstar Logo">
+                <div class="menu-category-sidebar">
+                    <div class="side-bar-home">
+                        <div class="icon-sidebar">
+                            <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0.1591 0.0622 19.8133 20.0898"">
+                                <path
+                                    d=" M 9.738 0.104 C 9.452 0.196 9.481 0.173 4.646 4.669 C 1.535 7.569 0.325 8.739
+                                0.247 8.921 C 0.025 9.491 0.24 10.227 0.704 10.486 C 0.833 10.554 1.105 10.637 1.319
+                                10.668 C 1.734 10.728 1.977 10.88 2.213 11.221 C 2.357 11.426 2.363 11.54 2.4 15.354 C
+                                2.435 19.143 2.443 19.286 2.585 19.545 C 2.664 19.688 2.836 19.886 2.972 19.977 C 3.2
+                                20.152 3.243 20.152 5.41 20.152 L 7.621 20.152 L 7.621 13.689 L 7.8 13.507 L 7.971
+                                13.318 L 12.134 13.318 L 12.306 13.507 L 12.484 13.689 L 12.484 20.152 L 14.588 20.152 C
+                                16.64 20.152 16.69 20.152 16.919 19.977 C 17.047 19.886 17.227 19.712 17.305 19.599 C
+                                17.456 19.385 17.456 19.294 17.492 15.42 C 17.52 12.421 17.549 11.42 17.62 11.29 C
+                                17.813 10.926 18.177 10.722 18.744 10.66 C 19.158 10.614 19.329 10.562 19.523 10.409 C
+                                19.987 10.029 20.116 9.233 19.795 8.761 C 19.644 8.541 11.068 0.567 10.696 0.295 C
+                                10.403 0.082 10.031 0.007 9.738 0.104" style="stroke-width: 1;" id="object-0" />
+                            </svg>
+                        </div>
+                        <div class="sidebar-text">Home</div>
+                    </div>
+                    <div class="side-bar-Search">
+                        <div class="icon-sidebar">
+                            <svg class="icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 7.972 0.099 C 3.568 0.099 -0.028 3.696 -0.028 8.099 C -0.028 12.503 3.568 16.099 7.972 16.099 C 9.724 16.099 11.342 15.521 12.663 14.558 L 17.818 19.712 C 18.484 20.407 19.652 20.119 19.92 19.195 C 20.05 18.748 19.921 18.267 19.585 17.945 L 14.431 12.791 C 15.394 11.47 15.972 9.851 15.972 8.099 C 15.972 3.696 12.375 0.099 7.972 0.099 Z M 7.972 2.599 C 11.024 2.599 13.472 5.047 13.472 8.099 C 13.472 11.151 11.024 13.599 7.972 13.599 C 4.92 13.599 2.472 11.151 2.472 8.099 C 2.472 5.047 4.92 2.599 7.972 2.599 Z"
+                                    style="stroke-width: 1;" />
+                            </svg>
+                        </div>
+                        <div class="sidebar-text">Search</div>
+                    </div>
+
+                    <div class="side-bar-TV">
+                        <div class="icon-sidebar">
+                            <svg class="icon-svg svg-no-hover" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path
+                                    d="M 1.649 0.225 C 1.398 0.335 0.896 0.824 0.576 1.314 L -0.041 2.183 L -0.041 8.14 C -0.041 14.531 0.05 15.21 1.147 16.109 C 1.924 16.76 18.096 16.76 18.872 16.109 C 19.969 15.21 20.061 14.531 20.061 8.112 L 20.061 2.129 L 19.284 1.096 L 18.507 0.09 L 10.306 0.035 C 5.806 0.008 1.924 0.09 1.649 0.225 M 18.096 2.292 C 18.416 2.646 18.461 3.598 18.461 8.358 C 18.461 12.382 18.392 14.068 18.187 14.313 C 17.799 14.775 2.22 14.775 1.832 14.313 C 1.626 14.068 1.558 12.382 1.558 8.358 C 1.558 3.598 1.604 2.646 1.924 2.292 C 2.22 1.911 3.294 1.857 10.01 1.857 C 16.725 1.857 17.799 1.911 18.096 2.292 M 5.372 18.338 C 5.076 18.692 5.213 19.752 5.578 19.915 C 6.126 20.161 14.19 20.105 14.532 19.834 C 14.715 19.726 14.806 19.317 14.761 18.963 L 14.692 18.311 L 10.101 18.23 C 7.588 18.202 5.464 18.256 5.372 18.338"
+                                    style="stroke-width: 1; transform-origin: 10.01px 10.0508px;" />
+                            </svg><svg class="icon-svg svg-hover" xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20">
+                                <path
+                                    d="M 0.522 0.602 C 0.147 1.083 0.097 2.076 0.097 8.125 L 0.097 15.076 L 0.746 15.678 C 1.395 16.279 1.694 16.31 10.079 16.31 C 18.464 16.31 18.764 16.279 19.412 15.678 L 20.062 15.076 L 20.062 8.064 C 20.062 1.655 20.012 1.022 19.613 0.572 C 19.189 0.121 18.166 0.06 10.029 0.06 C 1.52 0.06 0.897 0.09 0.522 0.602 M 5.187 18.538 C 5.113 18.777 5.088 19.228 5.138 19.53 C 5.213 20.042 5.587 20.072 10.079 20.072 L 14.946 20.072 L 14.946 18.267 L 10.13 18.176 C 6.111 18.116 5.313 18.176 5.187 18.538"
+                                    style="stroke-width: 1;" />
+                            </svg>
+                            <div class="sidebar-text">TV</div>
+                        </div>
+                    </div>
+                    <div class="side-bar-Movies">
+                        <div class="icon-sidebar">
+                            <svg class="icon-svg svg-no-hover" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 20">
+                                <path
+                                    d="M 6.272 0.289 C 6.037 0.386 5.652 0.688 5.418 0.977 C 5.115 1.308 4.853 1.473 4.605 1.473 C 3.49 1.473 2.319 2.341 2.14 3.305 C 2.058 3.69 1.948 3.828 1.507 4.021 C 0.391 4.53 -0.118 5.715 0.213 6.981 C 0.323 7.394 0.818 10.314 1.314 13.453 C 1.81 16.593 2.25 19.388 2.306 19.65 L 2.416 20.132 L 7.153 20.173 C 9.769 20.186 11.944 20.159 12 20.104 C 12.055 20.035 12.551 17.295 13.087 14.004 C 13.61 10.713 14.161 7.656 14.285 7.229 C 14.41 6.761 14.464 6.265 14.41 5.99 C 14.272 5.301 13.707 4.544 13.087 4.227 C 12.66 4.007 12.536 3.869 12.536 3.594 C 12.536 2.493 11.022 1.294 9.934 1.542 C 9.59 1.611 9.507 1.57 9.26 1.157 C 8.75 0.276 7.277 -0.151 6.272 0.289 M 8.378 1.322 C 8.585 1.528 8.86 1.886 8.984 2.135 C 9.191 2.52 9.26 2.561 9.494 2.437 C 9.948 2.203 10.815 2.272 11.201 2.575 C 11.642 2.919 11.903 3.69 11.793 4.31 C 11.697 4.778 11.711 4.778 12.178 4.778 C 12.909 4.778 13.514 5.37 13.583 6.155 C 13.679 7.009 13.528 7.188 12.936 6.995 C 12.44 6.844 11.724 6.954 11.366 7.257 C 11.228 7.381 11.091 7.353 10.815 7.174 C 10.361 6.871 9.356 6.871 8.915 7.16 C 8.598 7.367 8.544 7.367 8.048 7.105 C 7.469 6.802 6.822 6.844 6.272 7.202 C 5.996 7.381 5.9 7.367 5.363 7.119 C 4.605 6.775 4.454 6.775 3.806 7.105 C 3.324 7.353 3.256 7.367 2.953 7.16 C 2.623 6.94 1.892 6.885 1.411 7.036 C 0.833 7.229 0.64 6.142 1.094 5.384 C 1.369 4.943 2.113 4.503 2.623 4.503 C 3.035 4.503 3.682 4.861 3.862 5.191 C 3.958 5.384 4.151 5.467 4.44 5.467 C 4.757 5.467 4.977 5.577 5.183 5.838 C 5.473 6.196 5.514 6.21 5.721 6.004 C 6.037 5.701 5.886 5.274 5.349 4.943 C 4.812 4.599 5.115 4.434 6.161 4.489 C 6.561 4.503 7.249 5.219 7.346 5.728 C 7.455 6.224 7.607 6.251 8.089 5.88 C 8.585 5.494 8.805 5.535 8.984 6.031 C 9.163 6.568 9.687 6.554 9.755 6.004 C 9.824 5.439 9.191 4.916 8.461 4.916 C 7.979 4.916 7.813 4.847 7.635 4.572 C 7.524 4.392 7.139 4.103 6.795 3.938 C 6.079 3.594 5.17 3.649 4.564 4.076 C 4.192 4.337 4.192 4.337 3.545 4.048 C 2.774 3.69 2.732 3.456 3.339 2.768 C 3.779 2.272 3.779 2.272 4.647 2.341 L 5.514 2.424 L 5.707 1.983 C 6.01 1.308 6.12 1.198 6.671 1.005 C 7.346 0.771 7.924 0.881 8.378 1.322 M 2.691 7.945 C 2.925 8.193 3.311 11.14 4.164 19.058 C 4.22 19.512 4.22 19.512 3.628 19.512 C 3.132 19.512 3.035 19.47 2.981 19.195 C 2.939 19.03 2.539 16.51 2.085 13.591 C 1.328 8.785 1.273 8.262 1.465 7.987 C 1.714 7.587 2.347 7.574 2.691 7.945 M 5.321 7.959 C 5.556 8.221 5.596 8.661 5.748 12.462 C 5.831 14.789 5.914 17.309 5.941 18.066 L 5.968 19.443 L 5.473 19.485 C 4.88 19.539 4.936 19.691 4.605 16.482 C 4.495 15.312 4.247 12.985 4.055 11.332 C 3.751 8.592 3.738 8.29 3.931 8 C 4.206 7.574 4.949 7.546 5.321 7.959 M 7.924 7.945 C 8.158 8.207 8.158 8.455 8.006 12.723 C 7.924 15.216 7.813 17.749 7.772 18.369 L 7.69 19.512 L 6.781 19.512 L 6.698 17.887 C 6.657 17.006 6.547 14.5 6.464 12.31 C 6.326 8.73 6.34 8.317 6.533 8.014 C 6.822 7.574 7.552 7.546 7.924 7.945 M 10.54 7.987 C 10.733 8.29 10.705 8.703 10.265 12.71 C 10.003 15.119 9.741 17.625 9.672 18.273 L 9.576 19.443 L 9.067 19.485 L 8.544 19.526 L 8.557 18.589 C 8.557 18.08 8.64 15.532 8.736 12.944 C 8.887 8.689 8.929 8.207 9.163 7.959 C 9.521 7.546 10.265 7.574 10.54 7.987 M 13.019 7.945 C 13.252 8.207 13.239 8.399 12.413 13.48 C 11.944 16.386 11.531 18.92 11.49 19.14 C 11.421 19.47 11.353 19.512 10.87 19.512 C 10.554 19.512 10.334 19.443 10.334 19.347 C 10.334 19.003 11.449 8.813 11.518 8.496 C 11.697 7.697 12.523 7.394 13.019 7.945"
+                                    style="stroke-width: 1;" />
+                                <path
+                                    d="M 6.775 2.391 C 6.376 2.776 6.32 3.258 6.651 3.382 C 6.803 3.437 6.968 3.341 7.161 3.093 C 7.34 2.845 7.505 2.749 7.67 2.804 C 8.014 2.914 8.303 2.528 8.083 2.253 C 7.821 1.937 7.147 2.005 6.775 2.391 M 9.047 3.493 C 8.799 3.795 9.116 4.14 9.529 4.029 C 9.763 3.974 9.887 4.029 10.011 4.236 C 10.218 4.636 10.7 4.621 10.7 4.209 C 10.7 3.493 9.474 2.969 9.047 3.493 M 11.457 5.819 C 11.127 6.053 11.278 6.48 11.691 6.453 C 12.228 6.411 12.31 6.439 12.393 6.742 C 12.503 7.155 12.958 7.031 13.013 6.577 C 13.095 5.888 12.049 5.379 11.457 5.819 M 2.093 6.095 C 1.804 6.535 1.873 6.921 2.245 6.976 C 2.451 7.004 2.562 6.921 2.616 6.742 C 2.658 6.535 2.796 6.453 3.057 6.453 C 3.36 6.453 3.415 6.398 3.374 6.136 C 3.347 5.902 3.236 5.819 2.823 5.792 C 2.41 5.751 2.273 5.806 2.093 6.095"
+                                    style="stroke-width: 1;" />
+                            </svg>
+                            <svg class="icon-svg svg-hover" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 20">
+                                <path
+                                    d="M 6.51 0.353 C 6.21 0.533 5.895 0.908 5.76 1.253 L 5.506 1.853 L 4.666 1.763 C 3.571 1.643 2.956 1.942 2.582 2.797 L 2.297 3.428 L 2.836 3.607 C 3.136 3.712 3.466 3.877 3.586 3.982 C 3.751 4.117 3.916 4.087 4.35 3.832 C 5.61 3.127 6.87 3.277 7.815 4.267 C 8.31 4.762 8.489 4.852 9.029 4.852 C 10.049 4.852 10.934 5.977 10.304 6.501 C 10.034 6.726 9.809 6.592 9.629 6.112 C 9.419 5.587 9.104 5.527 8.579 5.902 C 8.025 6.291 7.724 6.216 7.59 5.646 C 7.364 4.687 6.33 4.102 5.295 4.327 C 4.831 4.432 4.651 4.702 5.026 4.702 C 5.295 4.702 5.836 5.302 5.91 5.662 C 5.925 5.811 5.836 6.006 5.685 6.112 C 5.46 6.246 5.355 6.201 5.071 5.857 C 4.861 5.587 4.606 5.452 4.321 5.452 C 4.036 5.452 3.691 5.272 3.316 4.927 C 2.836 4.507 2.611 4.402 2.086 4.402 C 0.917 4.402 0.032 5.272 0.032 6.411 C 0.032 7.326 0.092 7.371 1.157 7.281 C 1.906 7.221 2.206 7.266 2.506 7.461 C 2.881 7.701 2.926 7.701 3.556 7.401 C 4.291 7.042 5.056 7.101 5.61 7.536 C 5.895 7.776 5.956 7.776 6.6 7.446 C 7.44 7.026 7.71 7.011 8.52 7.416 C 9.134 7.701 9.179 7.701 9.554 7.461 C 10.064 7.131 11.143 7.131 11.654 7.461 C 12.043 7.716 12.089 7.716 12.824 7.401 C 13.483 7.116 13.648 7.086 14.173 7.251 C 14.893 7.461 15.028 7.326 15.028 6.381 C 15.028 5.872 14.938 5.646 14.517 5.196 C 14.098 4.732 13.918 4.642 13.408 4.642 L 12.808 4.627 L 12.883 3.937 C 12.973 3.143 12.704 2.512 12.073 2.003 C 11.654 1.673 10.964 1.643 10.139 1.928 C 9.869 2.018 9.764 1.928 9.464 1.388 C 8.774 0.143 7.545 -0.276 6.51 0.353 M 8.115 1.223 C 8.31 1.598 8.054 1.853 7.5 1.853 C 7.275 1.853 7.08 1.913 7.08 1.973 C 7.08 2.272 6.675 2.618 6.435 2.512 C 6.06 2.378 6.12 1.748 6.555 1.328 C 7.005 0.863 7.889 0.803 8.115 1.223 M 10.874 2.783 C 11.204 3.172 11.159 3.862 10.799 3.922 C 10.619 3.952 10.484 3.832 10.379 3.577 C 10.274 3.292 10.124 3.187 9.884 3.202 C 9.299 3.263 9.179 3.202 9.179 2.903 C 9.179 2.243 10.364 2.153 10.874 2.783 M 13.378 5.377 C 13.828 5.601 14.098 6.187 13.903 6.486 C 13.738 6.757 13.243 6.666 13.078 6.336 C 12.943 6.112 12.793 6.051 12.433 6.081 C 12.028 6.112 11.939 6.067 11.908 5.782 C 11.878 5.542 11.953 5.407 12.208 5.316 C 12.704 5.107 12.883 5.122 13.378 5.377 M 2.551 5.707 C 2.596 5.992 2.537 6.051 2.206 6.051 C 1.937 6.051 1.786 6.157 1.682 6.441 C 1.577 6.726 1.442 6.816 1.186 6.771 C 0.736 6.712 0.692 6.216 1.096 5.692 C 1.351 5.361 1.517 5.287 1.967 5.332 C 2.401 5.361 2.521 5.452 2.551 5.707 M 0.767 8.316 C 0.527 8.556 0.482 8.751 0.542 9.095 C 0.587 9.366 1.037 12.2 1.532 15.424 C 2.026 18.633 2.462 21.422 2.506 21.602 C 2.582 21.902 2.686 21.946 3.256 21.946 C 3.856 21.946 3.931 21.917 3.931 21.602 C 3.931 21.422 3.601 18.408 3.196 14.899 C 2.506 8.961 2.446 8.526 2.132 8.271 C 1.682 7.911 1.157 7.926 0.767 8.316 M 3.811 8.241 C 3.391 8.541 3.391 8.796 3.856 12.905 C 4.051 14.704 4.321 17.223 4.456 18.498 C 4.816 22.172 4.755 21.946 5.445 21.946 L 6.03 21.946 L 6.03 20.852 C 6.03 20.267 5.925 17.403 5.805 14.524 C 5.685 11.63 5.58 9.156 5.58 9.006 C 5.58 8.616 4.906 8.001 4.501 8.001 C 4.306 8.001 3.99 8.106 3.811 8.241 M 6.84 8.346 L 6.45 8.69 L 6.69 14.989 C 6.825 18.438 6.93 21.422 6.93 21.602 C 6.93 21.902 7.005 21.946 7.515 21.946 L 8.085 21.946 L 8.19 20.477 C 8.235 19.683 8.355 16.698 8.445 13.864 L 8.624 8.706 L 8.219 8.346 C 7.71 7.911 7.35 7.911 6.84 8.346 M 9.854 8.376 C 9.584 8.631 9.479 8.901 9.479 9.305 C 9.479 9.62 9.374 12.41 9.254 15.499 C 9.134 18.588 9.029 21.317 9.029 21.542 C 9.029 21.946 9.059 21.962 9.674 21.917 C 10.289 21.872 10.304 21.857 10.349 21.272 C 10.364 20.942 10.649 18.168 10.978 15.109 C 11.308 12.05 11.579 9.291 11.579 9.006 C 11.579 8.046 10.544 7.671 9.854 8.376 M 12.943 8.421 C 12.598 8.766 12.508 9.02 12.419 9.875 C 12.148 12.605 11.279 20.747 11.204 21.302 L 11.114 21.946 L 12.448 21.946 L 12.613 21.002 C 13.288 17.238 14.578 8.916 14.517 8.661 C 14.443 8.376 13.873 8.001 13.513 8.001 C 13.423 8.001 13.168 8.196 12.943 8.421"
+                                    style="stroke-width: 1;" />
+                            </svg>
+                        </div>
+                        <div class="sidebar-text">Movies</div>
+                    </div>
+                    <div class="side-bar-Sports">
+                        <div class="icon-sidebar"></div>
+                        <div class="sidebar-text">Sports</div>
+                    </div>
+                    <div class="side-bar-Spark">
+                        <div class="icon-sidebar"></div>
+                        <div class="sidebar-text">Spark</div>
+                    </div>
+                    <div class="side-bar-Categories">
+                        <div class="icon-sidebar"></div>
+                        <div class="sidebar-text">Categories</div>
+                    </div>
+                    <div class="side-bar-MySpace">
+                        <div class="icon-sidebar"><img
+                                src="https://img1.hotstarext.com/image/upload/w_200,h_200,c_fill/v2/feature/profile/38_jv.png"
+                                alt=""></div>
+                        <div class="sidebar-text">My Space</div>
+                    </div>
+                </div>
+            </div>
+            <div class="video-background-container">
+                <div class="poster-overlay" id="posterOverlay"></div>
+                <video id="myAudio" class="bg-video" loop playsinline muted
+                    poster="https://img10.hotstar.com/image/upload/f_auto,q_90,w_1920/sources/r1/cms/prod/4975/1769566194975-i">
+                    <source src="assets/video/wonderman.mp4" type="video/mp4">
+                </video>
+
+                <!-- Content to display over the video -->
+                <div class="content-overlay">
+                    <img src="https://img10.hotstar.com/image/upload/f_auto,h_148/sources/r1/cms/prod/9547/1769566169547-t"
+                        alt="">
+                    <span class="blue-text">New Release</span>
+                    <div class="show-info">
+                        <div class="show-meta">2026 • U/A 13+ • 1 Season • 2 Languages</div>
+                        <div class="show-description">Simon and Trevor, actors at opposite ends of their careers,
+                            chase
+                            life-changing roles.
+                        </div>
+                        <div class="show-genres">
+                            <span class="genre">Action</span>
+                            | <span class="genre">Drama</span>
+                            | <span class="genre">Super Heroes</span>
+                            | <span class="genre">Marvel Comics</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="muteButton" onclick="toggleMute()">
+                    <svg class="svg-mute-unmute" id="muteIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                        style="display: none;">
+                        <g data-name="high audio">
+                            <path
+                                d="M11.46 3c-1 0-1 .13-6.76 4H1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h3.7l5.36 3.57A2.54 2.54 0 0 0 14 18.46V5.54A2.54 2.54 0 0 0 11.46 3zM2 9h2v6H2zm10 9.46a.55.55 0 0 1-.83.45L6 15.46V8.54l5.17-3.45a.55.55 0 0 1 .83.45zM16.83 9.17a1 1 0 0 0-1.42 1.42 2 2 0 0 1 0 2.82 1 1 0 0 0 .71 1.71c1.38 0 3.04-3.62.71-5.95z" />
+                            <path
+                                d="M19 7.05a1 1 0 0 0-1.41 1.41 5 5 0 0 1 0 7.08 1 1 0 0 0 .7 1.7c1.61 0 4.8-6.05.71-10.19z" />
+                            <path
+                                d="M21.07 4.93a1 1 0 0 0-1.41 1.41 8 8 0 0 1 0 11.32 1 1 0 0 0 1.41 1.41 10 10 0 0 0 0-14.14z" />
+                        </g>
+                    </svg>
+                    <svg class="svg-mute-unmute" id="unmuteIcon" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="275.0357 55.1056 175.003 182.6184" width="175.003px" height="182.618px">
+                        <g id="unmuteIcon" style=""
+                            transform="matrix(10.09484577178955, 0, 0, 10.09484577178955, -2887.404541015625, -961.0692138671875)">
+                            <path
+                                d="M 328.876 100.95 L 327.417 102.483 C 326.894 100.898 325.002 100.25 323.617 101.183 L 318.257 104.753 L 314.557 104.753 C 314.005 104.753 313.557 105.2 313.557 105.753 L 313.557 113.753 C 313.557 114.305 314.005 114.753 314.557 114.753 L 315.147 114.753 L 313.645 116.246 C 313.099 116.792 313.047 118.179 314.222 118.243 C 314.58 118.262 314.812 117.919 315.065 117.666 C 321.405 111.316 317.529 114.435 317.939 114.435 C 323.639 118.235 323.987 118.753 325.017 118.753 C 326.42 118.753 327.557 117.615 327.557 116.213 L 327.557 105.213 L 330.296 102.42 C 330.862 101.873 330.624 100.919 329.868 100.702 C 329.517 100.602 329.139 100.696 328.876 100.95 Z M 324.727 102.843 C 325.085 102.63 325.54 102.877 325.557 103.293 L 325.557 104.293 L 319.557 110.293 L 319.557 106.293 L 324.727 102.843 Z M 315.557 112.753 L 315.557 106.753 L 317.557 106.753 C 317.557 113.563 318.087 112.753 315.557 112.753 Z M 325.557 116.213 C 325.54 116.628 325.085 116.875 324.727 116.663 L 319.557 113.213 C 319.557 113.113 319.097 113.633 325.557 107.163 L 325.557 116.213 Z"
+                                style="stroke-width: 1;" />
+                        </g>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+<script>
+    // Get references to the audio element and the button
+    var audio = document.getElementById('myAudio');
+    var muteButton = document.getElementById('muteButton');
+
+    // Function to toggle mute/unmute
+    function toggleMute() {
+        audio.muted = !audio.muted; // Toggle the muted state
+
+        // Change the icon based on the muted state
+        var muteIcon = document.getElementById('muteIcon');
+        var unmuteIcon = document.getElementById('unmuteIcon');
+
+        if (audio.muted) {
+            muteIcon.style.display = 'none';
+            unmuteIcon.style.display = 'block';
+        } else {
+            muteIcon.style.display = 'block';
+            unmuteIcon.style.display = 'none';
+        }
+    }
+
+    // Persistent hover effect for content overlay
+    var contentOverlay = document.querySelector('.content-overlay');
+    contentOverlay.addEventListener('mouseenter', function () {
+        this.classList.add('hovered');
+    });
+
+    // Show poster for 1.2 seconds before video starts
+    window.addEventListener('load', function () {
+        setTimeout(function () {
+            audio.play();
+            var posterOverlay = document.getElementById('posterOverlay');
+            posterOverlay.classList.add('hidden');
+        }, 1200); // 1.2 seconds
+    });
+
+</script>
+
+</html>

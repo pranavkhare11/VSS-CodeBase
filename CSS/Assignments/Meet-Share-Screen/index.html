@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meet Share Screen</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Regeonized and cleaned up CSS for better readability */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            color: white;
+        }
+
+        .share-screen-box-container {
+            display: flex;
+            height: 100vh;
+            background-color: #1a1a1a8e;
+        }
+
+        .share-screen-box {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 5px;
+            background-color: #141414;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 700px;
+            padding: 20px;
+        }
+
+        .share-screen-content .header {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-header {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .sub-header {
+            line-height: 3;
+            font-size: 14px;
+        }
+
+        .options {
+            display: flex;
+            margin-top: 10px;
+            border-bottom: 1px solid #3c4043;
+        }
+
+        /* Style Active Buttons */
+        /* #region: Active Button Styles */
+        /* This tells the browser: "If #tab-opt is checked, find the label for it inside .options and style it" */
+        #tab-opt:checked~.options label[for="tab-opt"],
+        #window-opt:checked~.options label[for="window-opt"],
+        #screen-opt:checked~.options label[for="screen-opt"] {
+            background-color: #141414;
+            /* Google light blue background */
+            font-weight: 700;
+            color: #1967d2;
+            border-bottom: 4px solid #1967d2;
+            /* Google Blue text */
+        }
+
+        /* The Button Style */
+        .dropdown-button {
+            cursor: pointer;
+            padding: 8px 16px;
+            background-color: #141414;
+            width: 33.33%;
+            font-size: 14px;
+            font-weight: 400;
+            color: #d0d0d0;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s;
+            white-space: nowrap;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        /* Hover effect for better UX */
+        .dropdown-button:hover {
+            background-color: #2c2c2c;
+        }
+
+        .header-radio {
+            display: none;
+        }
+
+        /* Full Width Dropdown Content */
+        .dropdown-content-full {
+            display: none;
+            /* Hidden by default */
+            background-color: #2e2f34;
+            padding: 15px;
+            border-radius: 0 0 10px 10px;
+            height: 445px;
+            position: relative;
+        }
+
+        /* Display content based on checked radio */
+        /* Sibling selector works because radio inputs are above these divs in HTML */
+        #tab-opt:checked~.dropdown-tab {
+            display: block;
+        }
+
+        #window-opt:checked~.dropdown-window {
+            display: block;
+        }
+
+        #screen-opt:checked~.dropdown-screen {
+            display: block;
+        }
+
+        /* #endregion */
+        /* #region: Chrome Tab Styles */
+        .chrome-tab-options {
+            display: flex;
+            flex-direction: column;
+            font-size: 14px;
+        }
+
+        .tab-selection {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+        }
+
+        .tab-list {
+            overflow-y: auto;
+            border-radius: 10px;
+            width: 450px;
+        }
+
+        .tabs {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            max-height: 360px;
+            overflow-y: scroll;
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tabs li {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            padding: 10px;
+        }
+
+        .tabs li svg {
+            margin-right: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        .tabs li:nth-child(odd) {
+            background-color: #1b1b1d;
+        }
+
+        .tabs li:nth-child(even) {
+            background-color: #262628;
+        }
+
+        .tabs li:hover {
+            background-color: #3c4043;
+        }
+
+        .tab-preview-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        .tab-preview {
+            width: 250px;
+            height: 150px;
+            background-color: #3c465d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cccccc;
+            justify-self: center;
+            font-weight: 600;
+        }
+
+        /* #endregion */
+
+        /* #region: Window Styles */
+        .window-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .window-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            min-height: 345px;
+            overflow-y: auto;
+        }
+
+        .window-item {
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .window-item:hover {
+            background-color: #5a6974;
+        }
+
+        .window-preview {
+            width: 100%;
+            height: 120px;
+            background-color: #3c465d;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cccccc;
+            font-weight: 600;
+        }
+        .window-preview img {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+
+        .window-title {
+            font-size: 14px;
+            color: #d0d0d0;
+            text-align: center;
+        }
+
+
+        /* #endregion */
+
+        /* #region: Entire Screen Styles */
+
+        .screen-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .screen-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 2fr);
+            gap: 15px;
+            min-height: 345px;
+            overflow-y: auto;
+        }
+        .screen-item {
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-height: 160px;
+            max-width: 200px;
+            align-items: center;
+            justify-content: center;
+        }
+        .screen-item:hover {
+            background-color: #5a6974;
+        }
+        .screen-image {
+            width: 100%;
+            height: 120px;
+            background-color: #3c465d;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cccccc;
+            font-weight: 600;
+        }
+        .screen-image img {
+            width: 100%;
+            height: 100%;
+            border-radius: 6px;
+            object-fit: cover;
+        }
+        .screen-title {
+            font-size: 14px;
+            color: #d0d0d0;
+            text-align: center;
+        }
+        /* #endregion */
+
+        /* #region: Switch Styles */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            /* Adjusted size to match UI better */
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #263047;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #bdc6e4;
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(16px);
+        }
+
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+        .sound-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .sound-toggle span {
+            display: flex;
+            align-items: center;
+            color: #c9c7c6;
+        }
+
+        .svg-audio {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            fill: #c9c7c6;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+
+        }
+
+        .button {
+            padding: 14px 24px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .button.cancel {
+            color: #bdc6e4;
+            background-color: #263047;
+        }
+
+        .button.share {
+            background-color: #bdc6e4;
+            color: #263047;
+            opacity: 0.5;
+            /* Disabled look */
+        }
+
+        /* #endregion */
+    </style>
+
+</head>
+
+<body>
+    <div class="share-screen-box-container">
+        <div class="share-screen-box">
+            <div class="share-screen-content">
+                <div class="header">
+                    <span class="top-header">Choose what to share with meet.google.com</span>
+                    <span class="sub-header">The site will be able to see the contents of your screen</span>
+                </div>
+
+                <input type="radio" name="filter_nav" id="tab-opt" class="header-radio" checked>
+                <input type="radio" name="filter_nav" id="window-opt" class="header-radio">
+                <input type="radio" name="filter_nav" id="screen-opt" class="header-radio">
+
+                <div class="options">
+                    <label for="tab-opt" class="dropdown-button">
+                        Chrome Tab
+                    </label>
+
+                    <label for="window-opt" class="dropdown-button">
+                        Window
+                    </label>
+
+                    <label for="screen-opt" class="dropdown-button">
+                        Entire Screen
+                    </label>
+                </div>
+
+                <div class="dropdown-content-full dropdown-tab">
+                    <div class="chrome-tab-options">
+                        <div class="tab-selection">
+                            <div class="tab-list">
+                                <ul class="tabs">
+                                    <li><svg width="64" height="64" viewBox="0.088 0.08 1.104 1.12"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none">
+                                            <path fill="#4285f4"
+                                                d="M1.192.653a1 1 0 0 0-.01-.114H.651v.216h.304a.26.26 0 0 1-.113.17v.14h.182a.55.55 0 0 0 .168-.412" />
+                                            <path fill="#34a853"
+                                                d="M.651 1.2c.152 0 .28-.05.373-.135L.843.925a.34.34 0 0 1-.192.054.34.34 0 0 1-.316-.231H.148v.144a.56.56 0 0 0 .503.308" />
+                                            <path fill="#fbbc04"
+                                                d="M.335.747a.33.33 0 0 1 0-.214V.389H.148a.56.56 0 0 0 0 .503z" />
+                                            <path fill="#ea4335"
+                                                d="M.651.302a.3.3 0 0 1 .216.084l.161-.16A.54.54 0 0 0 .651.08a.56.56 0 0 0-.503.309l.187.144A.335.335 0 0 1 .651.302" />
+                                        </svg>
+
+                                        product hunt - Google Search</li>
+                                    <li><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                            xml:space="preserve" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" clip-rule="evenodd" fill="#25d366"
+                                                d="m16.924 15.187-2.426-.456c-.413-.077-.689-.497-.616-.937s.466-.734.879-.656l2.653.499a1.665 1.665 0 0 1 1.308 1.929l-.014.058c-.123.44-.328.843-.629 1.189-1.731 1.989-5.835 1.416-9.166-1.281s-4.63-6.495-2.899-8.484c.412-.474.96-.799 1.599-.987.054-.013.105-.033.159-.041l.002-.001A1.61 1.61 0 0 1 9.504 7l.945 2.531a.715.715 0 0 1-.443.924.744.744 0 0 1-.948-.43L8.19 7.699a.334.334 0 0 0-.409-.178 1.9 1.9 0 0 0-.617.457c-1.198 1.377.016 4.264 2.713 6.446s5.856 2.836 7.053 1.459a2 2 0 0 0 .191-.273.3.3 0 0 0 .032-.087.297.297 0 0 0-.228-.335M2.25 15.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0M12 24a11.9 11.9 0 0 1-5.251-1.215q-.037-.016-.071-.033l-.069-.033a2.06 2.06 0 0 0-1.468-.147l-.03.007-2.176.605-.026.005a1.7 1.7 0 0 1-.906 0A1.704 1.704 0 0 1 .81 21.094l.012-.055.636-2.289H1.5a.75.75 0 1 1 1.5 0h.015l-.024.088q-.013.121-.063.228l-.674 2.425c0 .002.003-.001.003.001a.204.204 0 0 0 .24.254c.002 0-.001.004 0 .004l2.232-.62.012-.002a3.55 3.55 0 0 1 2.526.244q.011.005.024.007A10.4 10.4 0 0 0 12 22.5c5.799 0 10.5-4.701 10.5-10.5S17.799 1.5 12 1.5 1.5 6.201 1.5 12c0 .22.011.438.024.654l-.034.003q.008.045.009.093a.75.75 0 1 1-1.48-.165A11 11 0 0 1 0 12C0 5.373 5.373 0 12 0s12 5.373 12 12-5.373 12-12 12" />
+                                        </svg>
+                                        (156) WhatsApp</li>
+                                    <li><svg width="64" height="64" viewBox="0 0 3.84 3.84" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#fff" fill-opacity=".01" d="M0 0h3.84v3.84H0z" />
+                                            <path d="M.32 3.12h3.2V.72H.32z" fill="#2f88ff" stroke="#000"
+                                                stroke-width=".32" stroke-linejoin="round" />
+                                            <path d="m.32.72 1.6 1.2 1.6-1.2" stroke="#fff" stroke-width=".32"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M1.92.72H.32v1.2m3.2 0V.72h-1.6" stroke="#000" stroke-width=".32"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg> Mail - Pranav Khare -
+                                        Professional Email</li>
+                                    <li><svg width="64" height="64" viewBox="0 0 3.84 3.84" fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#fff" fill-opacity=".01" d="M0 0h3.84v3.84H0z" />
+                                            <path d="M.32 3.12h3.2V.72H.32z" fill="#2f88ff" stroke="#000"
+                                                stroke-width=".32" stroke-linejoin="round" />
+                                            <path d="m.32.72 1.6 1.2 1.6-1.2" stroke="#fff" stroke-width=".32"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                            <path d="M1.92.72H.32v1.2m3.2 0V.72h-1.6" stroke="#000" stroke-width=".32"
+                                                stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        Mail - Pranav Khare - Personal Email</li>
+                                    <li><svg width="512" height="512" viewBox="0 -167.5 512 512"
+                                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+                                            <defs>
+                                                <linearGradient x1="49.996%" y1="1.431%" x2="49.996%" y2="96.981%"
+                                                    id="a">
+                                                    <stop stop-color="#ffe513" offset=".562%" />
+                                                    <stop stop-color="#fdb924" offset="100%" />
+                                                </linearGradient>
+                                                <linearGradient x1="4.512%" y1="13.494%" x2="95.672%" y2="87.064%"
+                                                    id="b">
+                                                    <stop stop-color="#008cd2" offset=".562%" />
+                                                    <stop stop-color="#00649d" offset="100%" />
+                                                </linearGradient>
+                                                <linearGradient x1="50.002%" y1="27.779%" x2="50.002%" y2="97.529%"
+                                                    id="c">
+                                                    <stop stop-color="#26a146" offset="0%" />
+                                                    <stop stop-color="#008a52" offset="100%" />
+                                                </linearGradient>
+                                                <linearGradient x1="43.734%" y1="8.208%" x2="57.544%" y2="93.198%"
+                                                    id="d">
+                                                    <stop stop-color="#d92231" offset="0%" />
+                                                    <stop stop-color="#ba2234" offset="100%" />
+                                                </linearGradient>
+                                            </defs>
+                                            <path d="M512 37.7v121.4l-16.8 16.4V56.7z" fill="#e79225" />
+                                            <path d="m401.9 37.8-17.4 18.9.9 1.2 109.1-.4 1-.8 16.5-19z"
+                                                fill="#fff16d" />
+                                            <path fill="url(#a)" d="M.5 19.7h111v118.9H.5z"
+                                                transform="translate(384 37)" />
+                                            <path
+                                                d="M478.6 99.5c-2.2-5.5-5.5-10.5-9.8-14.8-4.1-4.2-8.7-7.4-13.9-9.5-5.1-2.1-10.6-3.2-16.6-3.2s-11.6 1.1-16.7 3.2c-5.2 2.1-9.8 5.3-13.9 9.5-4.3 4.3-7.5 9.3-9.7 14.8s-3.2 11.5-3.2 18.1q0 9.6 3.3 18c2.2 5.6 5.4 10.6 9.7 15 4 4.1 8.6 7.2 13.7 9.3s10.8 3.2 16.9 3.2c5.9 0 11.4-1.1 16.5-3.2s9.8-5.2 13.9-9.3c4.3-4.4 7.6-9.4 9.8-14.9s3.3-11.6 3.3-18c0-6.7-1.1-12.7-3.3-18.2m-22.9 39.2c-4.3 5.1-10 7.7-17.4 7.7s-13.2-2.6-17.5-7.7-6.4-12.2-6.4-21.2c0-9.2 2.2-16.3 6.4-21.5 4.3-5.2 10-7.7 17.5-7.7 7.4 0 13.1 2.6 17.4 7.7 4.2 5.2 6.4 12.3 6.4 21.5 0 9-2.1 16.1-6.4 21.2"
+                                                fill="#fff" />
+                                            <path d="M373.6 27.8v.6l14.2 109.1-8.3 23-1.1-.8-14.6-104.6.3-1.4 9.1-25.3z"
+                                                fill="#009ada" />
+                                            <path d="m264.3 43 109.3-15.2-9.2 26.2-1.3 1.4-102.2 15 .5-18.7z"
+                                                fill="#91c9ed" />
+                                            <path d="m107.4 27 15.1 106.5-107.7 15.1L.3 45.7l6.3-4.9z" fill="url(#b)"
+                                                transform="translate(257 27)" />
+                                            <path
+                                                d="M346.1 74.4c-.5-3.3-1.6-5.8-3.4-7.5-1.5-1.3-3.3-2-5.4-2-.5 0-1.1 0-1.7.1-2.8.4-4.9 1.7-6.2 3.8-1 1.5-1.4 3.4-1.4 5.6 0 .8.1 1.7.2 2.6l3.9 27.7-31 4.6-3.9-27.7c-.5-3.2-1.6-5.7-3.4-7.4-1.5-1.4-3.3-2.1-5.3-2.1-.5 0-1 0-1.5.1-2.9.4-5.1 1.7-6.5 3.8-1 1.5-1.4 3.4-1.4 5.6 0 .8.1 1.7.2 2.7l10.6 72.1c.5 3.3 1.6 5.8 3.6 7.5 1.5 1.3 3.3 1.9 5.5 1.9.6 0 1.2 0 1.8-.1 2.7-.4 4.7-1.7 6-3.8.9-1.5 1.3-3.3 1.3-5.4 0-.8-.1-1.7-.2-2.6l-4.3-28.5 31-4.6 4.3 28.5c.5 3.3 1.6 5.8 3.5 7.4 1.5 1.3 3.3 2 5.4 2 .5 0 1.1 0 1.7-.1 2.8-.4 4.9-1.7 6.2-3.8.9-1.5 1.4-3.3 1.4-5.5 0-.8-.1-1.7-.2-2.6z"
+                                                fill="#fff" />
+                                            <path d="m162 0-38.9 92.4 5.3 40.6.3-.1 43.7-98.3-.2-2.1-9.4-31.2z"
+                                                fill="#66bf6b" />
+                                            <path d="m162 0 10.1 33.9.2.7 96.2 43.1.3-.2-8.2-32.4z" fill="#98d0a0" />
+                                            <path d="m49.1 33.9 96.7 43.6-43.7 99.1L5.4 133z" fill="url(#c)"
+                                                transform="translate(123)" />
+                                            <path
+                                                d="M239.5 85.5c-2.1-5.6-5-10.4-8.8-14.4s-8.4-7.2-13.8-9.5-10.8-3.4-16.3-3.4h-.3c-5.6 0-11.1 1.3-16.5 3.7-5.7 2.5-10.6 5.9-14.8 10.4-4.2 4.4-7.6 9.8-10.2 16-2.6 6.1-4 12.3-4.3 18.4v2.1c0 5.4.9 10.7 2.8 15.9 2 5.5 4.9 10.2 8.7 14.2s8.5 7.2 14.1 9.5c5.3 2.3 10.7 3.4 16.2 3.4h.1c5.5 0 11-1.2 16.4-3.5 5.7-2.5 10.7-6 14.9-10.5 4.2-4.4 7.7-9.7 10.3-15.9s4-12.3 4.3-18.4v-1.8c.1-5.5-.8-10.9-2.8-16.2m-19.3 28.8c-3.6 8.6-8.5 14.5-14.4 17.7-3.2 1.7-6.5 2.6-9.8 2.6-2.9 0-6-.7-9.1-2-6.8-2.9-11-7.5-12.8-14.1q-.9-3.3-.9-6.9c0-4.8 1.2-10.1 3.6-15.8 3.7-8.8 8.6-14.8 14.5-18.1 3.2-1.8 6.5-2.6 9.8-2.6 3 0 6 .7 9.2 2 6.7 2.9 10.9 7.5 12.7 14.1.6 2.1.9 4.4.9 6.8 0 5-1.2 10.4-3.7 16.3"
+                                                fill="#fff" />
+                                            <path d="m115.4 15.7 15.8 105.8-7.2 37.2-1-1.3-15.4-102.2v-2l6.8-35.7z"
+                                                fill="#760d16" />
+                                            <path d="M0 70.4 7.5 33l107.9-17.3-7.3 38.1v2.5L1.3 71.4z" fill="#ef463e" />
+                                            <path d="M108.1 38.8 124 143.7 17.2 160.4 0 55.4z" fill="url(#d)"
+                                                transform="translate(0 15)" />
+                                            <path
+                                                d="M96.6 142c-.8-1-2-1.7-3.4-2.2s-3.1-.7-5.2-.7c-1.9 0-4.1.2-6.5.6l-28.2 4.8c.3-2.2 1.4-5 3.3-8.5 2.1-3.9 5.3-8.6 9.4-14 1.4-1.9 2.5-3.3 3.3-4.3.5-.7 1.3-1.6 2.3-2.9 6.5-8.5 10.4-15.4 12-20.8.9-3.1 1.4-6.2 1.6-9.3.1-.9.1-1.7.1-2.5q0-3.3-.6-6.6c-.3-2-.8-3.6-1.5-4.9s-1.5-2.3-2.5-2.9c-1.1-.7-2.8-1-4.9-1q-2.55 0-6.3.6L36.9 73c-3.9.7-6.9 1.8-8.7 3.6-1.5 1.4-2.2 3.2-2.2 5.2 0 .5 0 1.1.1 1.7.5 2.8 1.9 4.8 4.2 5.8 1.4.6 3 .9 5 .9 1.3 0 2.8-.1 4.4-.4L66.9 85c0 .5.1 1 .1 1.4 0 1.7-.3 3.4-.9 5-.8 2.3-2.8 5.5-6.1 9.6-.9 1.1-2.3 2.9-4.2 5.2-7.4 8.9-12.6 16.5-15.8 22.8-2.3 4.4-3.8 8.6-4.7 12.9-.5 2.5-.8 4.8-.8 7.1 0 1.6.1 3.2.4 4.7.4 2.2.9 4 1.6 5.4s1.7 2.5 2.8 3.1 2.6.8 4.8.8q4.05 0 11.1-1.2l29.6-5.1c5.2-.9 8.9-2.2 11-3.9 1.7-1.4 2.6-3.3 2.6-5.5 0-.6-.1-1.2-.2-1.8-.2-1.3-.7-2.5-1.6-3.5"
+                                                fill="#fff" />
+                                        </svg>
+                                        Pay Runs|Preview|Zoho Payroll</li>
+                                    <li><svg width="64" height="64" viewBox="0 0 1.28 1.28"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#444"
+                                                d="M.64 0C.288 0 0 .288 0 .64s.288.64.64.64.64-.288.64-.64S.992 0 .64 0m.416.424c.032 0 .056.024.088.024C1.12.48 1.016.48.984.44c.024-.008.04-.016.072-.016M.08.64c0-.032 0-.064.008-.104.008 0 .016.008.024.008 0 0 .008.008.008.016C.12.584.144.6.16.6c.064.008.088.064.144.08.016.008.008.024 0 .04C.256.784.296.832.336.872c.04.032.04.064.048.112 0 .056.008.12.032.176A.57.57 0 0 1 .08.64m.56.56a.6.6 0 0 1-.168-.024q-.012-.024 0-.048c.032-.064.064-.12.104-.176C.592.936.608.92.608.896.608.88.616.856.624.84.648.8.64.776.608.768.544.752.512.696.464.672S.368.632.328.656C.312.664.288.672.288.648.288.616.248.592.256.56.248.56.24.56.232.568S.216.584.2.576C.184.56.192.544.192.528A.06.06 0 0 1 .224.496C.256.488.288.488.304.528a.27.27 0 0 1 .12-.144S.488.328.496.328s.016.016.032.024c.016 0 .024 0 .024-.016C.56.296.536.248.504.24c0-.008.008-.008.008-.008C.536.224.568.208.56.184.56.152.528.136.496.136c-.016 0-.032 0-.048.008a.3.3 0 0 1-.12.032A.53.53 0 0 1 .64.08h.064a.5.5 0 0 0-.128.04c.048.008.056.032.04.072-.008.016 0 .032.016.04S.664.24.672.224C.688.2.72.192.744.184a.14.14 0 0 0 .08-.056C.824.12.832.12.84.112a.7.7 0 0 1 .144.08C.976.192.976.2.968.2.952.216.928.224.952.256.96.272.952.28.944.288.928.296.92.288.912.28S.904.256.88.256C.872.272.848.28.848.304c.04 0 .032.032.04.056Q.814.372.848.432C.856.448.84.456.832.464.8.512.768.544.768.6s.04.112.104.104C.944.696.944.696.968.76c0 .008.008.016.008.024C.984.8.992.816.984.832c-.024.064.008.112.032.16a.1.1 0 0 0 .024.032.53.53 0 0 1-.4.176" />
+                                        </svg>TypeScript Operations</li>
+                                    <li><svg width="64" height="64" viewBox="0 0 1.28 1.28"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path fill="#444"
+                                                d="M.64 0C.288 0 0 .288 0 .64s.288.64.64.64.64-.288.64-.64S.992 0 .64 0m.416.424c.032 0 .056.024.088.024C1.12.48 1.016.48.984.44c.024-.008.04-.016.072-.016M.08.64c0-.032 0-.064.008-.104.008 0 .016.008.024.008 0 0 .008.008.008.016C.12.584.144.6.16.6c.064.008.088.064.144.08.016.008.008.024 0 .04C.256.784.296.832.336.872c.04.032.04.064.048.112 0 .056.008.12.032.176A.57.57 0 0 1 .08.64m.56.56a.6.6 0 0 1-.168-.024q-.012-.024 0-.048c.032-.064.064-.12.104-.176C.592.936.608.92.608.896.608.88.616.856.624.84.648.8.64.776.608.768.544.752.512.696.464.672S.368.632.328.656C.312.664.288.672.288.648.288.616.248.592.256.56.248.56.24.56.232.568S.216.584.2.576C.184.56.192.544.192.528A.06.06 0 0 1 .224.496C.256.488.288.488.304.528a.27.27 0 0 1 .12-.144S.488.328.496.328s.016.016.032.024c.016 0 .024 0 .024-.016C.56.296.536.248.504.24c0-.008.008-.008.008-.008C.536.224.568.208.56.184.56.152.528.136.496.136c-.016 0-.032 0-.048.008a.3.3 0 0 1-.12.032A.53.53 0 0 1 .64.08h.064a.5.5 0 0 0-.128.04c.048.008.056.032.04.072-.008.016 0 .032.016.04S.664.24.672.224C.688.2.72.192.744.184a.14.14 0 0 0 .08-.056C.824.12.832.12.84.112a.7.7 0 0 1 .144.08C.976.192.976.2.968.2.952.216.928.224.952.256.96.272.952.28.944.288.928.296.92.288.912.28S.904.256.88.256C.872.272.848.28.848.304c.04 0 .032.032.04.056Q.814.372.848.432C.856.448.84.456.832.464.8.512.768.544.768.6s.04.112.104.104C.944.696.944.696.968.76c0 .008.008.016.008.024C.984.8.992.816.984.832c-.024.064.008.112.032.16a.1.1 0 0 0 .024.032.53.53 0 0 1-.4.176" />
+                                        </svg>TypeScript Operations</li>
+                                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" xml:space="preserve"
+                                            width="64" height="64">
+                                            <path style="fill:#0084ff"
+                                                d="m54.856 57.262 7.309-12.994c.362-.644.537-1.49.528-2.333H19.658l-8.779 16.922c.715.454 1.54.738 2.295.738h37.693c1.472 0 3.267-1.05 3.99-2.333" />
+                                            <path style="fill:#1eb615"
+                                                d="M30.696 20.742 21.915 5.084c-.731.417-1.372.991-1.748 1.623L1.929 37.424c-.752 1.266-.828 3.38-.17 4.697l7.54 15.08c.321.642.901 1.226 1.58 1.657z" />
+                                            <path style="fill:#ffaf00"
+                                                d="M42.506 41.934h20.188c-.009-.839-.201-1.675-.573-2.308L42.759 6.711c-.747-1.268-2.562-2.306-4.034-2.306H24.211c-.738 0-1.563.26-2.298.679z" />
+                                            <path
+                                                d="M64 41.92c-.012-1.101-.28-2.15-.753-2.955L43.885 6.048c-.974-1.654-3.24-2.949-5.159-2.949H24.212c-.937 0-1.983.302-2.945.851l-.004.002c-.956.546-1.743 1.287-2.219 2.088L.806 36.757c-.987 1.662-1.079 4.219-.215 5.947l7.54 15.081c.414.827 1.141 1.599 2.049 2.175l.004.002c.955.605 2.017.939 2.99.939h37.693c1.929 0 4.181-1.317 5.128-2.998l7.309-12.994c.461-.819.708-1.88.696-2.988zM24.212 5.711h14.514c1.01 0 2.396.793 2.908 1.662l19.362 32.916q.09.154.161.339H43.273L23.784 5.753a2.4 2.4 0 0 1 .428-.042m16.069 34.917H21.829l8.893-17.105zm-37.352.908c-.46-.919-.4-2.562.124-3.446L21.291 7.374a2.3 2.3 0 0 1 .23-.317l7.676 13.737-18.675 35.922-.054-.099zm58.099 2.091-7.309 12.994c-.491.873-1.85 1.667-2.851 1.667H13.174q-.234-.002-.494-.062l7.791-14.987h40.727a2.3 2.3 0 0 1-.171.387" />
+                                            <path
+                                                d="M50.199 48.679h.585a1.306 1.306 0 0 0 0-2.612h-.585a1.306 1.306 0 0 0 0 2.612m-16.911-2.612a1.306 1.306 0 0 0 0 2.612h12.685a1.306 1.306 0 0 0 0-2.612z" />
+                                        </svg>3.CSS - Google Drive</li>
+                                    <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" xml:space="preserve"
+                                            width="64" height="64">
+                                            <path style="fill:#0084ff"
+                                                d="m54.856 57.262 7.309-12.994c.362-.644.537-1.49.528-2.333H19.658l-8.779 16.922c.715.454 1.54.738 2.295.738h37.693c1.472 0 3.267-1.05 3.99-2.333" />
+                                            <path style="fill:#1eb615"
+                                                d="M30.696 20.742 21.915 5.084c-.731.417-1.372.991-1.748 1.623L1.929 37.424c-.752 1.266-.828 3.38-.17 4.697l7.54 15.08c.321.642.901 1.226 1.58 1.657z" />
+                                            <path style="fill:#ffaf00"
+                                                d="M42.506 41.934h20.188c-.009-.839-.201-1.675-.573-2.308L42.759 6.711c-.747-1.268-2.562-2.306-4.034-2.306H24.211c-.738 0-1.563.26-2.298.679z" />
+                                            <path
+                                                d="M64 41.92c-.012-1.101-.28-2.15-.753-2.955L43.885 6.048c-.974-1.654-3.24-2.949-5.159-2.949H24.212c-.937 0-1.983.302-2.945.851l-.004.002c-.956.546-1.743 1.287-2.219 2.088L.806 36.757c-.987 1.662-1.079 4.219-.215 5.947l7.54 15.081c.414.827 1.141 1.599 2.049 2.175l.004.002c.955.605 2.017.939 2.99.939h37.693c1.929 0 4.181-1.317 5.128-2.998l7.309-12.994c.461-.819.708-1.88.696-2.988zM24.212 5.711h14.514c1.01 0 2.396.793 2.908 1.662l19.362 32.916q.09.154.161.339H43.273L23.784 5.753a2.4 2.4 0 0 1 .428-.042m16.069 34.917H21.829l8.893-17.105zm-37.352.908c-.46-.919-.4-2.562.124-3.446L21.291 7.374a2.3 2.3 0 0 1 .23-.317l7.676 13.737-18.675 35.922-.054-.099zm58.099 2.091-7.309 12.994c-.491.873-1.85 1.667-2.851 1.667H13.174q-.234-.002-.494-.062l7.791-14.987h40.727a2.3 2.3 0 0 1-.171.387" />
+                                            <path
+                                                d="M50.199 48.679h.585a1.306 1.306 0 0 0 0-2.612h-.585a1.306 1.306 0 0 0 0 2.612m-16.911-2.612a1.306 1.306 0 0 0 0 2.612h12.685a1.306 1.306 0 0 0 0-2.612z" />
+                                        </svg>3.CSS - Google Drive
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="tab-preview-container">
+                                <div class="tab-preview">Select a tab to share</div>
+                            </div>
+
+                        </div>
+
+                        <div class="sound-toggle">
+
+
+                            <span><svg class="svg-audio" xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                    viewBox="0 0 2.56 2.56" xml:space="preserve">
+                                    <path
+                                        d="M1.28.48v1.6c0 .088-.062.123-.137.078l-.526-.315A.7.7 0 0 0 .32 1.76H.24a.16.16 0 0 1-.16-.16V.96A.16.16 0 0 1 .24.8h.08A.7.7 0 0 0 .617.718l.526-.315c.075-.046.137-.011.137.077m.848-.048a.16.16 0 1 0-.226.226c.166.166.258.387.258.622s-.092.456-.258.622a.16.16 0 1 0 .226.226c.227-.226.352-.527.352-.848S2.355.658 2.128.432m-.339.339a.16.16 0 1 0-.226.226.4.4 0 0 1 0 .566.16.16 0 1 0 .226.226.716.716 0 0 0 0-1.018" />
+                                </svg>Also share tab audio</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-content-full dropdown-window">
+                    <div class="window-options">
+                        <div class="window-grid">
+                            <div class="window-item">
+                                <div class="window-preview"><img src="assets/images/window-1.png" alt="Window 1 Preview"></div>
+                                <div class="window-title">Google Chrome - Meet Share Screen</div>
+                            </div>
+                            <div class="window-item">
+                                <div class="window-preview"><img src="assets/images/window-2.png" alt="Window 2 Preview"></div>
+                                <div class="window-title">Visual Studio Code - VSS-CODEBASE</div>
+                            </div>
+                            <div class="window-item">
+                                <div class="window-preview"><img src="assets/images/window-3.png" alt="Window 3 Preview"></div>
+                                <div class="window-title">Photos - WhatsApp Image 2026-1-31 at 12.36.08</div>
+                            </div>
+                            <div class="window-item">
+                                <div class="window-preview"><img src="assets/images/window-4.png" alt="Window 4 Preview"></div>
+                                <div class="window-title">YouTube Music</div>
+                            </div>
+
+                        </div>
+
+                        <div class="sound-toggle">
+
+
+                            <span><svg class="svg-audio" xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                    viewBox="0 0 2.56 2.56" xml:space="preserve">
+                                    <path
+                                        d="M1.28.48v1.6c0 .088-.062.123-.137.078l-.526-.315A.7.7 0 0 0 .32 1.76H.24a.16.16 0 0 1-.16-.16V.96A.16.16 0 0 1 .24.8h.08A.7.7 0 0 0 .617.718l.526-.315c.075-.046.137-.011.137.077m.848-.048a.16.16 0 1 0-.226.226c.166.166.258.387.258.622s-.092.456-.258.622a.16.16 0 1 0 .226.226c.227-.226.352-.527.352-.848S2.355.658 2.128.432m-.339.339a.16.16 0 1 0-.226.226.4.4 0 0 1 0 .566.16.16 0 1 0 .226.226.716.716 0 0 0 0-1.018" />
+                                </svg>Also share all audio outputs</span>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-content-full dropdown-screen">
+                    <div class="entire-screen-options">
+                        <div class="screen-grid">
+                            <div class="screen-item">
+                                <div class="screen-image"><img src="assets/images/screen-1.png" alt="Display 1 Preview"></div>
+                                <div class="screen-title">Display 1 | 1920 x 1080</div>
+                            </div>
+                            <div class="screen-item">
+                                <div class="screen-image"><img src="assets/images/screen-2.png" alt="Display 2 Preview"></div>
+                                <div class="screen-title">Display 2 | 1366 x 768</div>
+                            </div>
+                        </div>
+
+                        <div class="sound-toggle">
+
+
+                            <span><svg class="svg-audio" xmlns="http://www.w3.org/2000/svg" width="64" height="64"
+                                    viewBox="0 0 2.56 2.56" xml:space="preserve">
+                                    <path
+                                        d="M1.28.48v1.6c0 .088-.062.123-.137.078l-.526-.315A.7.7 0 0 0 .32 1.76H.24a.16.16 0 0 1-.16-.16V.96A.16.16 0 0 1 .24.8h.08A.7.7 0 0 0 .617.718l.526-.315c.075-.046.137-.011.137.077m.848-.048a.16.16 0 1 0-.226.226c.166.166.258.387.258.622s-.092.456-.258.622a.16.16 0 1 0 .226.226c.227-.226.352-.527.352-.848S2.355.658 2.128.432m-.339.339a.16.16 0 1 0-.226.226.4.4 0 0 1 0 .566.16.16 0 1 0 .226.226.716.716 0 0 0 0-1.018" />
+                                </svg>Also share system audio</span>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <div class="button cancel">Cancel</div>
+                    <div class="button share">Share</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
