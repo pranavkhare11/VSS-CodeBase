@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 10px;
+        }
+        .cards {
+            background-color: lightblue;
+            border: 2px solid #000;
+            text-align: center;
+            line-height: 100px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .card-1, .card-2, .card-3, .card-4 {
+            flex: 1 1 calc(25% - 10px);
+            height: 100px;
+        }
+        @media (max-width:480px) {
+        
+             .card-2, .card-3, .card-4 {
+             
+                display: none;
+            }
+            .card-1 {
+                flex: 1 1 100%;
+            }
+        }
+        @media (min-width:481px) and (max-width:768px) {
+        
+             .card-3, .card-4 {
+             
+                display: none;
+            }
+            .card-1, .card-2 {
+                flex: 1 1 calc(50% - 10px);
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cards card-1">Div-1</div>
+        <div class="cards card-2">Div-2</div>
+        <div class="cards card-3">Div-3</div>
+        <div class="cards card-4">Div-4</div>
+    </div>
+</body>
+</html>

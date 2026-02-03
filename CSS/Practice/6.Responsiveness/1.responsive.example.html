@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Example</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        /* For Mobile or smaller devices */
+        @media screen and (max-width: 480px) {
+            body {
+                background-color: lightcoral;
+                font-size: 12px;
+                padding: 12;
+            }
+
+            p {
+                line-height: 2.5;
+            }
+        }
+
+        /* For tablets or medium-sized devices */
+        @media screen and (min-width: 481px) and (max-width: 768px) {
+            body {
+                background-color: lightseagreen;
+            }
+        }
+
+        /* For desktops or larger devices */
+        @media screen and (min-width: 769px) {
+            body {
+                background-color: burlywood;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>This is a Responsive Example</h1>
+    <p>
+        Resize the browser window to see how the content adapts to different
+        screen sizes. Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+        Sit atque, vel harum in alias dolores laboriosam aliquam sint consequuntur
+        tempora impedit commodi omnis quos nemo hic quibusdam. Ducimus, optio
+        quos!
+    </p>
+</body>
+
+</html>
