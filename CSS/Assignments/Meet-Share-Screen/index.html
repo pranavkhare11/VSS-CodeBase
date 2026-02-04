@@ -102,6 +102,7 @@
             height: 445px;
             position: relative;
         }
+
         /* #endregion */
 
         /* Display content based on checked radio */
@@ -144,11 +145,15 @@
             flex-direction: column;
             max-height: 360px;
             overflow-y: scroll;
+            
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         ::-webkit-scrollbar {
             display: none;
         }
+
 
         .tabs li {
             display: flex;
@@ -235,6 +240,7 @@
             color: #cccccc;
             font-weight: 600;
         }
+
         .window-preview img {
             width: 100%;
             height: 100%;
@@ -258,6 +264,7 @@
             flex-direction: column;
             gap: 15px;
         }
+
         .screen-grid {
             display: grid;
             grid-template-columns: repeat(3, 2fr);
@@ -265,6 +272,7 @@
             min-height: 345px;
             overflow-y: auto;
         }
+
         .screen-item {
             border-radius: 10px;
             cursor: pointer;
@@ -272,9 +280,11 @@
             flex-direction: column;
             align-items: center;
         }
+
         .screen-item:hover {
             background-color: #5a6974;
         }
+
         .screen-image {
             width: 100%;
             height: 120px;
@@ -287,17 +297,20 @@
             color: #cccccc;
             font-weight: 600;
         }
+
         .screen-image img {
             width: 100%;
             height: 100%;
             border-radius: 6px;
             object-fit: cover;
         }
+
         .screen-title {
             font-size: 14px;
             color: #d0d0d0;
             text-align: center;
         }
+
         /* #endregion */
 
         /* #region: Switch Styles */
@@ -605,19 +618,23 @@
                     <div class="window-options">
                         <div class="window-grid">
                             <div class="window-item">
-                                <div class="window-preview"><img src="assets/images/window-1.png" alt="Window 1 Preview"></div>
+                                <div class="window-preview"><img src="assets/images/window-1.png"
+                                        alt="Window 1 Preview"></div>
                                 <div class="window-title">Google Chrome - Meet Share Screen</div>
                             </div>
                             <div class="window-item">
-                                <div class="window-preview"><img src="assets/images/window-2.png" alt="Window 2 Preview"></div>
+                                <div class="window-preview"><img src="assets/images/window-2.png"
+                                        alt="Window 2 Preview"></div>
                                 <div class="window-title">Visual Studio Code - VSS-CODEBASE</div>
                             </div>
                             <div class="window-item">
-                                <div class="window-preview"><img src="assets/images/window-3.png" alt="Window 3 Preview"></div>
+                                <div class="window-preview"><img src="assets/images/window-3.png"
+                                        alt="Window 3 Preview"></div>
                                 <div class="window-title">Photos - WhatsApp Image 2026-1-31 at 12.36.08</div>
                             </div>
                             <div class="window-item">
-                                <div class="window-preview"><img src="assets/images/window-4.png" alt="Window 4 Preview"></div>
+                                <div class="window-preview"><img src="assets/images/window-4.png"
+                                        alt="Window 4 Preview"></div>
                                 <div class="window-title">YouTube Music</div>
                             </div>
 
@@ -643,11 +660,13 @@
                     <div class="entire-screen-options">
                         <div class="screen-grid">
                             <div class="screen-item">
-                                <div class="screen-image"><img src="assets/images/screen-1.png" alt="Display 1 Preview"></div>
+                                <div class="screen-image"><img src="assets/images/screen-1.png" alt="Display 1 Preview">
+                                </div>
                                 <div class="screen-title">Display 1 | 1920 x 1080</div>
                             </div>
                             <div class="screen-item">
-                                <div class="screen-image"><img src="assets/images/screen-2.png" alt="Display 2 Preview"></div>
+                                <div class="screen-image"><img src="assets/images/screen-2.png" alt="Display 2 Preview">
+                                </div>
                                 <div class="screen-title">Display 2 | 1366 x 768</div>
                             </div>
                         </div>
