@@ -27,7 +27,7 @@
             font-style: normal;
         }
 
-        @media (min-width:481px) and (max-width: 900px) {
+        @media screen and (min-width:481px) and (max-width: 900px) {
             aside {
                 display: none;
             }
@@ -42,22 +42,21 @@
             }
         }
 
-        @media (max-width:480px) {
+        @media screen and (max-width:480px) {
             aside {
                 display: none;
             }
 
             .product-container {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(1, 1fr);
                 gap: 5px;
-                background-color: red !important;
+                width: 100%;
             }
 
             .product-card {
                 transform: scale(0.8);
                 margin-top: 0;
                 margin-bottom: 0;
-                border: 5px solid blue !important;
             }
         }
 
@@ -71,10 +70,11 @@
             font-family: Assistant, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #ffffff;
             /* Removed #fcfcfc, set to white */
-            width: 100%;
+            /* width: 100%; */
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+
             margin: 0px;
         }
 
@@ -99,11 +99,10 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 89px;
+            height: 75px;
             padding: 0 20px;
             margin: 0;
             box-sizing: border-box;
-            margin-top: 2px;
         }
 
         .nav-left {
@@ -122,13 +121,19 @@
             display: flex;
             align-items: center;
             margin-left: 10px;
-            gap: 20px;
+            gap: 18px;
         }
 
-        .jump-links div {
+        .jump-links>.jump-men,
+        .jump-links>.jump-women,
+        .jump-links>.jump-kids,
+        .jump-links>.jump-home,
+        .jump-links>.jump-beauty,
+        .jump-links>.jump-genz,
+        .jump-links>.jump-studio {
             display: flex;
-            line-height: 80px;
-            font-size: 18px;
+            line-height: 70px;
+            font-size: 16px;
             font-weight: 700;
             width: 70px;
             color: #282c3f;
@@ -141,8 +146,104 @@
             justify-content: center;
         }
 
-        .jump-links .jump-studio {
+        .jump-overlay {
+            position: absolute;
+            top: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85vw;
+            min-width: 80vw;
+            max-width: 90vw;
+            background-color: white;
+            display: none;
+            flex-direction: row;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 0px 40px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            z-index: 200;
+        }
 
+        .jump-overlay-links-collumn {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            flex: 1 1 20%;
+            min-width: 180px;
+            padding: 12px 16px;
+            height:-webkit-fill-available;
+        }
+
+        .jump-overlay-links-collumn:nth-child(even) {
+            background-color: #f5f5f5;
+            border-radius: 4px;
+        }
+
+        .jump-overlay-links-category {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .jump-overlay-links-collumn .jump-overlay-links-category:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .jump-overlay .jump-overlay-links,
+        .jump-overlay .ee5f73-link-heading,
+        .jump-overlay .fb56c1-link-heading,
+        .jump-overlay .f26a10-link-heading,
+        .jump-overlay .f2c210-link-heading,
+        .jump-overlay ._0db7af-link-heading,
+        .jump-overlay .ff3f6c-link-heading {
+            font-size: 14px;
+        }
+
+        .jump-overlay .jump-overlay-links:hover {
+            font-weight: 600;
+        }
+
+        .jump-overlay .ee5f73-link-heading {
+            color: #ee5f73;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-overlay .fb56c1-link-heading {
+            color: #fb56c1;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-overlay .f26a10-link-heading {
+            color: #f26a10;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-overlay .f2c210-link-heading {
+            color: #f2c210;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-overlay ._0db7af-link-heading {
+            color: #0db7af;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-overlay .ff3f6c-link-heading {
+            color: #ff3f6c;
+            font-weight: 600;
+            margin-left: 0;
+        }
+
+        .jump-links .jump-studio {
             width: 90px;
         }
 
@@ -150,30 +251,104 @@
             border-bottom: 4px solid #ee5f73;
         }
 
+        .jump-links .jump-men:hover+.jump-overlay {
+            display: flex;
+        }
+
+        .jump-overlay:hover {
+            display: flex;
+        }
+
         .jump-links .jump-women:hover {
             border-bottom: 4px solid #fb56c1;
+        }
+
+        .jump-links .jump-women:hover+.jump-overlay {
+            display: flex;
         }
 
         .jump-links .jump-kids:hover {
             border-bottom: 4px solid #f26a10;
         }
 
+        .jump-links .jump-kids:hover+.jump-overlay {
+            display: flex;
+        }
+
         .jump-links .jump-home:hover {
             border-bottom: 4px solid #f2c210;
+        }
+
+        .jump-links .jump-home:hover+.jump-overlay {
+            display: flex;
         }
 
         .jump-links .jump-beauty:hover {
             border-bottom: 4px solid #0db7af;
         }
 
+        .jump-links .jump-beauty:hover+.jump-overlay {
+            display: flex;
+        }
+
         .jump-links .jump-genz:hover {
             border-bottom: 4px solid #0db7af;
+        }
+
+        .jump-links .jump-genz:hover+.jump-overlay {
+            display: flex;
         }
 
         .jump-links .jump-studio:hover {
             border-bottom: 4px solid #ff3f6c;
         }
 
+        .jump-links .jump-studio:hover+.jump-overlay-studio {
+            display: flex;
+        }
+
+        .jump-overlay-studio {
+            display: none;
+            position: absolute;
+            flex-direction: column;
+            top: 76px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 500px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            z-index: 200;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .jump-overlay-studio .jump-overlay-studio-img-1 {
+            margin-top: 20px;
+            width: 20%;
+        }
+        .jump-overlay-studio .jump-overlay-studio-text {
+            margin: 20px 0;
+            font-size: 18px;
+            color: #282c3f;
+            font-weight: 500;
+        }
+        .jump-overlay-studio .jump-overlay-studio-img-2 {
+            width: 90%;
+        }
+        .jump-overlay-studio .jump-overlay-studio-button {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 14px;
+            font-weight: 600;
+            color: #07080c;
+            border: 1px solid #686868;
+        }
         .jump-links sup {
             color: #ff3f6c;
             font-size: 10px;
@@ -244,7 +419,6 @@
             overflow: hidden;
             position: relative;
             margin-right: 10px;
-            margin-left: 40px;
         }
 
         .logo {
@@ -293,7 +467,7 @@
         /* #region Breadcrumbs & Page Info */
         .breadcrumb {
             margin: 20px 0;
-            padding: 0 30px;
+            padding: 0 20px;
             font-size: 17px;
             color: #7d7d7d;
             box-sizing: border-box;
@@ -306,7 +480,7 @@
 
         .page-name-item-count {
             margin: 0px 0 20px 0;
-            padding: 0 30px;
+            padding: 0 20px;
             font-size: 19px;
             box-sizing: border-box;
         }
@@ -326,7 +500,7 @@
         .content-wrapper {
             display: flex;
             gap: 0;
-            padding: 0 30px 0px 0px;
+            padding: 0 20px 0px 0px;
             box-sizing: border-box;
             margin: 0;
         }
@@ -357,12 +531,12 @@
             font-weight: 700;
             color: #282c3f;
             border-bottom: 1px solid #e9e9ed;
-            padding: 15px 20px 15px 30px;
+            padding: 15px 20px 15px 20px;
         }
 
         .filter-types {
             border-bottom: 1px solid #e9e9ed;
-            padding: 15px 20px 20px 30px;
+            padding: 15px 20px 20px 20px;
             border-right: 1px solid #e9e9ed;
 
         }
@@ -448,7 +622,7 @@
 
         main {
             flex-grow: 1;
-            /* padding: 0 0 20px 25px; */
+            padding: 0 20px 0 0;
             box-sizing: border-box;
         }
 
@@ -457,7 +631,6 @@
             display: flex;
             flex-direction: column;
             border-bottom: 1px solid #e9e9ed;
-            padding-left: 25px;
             width: calc(100% + 25px);
             position: relative;
             /* Added Shadow */
@@ -468,13 +641,14 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 6px 0 5px 0;
+            padding: 7px 0 5px 0;
             width: 100%;
         }
 
         .main-header-container {
             display: flex;
             gap: 15px;
+            padding-left: 15px;
         }
 
         /* Hidden Radios for Toggle Logic */
@@ -637,15 +811,13 @@
 
         /* #endregion */
 
-
         #main-wrapper {
-            padding: 20px 20px 0 30px;
+            padding: 20px 20px 0 20px;
             width: 100%;
 
             border-bottom: 1px solid #e9e9ed;
 
         }
-
 
         /* #region Products Grid */
 
@@ -839,6 +1011,7 @@
 
         /* #endregion */
 
+        /* #region Card Navigation */
         .card-navigation {
             width: 100%;
             z-index: 500;
@@ -883,6 +1056,8 @@
         .next-page-button:hover {
             border: 1px solid #969696;
         }
+
+        /* #endregion */
     </style>
 </head>
 
@@ -896,13 +1071,631 @@
                 </a>
                 <div class="jump-links">
                     <div class="jump-men"><a href="#">Men</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Topwear</a>
+                                <a class="jump-overlay-links" href="#">T-Shirts</a>
+                                <a class="jump-overlay-links" href="#">Casual Shirts</a>
+                                <a class="jump-overlay-links" href="#">Formal Shirts</a>
+                                <a class="jump-overlay-links" href="#">Sweatshirts</a>
+                                <a class="jump-overlay-links" href="#">Sweaters</a>
+                                <a class="jump-overlay-links" href="#">Jackets</a>
+                                <a class="jump-overlay-links" href="#">Blazers & Coats</a>
+                                <a class="jump-overlay-links" href="#">Suits</a>
+                                <a class="jump-overlay-links" href="#">Rain Jackets</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Indian & Festive Wear</a>
+                                <a class="jump-overlay-links" href="#">Kurtas & Kurta Sets</a>
+                                <a class="jump-overlay-links" href="#">Sherwanis</a>
+                                <a class="jump-overlay-links" href="#">Nehru Jackets</a>
+                                <a class="jump-overlay-links" href="#">Dhotis</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Bottomwear</a>
+                                <a class="jump-overlay-links" href="#">Jeans</a>
+                                <a class="jump-overlay-links" href="#">Casual Trousers</a>
+                                <a class="jump-overlay-links" href="#">Formal Trousers</a>
+                                <a class="jump-overlay-links" href="#">Shorts</a>
+                                <a class="jump-overlay-links" href="#">Track Pants & Joggers</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Innerwear & Sleepwear</a>
+                                <a class="jump-overlay-links" href="#">Briefs & Trunks</a>
+                                <a class="jump-overlay-links" href="#">Boxers</a>
+                                <a class="jump-overlay-links" href="#">Vests</a>
+                                <a class="jump-overlay-links" href="#">Sleepwear & Loungewear</a>
+                                <a class="jump-overlay-links" href="#">Thermals</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Plus Size</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Footwear</a>
+                                <a class="jump-overlay-links" href="#">Casual Shoes</a>
+                                <a class="jump-overlay-links" href="#">Sports Shoes</a>
+                                <a class="jump-overlay-links" href="#">Formal Shoes</a>
+                                <a class="jump-overlay-links" href="#">Sneakers</a>
+                                <a class="jump-overlay-links" href="#">Sandals & Floaters</a>
+                                <a class="jump-overlay-links" href="#">Flip Flops</a>
+                                <a class="jump-overlay-links" href="#">Socks</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Personal Care & Grooming</a>
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Sunglasses & Frames</a>
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Watches</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Sports & Active Wear</a>
+                                <a class="jump-overlay-links" href="#">Sports Shoes</a>
+                                <a class="jump-overlay-links" href="#">Sports Sandals</a>
+                                <a class="jump-overlay-links" href="#">Active T-Shirts</a>
+                                <a class="jump-overlay-links" href="#">Track Pants & Shorts</a>
+                                <a class="jump-overlay-links" href="#">Tracksuits</a>
+                                <a class="jump-overlay-links" href="#">Jackets & Sweatshirts</a>
+                                <a class="jump-overlay-links" href="#">Sports Accessories</a>
+                                <a class="jump-overlay-links" href="#">Swimwear</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Gadgets</a>
+                                <a class="jump-overlay-links" href="#">Smart Wearables</a>
+                                <a class="jump-overlay-links" href="#">Fitness Gadgets</a>
+                                <a class="jump-overlay-links" href="#">Headphones</a>
+                                <a class="jump-overlay-links" href="#">Speakers</a>
+                                <a class="jump-overlay-links" href="#">Gaming Accessories</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Fashion Accessories</a>
+                                <a class="jump-overlay-links" href="#">Wallets</a>
+                                <a class="jump-overlay-links" href="#">Belts</a>
+                                <a class="jump-overlay-links" href="#">Perfumes & Body Mists</a>
+                                <a class="jump-overlay-links" href="#">Trimmers</a>
+                                <a class="jump-overlay-links" href="#">Deodorants</a>
+                                <a class="jump-overlay-links" href="#">Ties, Cufflinks & Pocket Squares</a>
+                                <a class="jump-overlay-links" href="#">Accessory Gift Sets</a>
+                                <a class="jump-overlay-links" href="#">Caps & Hats</a>
+                                <a class="jump-overlay-links" href="#">Mufflers, Scarves & Gloves</a>
+                                <a class="jump-overlay-links" href="#">Phone Cases</a>
+                                <a class="jump-overlay-links" href="#">Rings & Wristwear</a>
+                                <a class="jump-overlay-links" href="#">Helmets</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Bags & Backpacks</a>
+                                <a class="jump-overlay-links ee5f73-link-heading" href="#">Luggages & Trolleys</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="jump-women"><a href="#">Women</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Indian & Fusion Wear</a>
+                                <a class="jump-overlay-links" href="#">Kurtas & Suits</a>
+                                <a class="jump-overlay-links" href="#">Kurtis, Tunics & Tops</a>
+                                <a class="jump-overlay-links" href="#">Sarees</a>
+                                <a class="jump-overlay-links" href="#">Ethnic Wear</a>
+                                <a class="jump-overlay-links" href="#">Leggings, Salwars & Churidars</a>
+                                <a class="jump-overlay-links" href="#">Skirts & Palazzos</a>
+                                <a class="jump-overlay-links" href="#">Dress Materials</a>
+                                <a class="jump-overlay-links" href="#">Lehenga Cholis</a>
+                                <a class="jump-overlay-links" href="#">Dupattas & Shawls</a>
+                                <a class="jump-overlay-links" href="#">Jackets</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Belts, Scarves & More</a>
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Watches & Wearables</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Western Wear</a>
+                                <a class="jump-overlay-links" href="#">Dresses</a>
+                                <a class="jump-overlay-links" href="#">Tops</a>
+                                <a class="jump-overlay-links" href="#">Tshirts</a>
+                                <a class="jump-overlay-links" href="#">Jeans</a>
+                                <a class="jump-overlay-links" href="#">Trousers & Capris</a>
+                                <a class="jump-overlay-links" href="#">Shorts & Skirts</a>
+                                <a class="jump-overlay-links" href="#">Co-ords</a>
+                                <a class="jump-overlay-links" href="#">Playsuits</a>
+                                <a class="jump-overlay-links" href="#">Jumpsuits</a>
+                                <a class="jump-overlay-links" href="#">Shrugs</a>
+                                <a class="jump-overlay-links" href="#">Sweaters & Sweatshirts</a>
+                                <a class="jump-overlay-links" href="#">Jackets & Coats</a>
+                                <a class="jump-overlay-links" href="#">Blazers & Waistcoats</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Plus Size</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-column">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Maternity</a>
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Sunglasses & Frames</a>
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Footwear</a>
+                                <a class="jump-overlay-links" href="#">Flats</a>
+                                <a class="jump-overlay-links" href="#">Casual Shoes</a>
+                                <a class="jump-overlay-links" href="#">Heels</a>
+                                <a class="jump-overlay-links" href="#">Boots</a>
+                                <a class="jump-overlay-links" href="#">Sports Shoes & Floaters</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Sports & Active Wear</a>
+                                <a class="jump-overlay-links" href="#">Clothing</a>
+                                <a class="jump-overlay-links" href="#">Footwear</a>
+                                <a class="jump-overlay-links" href="#">Sports Accessories</a>
+                                <a class="jump-overlay-links" href="#">Sports Equipment</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Lingerie & Sleepwear</a>
+                                <a class="jump-overlay-links" href="">Bra</a>
+                                <a class="jump-overlay-links" href="">Briefs</a>
+                                <a class="jump-overlay-links" href="">Shapewear</a>
+                                <a class="jump-overlay-links" href="">Sleepwear & Loungewear</a>
+                                <a class="jump-overlay-links" href="">Swimwear</a>
+                                <a class="jump-overlay-links" href="">Camisoles & Thermals</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Beauty & Personal Care</a>
+                                <a class="jump-overlay-links" href="#">Makeup</a>
+                                <a class="jump-overlay-links" href="#">Skincare</a>
+                                <a class="jump-overlay-links" href="#">Premium Beauty</a>
+                                <a class="jump-overlay-links" href="#">Lipsticks</a>
+                                <a class="jump-overlay-links" href="#">Fragrances</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Gadgets</a>
+                                <a class="jump-overlay-links" href="#">Smart Wearables</a>
+                                <a class="jump-overlay-links" href="#">Fitness Gadgets</a>
+                                <a class="jump-overlay-links" href="#">Headphones</a>
+                                <a class="jump-overlay-links" href="#">Speakers</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Jewellery</a>
+                                <a class="jump-overlay-links" href="#">Fashion Jewellery</a>
+                                <a class="jump-overlay-links" href="#">Fine Jewellery</a>
+                                <a class="jump-overlay-links" href="#">Earrings</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Bags & Luggage</a>
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Handbags, Bags & Wallets</a>
+                                <a class="jump-overlay-links fb56c1-link-heading" href="#">Luggages & Trolleys</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="jump-kids"><a href="#">Kids</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Boys Clothing</a>
+                                <a class="jump-overlay-links" href="#">T-Shirts</a>
+                                <a class="jump-overlay-links" href="#">Shirts</a>
+                                <a class="jump-overlay-links" href="#">Shorts</a>
+                                <a class="jump-overlay-links" href="#">Jeans</a>
+                                <a class="jump-overlay-links" href="#">Trousers</a>
+                                <a class="jump-overlay-links" href="#">Clothing Sets</a>
+                                <a class="jump-overlay-links" href="#">Ethnic Wear</a>
+                                <a class="jump-overlay-links" href="#">Track Pants & Pyjamas</a>
+                                <a class="jump-overlay-links" href="#">Jacket, Sweater & Sweatshirts</a>
+                                <a class="jump-overlay-links" href="#">Party Wear</a>
+                                <a class="jump-overlay-links" href="#">Innerwear & Thermals</a>
+                                <a class="jump-overlay-links" href="#">Nightwear & Loungewear</a>
+                                <a class="jump-overlay-links" href="#">Value Packs</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Girls Clothing</a>
+                                <a class="jump-overlay-links" href="#">Dresses</a>
+                                <a class="jump-overlay-links" href="#">Tops</a>
+                                <a class="jump-overlay-links" href="#">Tshirts</a>
+                                <a class="jump-overlay-links" href="#">Clothing Sets</a>
+                                <a class="jump-overlay-links" href="#">Lehenga choli</a>
+                                <a class="jump-overlay-links" href="#">Kurta Sets</a>
+                                <a class="jump-overlay-links" href="#">Party wear</a>
+                                <a class="jump-overlay-links" href="#">Dungarees & Jumpsuits</a>
+                                <a class="jump-overlay-links" href="#">Skirts & shorts</a>
+                                <a class="jump-overlay-links" href="#">Tights & Leggings</a>
+                                <a class="jump-overlay-links" href="#">Jeans, Trousers & Capris</a>
+                                <a class="jump-overlay-links" href="#">Jacket, Sweater & Sweatshirts</a>
+                                <a class="jump-overlay-links" href="#">Innerwear & Thermals</a>
+                                <a class="jump-overlay-links" href="#">Nightwear & Loungewear</a>
+                                <a class="jump-overlay-links" href="#">Value Packs</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Footwear</a>
+                                <a class="jump-overlay-links" href="#">Casual Shoes</a>
+                                <a class="jump-overlay-links" href="#">Flipflops</a>
+                                <a class="jump-overlay-links" href="#">Sports Shoes</a>
+                                <a class="jump-overlay-links" href="#">Flats</a>
+                                <a class="jump-overlay-links" href="#">Sandals</a>
+                                <a class="jump-overlay-links" href="#">Heels</a>
+                                <a class="jump-overlay-links" href="#">School Shoes</a>
+                                <a class="jump-overlay-links" href="#">Socks</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Toys & Games</a>
+                                <a class="jump-overlay-links" href="#">Learning & Development</a>
+                                <a class="jump-overlay-links" href="#">Activity Toys</a>
+                                <a class="jump-overlay-links" href="#">Soft Toys</a>
+                                <a class="jump-overlay-links" href="#">Action Figure / Play set</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Infants</a>
+                                <a class="jump-overlay-links" href="#">Bodysuits</a>
+                                <a class="jump-overlay-links" href="#">Rompers & Sleepsuits</a>
+                                <a class="jump-overlay-links" href="#">Clothing Sets</a>
+                                <a class="jump-overlay-links" href="#">Tshirts & Tops</a>
+                                <a class="jump-overlay-links" href="#">Dresses</a>
+                                <a class="jump-overlay-links" href="#">Bottom wear</a>
+                                <a class="jump-overlay-links" href="#">Winter Wear</a>
+                                <a class="jump-overlay-links" href="#">Innerwear & Sleepwear</a>
+                                <a class="jump-overlay-links" href="#">Infant Care</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Home & Bath</a>
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Personal Care</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Kids Accessories</a>
+                                <a class="jump-overlay-links" href="#">Bags & Backpacks</a>
+                                <a class="jump-overlay-links" href="#">>Watches</a>
+                                <a class="jump-overlay-links" href="#">Jewellery & Hair accessory</a>
+                                <a class="jump-overlay-links" href="#">Sunglasses</a>
+                                <a class="jump-overlay-links" href="#">Masks & Protective Gears</a>
+                                <a class="jump-overlay-links" href="#">Caps & Hats</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f26a10-link-heading" href="#">Brands</a>
+                                <a class="jump-overlay-links" href="#">H&M</a>
+                                <a class="jump-overlay-links" href="#">>Max Kids</a>
+                                <a class="jump-overlay-links" href="#">Pantaloons</a>
+                                <a class="jump-overlay-links" href="#">United Colors Of Benetton Kids</a>
+                                <a class="jump-overlay-links" href="#">YK</a>
+                                <a class="jump-overlay-links" href="#">U.S. Polo Assn. Kids</a>
+                                <a class="jump-overlay-links" href="#">Mothercare</a>
+                                <a class="jump-overlay-links" href="#">HRX</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="jump-home"><a href="#">Home</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Bed Linen & Furnishing</a>
+                                <a class="jump-overlay-links" href="#">Bed Runners</a>
+                                <a class="jump-overlay-links" href="#">Mattress Protectors</a>
+                                <a class="jump-overlay-links" href="#">Bedsheets</a>
+                                <a class="jump-overlay-links" href="#">Bedding Sets</a>
+                                <a class="jump-overlay-links" href="#">Blankets, Quilts & Dohars</a>
+                                <a class="jump-overlay-links" href="#">Pillows & Pillow Covers</a>
+                                <a class="jump-overlay-links" href="#">Bed Covers</a>
+                                <a class="jump-overlay-links" href="#">Diwan Sets</a>
+                                <a class="jump-overlay-links" href="#">Chair Pads & Covers</a>
+                                <a class="jump-overlay-links" href="#">Sofa Covers</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Flooring</a>
+                                <a class="jump-overlay-links" href="#">Floor Runners</a>
+                                <a class="jump-overlay-links" href="#"></a>Carpets</a>
+                                <a class="jump-overlay-links" href="#">Floor Mats & Dhurries</a>
+                                <a class="jump-overlay-links" href="#">Door Mats</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Bath</a>
+                                <a class="jump-overlay-links" href="#">Bath Towels</a>
+                                <a class="jump-overlay-links" href="#">Hand & Face Towels</a>
+                                <a class="jump-overlay-links" href="#">Beach Towels</a>
+                                <a class="jump-overlay-links" href="#">Towels Set</a>
+                                <a class="jump-overlay-links" href="#">Bath Rugs</a>
+                                <a class="jump-overlay-links" href="#">Bath Robes</a>
+                                <a class="jump-overlay-links" href="#">Bathroom Accessories</a>
+                                <a class="jump-overlay-links" href="#">Shower Curtains</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Lamps & Lighting</a>
+                                <a class="jump-overlay-links" href="#">Floor Lamps</a>
+                                <a class="jump-overlay-links" href="#">Ceiling Lamps</a>
+                                <a class="jump-overlay-links" href="#">Table Lamps</a>
+                                <a class="jump-overlay-links" href="#">Wall Lamps</a>
+                                <a class="jump-overlay-links" href="#">Outdoor Lamps</a>
+                                <a class="jump-overlay-links" href="#">String Lights</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Home Décor</a>
+                                <a class="jump-overlay-links" href="#">Plants & Planters</a>
+                                <a class="jump-overlay-links" href="#">Aromas & Candles</a>
+                                <a class="jump-overlay-links" href="#">Clocks</a>
+                                <a class="jump-overlay-links" href="#">Mirrors</a>
+                                <a class="jump-overlay-links" href="#">Wall Décor</a>
+                                <a class="jump-overlay-links" href="#">Festive Decor</a>
+                                <a class="jump-overlay-links" href="#">Pooja Essentials</a>
+                                <a class="jump-overlay-links" href="#">Wall Shelves</a>
+                                <a class="jump-overlay-links" href="#">Fountains</a>
+                                <a class="jump-overlay-links" href="#">Showpieces & Vases</a>
+                                <a class="jump-overlay-links" href="#">Ottoman</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Cushions & Cushion Covers</a>
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Curtains</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Furniture</a>
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Home Gift Sets</a>
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Kitchen & Table</a>
+                                <a class="jump-overlay-links" href="#">Table Runners</a>
+                                <a class="jump-overlay-links" href="#">Dinnerware & Serveware</a>
+                                <a class="jump-overlay-links" href="#">Cups and Mugs</a>
+                                <a class="jump-overlay-links" href="#">Bakeware & Cookware</a>
+                                <a class="jump-overlay-links" href="#">Kitchen Storage & Tools</a>
+                                <a class="jump-overlay-links" href="#">Bar & Drinkware</a>
+                                <a class="jump-overlay-links" href="#">Table Covers & Furnishings</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links f2c210-link-heading" href="#">Storage</a>
+                                <a class="jump-overlay-links" href="#">Bins</a>
+                                <a class="jump-overlay-links" href="#">Hangers</a>
+                                <a class="jump-overlay-links" href="#">Organisers</a>
+                                <a class="jump-overlay-links" href="#">Hooks & Holders</a>
+                                <a class="jump-overlay-links" href="#">Laundry Bags</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="jump-beauty"><a href="#">Beauty</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Makeup</a>
+                                <a class="jump-overlay-links" href="#">Lipstick</a>
+                                <a class="jump-overlay-links" href="#">Lip Gloss</a>
+                                <a class="jump-overlay-links" href="#">Lip Liner</a>
+                                <a class="jump-overlay-links" href="#">Mascara</a>
+                                <a class="jump-overlay-links" href="#">Eyeliner</a>
+                                <a class="jump-overlay-links" href="#">Kajal</a>
+                                <a class="jump-overlay-links" href="#">Eyeshadow</a>
+                                <a class="jump-overlay-links" href="#">Foundation</a>
+                                <a class="jump-overlay-links" href="#">Primer</a>
+                                <a class="jump-overlay-links" href="#">Concealer</a>
+                                <a class="jump-overlay-links" href="#">Compact</a>
+                                <a class="jump-overlay-links" href="#">Nail Polish</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Skincare, Bath & Body</a>
+                                <a class="jump-overlay-links" href="#">Face Moisturiser</a>
+                                <a class="jump-overlay-links" href="#">Cleanser</a>
+                                <a class="jump-overlay-links" href="#">Masks & Peel</a>
+                                <a class="jump-overlay-links" href="#">Sunscreen</a>
+                                <a class="jump-overlay-links" href="#">Serum</a>
+                                <a class="jump-overlay-links" href="#">Face Wash</a>
+                                <a class="jump-overlay-links" href="#">Eye Cream</a>
+                                <a class="jump-overlay-links" href="#">Lip Balm</a>
+                                <a class="jump-overlay-links" href="#">Body Lotion</a>
+                                <a class="jump-overlay-links" href="#">Body Wash</a>
+                                <a class="jump-overlay-links" href="#">Body Scrub</a>
+                                <a class="jump-overlay-links" href="#">Hand Cream</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Baby Care</a>
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Masks</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Haircare</a>
+                                <a class="jump-overlay-links" href="#">Shampoo</a>
+                                <a class="jump-overlay-links" href="#">Conditioner</a>
+                                <a class="jump-overlay-links" href="#">Hair Cream</a>
+                                <a class="jump-overlay-links" href="#">Hair Oil</a>
+                                <a class="jump-overlay-links" href="#">Hair Gel</a>
+                                <a class="jump-overlay-links" href="#">Hair Color</a>
+                                <a class="jump-overlay-links" href="#">Hair Serum</a>
+                                <a class="jump-overlay-links" href="#">Hair Accessory</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Fragrances</a>
+                                <a class="jump-overlay-links" href="#">Perfume</a>
+                                <a class="jump-overlay-links" href="#">Deodorant</a>
+                                <a class="jump-overlay-links" href="#">Body Mist</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Appliances</a>
+                                <a class="jump-overlay-links" href="#">Hair Straightener</a>
+                                <a class="jump-overlay-links" href="#">Hair Dryer</a>
+                                <a class="jump-overlay-links" href="#">Epilator</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Men's Grooming</a>
+                                <a class="jump-overlay-links" href="#">Trimmers</a>
+                                <a class="jump-overlay-links" href="#">Beard Oil</a>
+                                <a class="jump-overlay-links" href="#">Hair Wax</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Beauty Gift & Makeup
+                                    Set</a>
+                                <a class="jump-overlay-links" href="#">Beauty Gift</a>
+                                <a class="jump-overlay-links" href="#">Makeup Kit</a>
+
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Premium Beauty</a>
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Wellness & Hygiene</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Top Brands</a>
+                                <a class="jump-overlay-links" href="#">Lakme</a>
+                                <a class="jump-overlay-links" href="#">Maybelline</a>
+                                <a class="jump-overlay-links" href="#">L'Oreal</a>
+                                <a class="jump-overlay-links" href="#">Philips</a>
+                                <a class="jump-overlay-links" href="#">Bath & Body Works</a>
+                                <a class="jump-overlay-links" href="#">THE BODY SHOP</a>
+                                <a class="jump-overlay-links" href="#">Biotique</a>
+                                <a class="jump-overlay-links" href="#">Mamaearth</a>
+                                <a class="jump-overlay-links" href="#">MCaffeine</a>
+                                <a class="jump-overlay-links" href="#">Nivea</a>
+                                <a class="jump-overlay-links" href="#">Lotus Herbals</a>
+                                <a class="jump-overlay-links" href="#">L'Oreal Professionnel</a>
+                                <a class="jump-overlay-links" href="#">KAMA AYURVEDA</a>
+                                <a class="jump-overlay-links" href="#">M.A.C</a>
+                                <a class="jump-overlay-links" href="#">Forest Essentials</a>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="jump-genz"><a href="#">GENZ</a></div>
+                    <div class="jump-overlay">
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Women's Western Wear</a>
+                                <a class="jump-overlay-links" href="#">Dresses Under ₹599</a>
+                                <a class="jump-overlay-links" href="#">Tops Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">Jeans Under ₹599</a>
+                                <a class="jump-overlay-links" href="#">Trousers Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">T-shirts Under ₹299</a>
+                                <a class="jump-overlay-links" href="#">Shirts Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Skirts Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Shorts Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Co-ords Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Jumpsuits Under ₹899</a>
+                                <a class="jump-overlay-links" href="#">Track pants Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Jackets Under ₹899</a>
+                                <a class="jump-overlay-links" href="#">Sweatshirts Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Sweaters Under ₹899</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Women's Ethnic Wear</a>
+                                <a class="jump-overlay-links" href="#">Kurtas Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">Kurtis Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Kurta sets Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Ethnic Dresses Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Palazzos Under ₹799</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Lingerie & Loungewear</a>
+                                <a class="jump-overlay-links" href="#">Bras Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">Night suits Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Nightdresses Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Lounge pants Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Briefs Under ₹599</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Men's Casual Wear</a>
+                                <a class="jump-overlay-links" href="#">T-shirts Under ₹299</a>
+                                <a class="jump-overlay-links" href="#">Shirts Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Jeans Under ₹599</a>
+                                <a class="jump-overlay-links" href="#">Trousers Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Shorts Under ₹599</a>
+                                <a class="jump-overlay-links" href="#">Track pants Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Jackets Under ₹899</a>
+                                <a class="jump-overlay-links" href="#">Sweatshirts Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Sweaters Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Co-ords Under ₹999</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Men's Occassion Wear</a>
+                                <a class="jump-overlay-links" href="#">Kurtas Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Kurta Sets Under ₹999</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Women's Footwear</a>
+                                <a class="jump-overlay-links" href="#">Heels Under ₹599</a>
+                                <a class="jump-overlay-links" href="#">Flats Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Casual shoes Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Sports shoes Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Flip flops Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Boots Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Ballerinas Under ₹799</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Men's Footwear</a>
+                                <a class="jump-overlay-links" href="#">Casual shoes Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Sports shoes Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Formal shoes Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Sandals Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Flip flops Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Boots Under ₹999</a>
+                            </div>
+                        </div>
+                        <div class="jump-overlay-links-collumn">
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Beauty & Grooming</a>
+                                <a class="jump-overlay-links" href="#">Skincare Under ₹299</a>
+                                <a class="jump-overlay-links" href="#">Haircare Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">Bath & Body Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">MakeUp Under ₹299</a>
+                                <a class="jump-overlay-links" href="#">Fragrances Under ₹399</a>
+                                <a class="jump-overlay-links" href="#">Appliances Under ₹999</a>
+                            </div>
+                            <div class="jump-overlay-links-category">
+                                <a class="jump-overlay-links _0db7af-link-heading" href="#">Accessories</a>
+                                <a class="jump-overlay-links" href="#">Jewellery Under ₹299</a>
+                                <a class="jump-overlay-links" href="#">Handbags Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Clutches Under ₹999</a>
+                                <a class="jump-overlay-links" href="#">Backpacks Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Wallets Under ₹499</a>
+                                <a class="jump-overlay-links" href="#">Sunglasses Under ₹699</a>
+                                <a class="jump-overlay-links" href="#">Belts Under ₹799</a>
+                                <a class="jump-overlay-links" href="#">Caps Under ₹899</a>
+                            </div>
+                        </div>
+                    </div>
                     <div class="jump-studio"><a href="#">Studio<sup>NEW</sup></a></div>
+                    <div class="jump-overlay-studio">
+
+                        <img class="jump-overlay-studio-img-1"
+                            src="https://constant.myntassets.com/web/assets/img/studio-logo-new.svg" alt="img">
+
+                        <div class="jump-overlay-studio-text">
+                            Your daily inspiration for everything fashion
+                        </div>
+
+                        <img class="jump-overlay-studio-img-2"
+                            src="https://constant.myntassets.com/web/assets/img/sudio-nav-banner.png" alt="img">
+
+                        <div class="jump-overlay-studio-button">
+                            <span class="jump-overlay-studio-button-text">EXPLORE STUDIO</span>
+                            <img src="https://constant.myntassets.com/web/assets/img/chevron-right.svg" alt=">">
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
             <div class="nav-right">
@@ -924,6 +1717,7 @@
                         <span>Bag</span>
                     </a>
                 </div>
+            </div>
             </div>
         </nav>
     </header>
