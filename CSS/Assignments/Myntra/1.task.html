@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buy Latest Men's T-shirts Online at Best Price | Myntra Clone</title>
+    <title>Buy Latest Men's T-shirts Online at Best Price | Myntra</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <style>
@@ -92,7 +92,7 @@
             box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
         }
 
         nav {
@@ -115,6 +115,7 @@
             align-items: center;
             justify-content: center;
             gap: 20px;
+            height: 75px;
         }
 
         .jump-links {
@@ -162,7 +163,7 @@
             padding: 0px 40px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            z-index: 200;
+            z-index: 1001;
         }
 
         .jump-overlay-links-collumn {
@@ -172,7 +173,7 @@
             flex: 1 1 20%;
             min-width: 180px;
             padding: 12px 16px;
-            height:-webkit-fill-available;
+            height: -webkit-fill-available;
         }
 
         .jump-overlay-links-collumn:nth-child(even) {
@@ -251,8 +252,40 @@
             border-bottom: 4px solid #ee5f73;
         }
 
+        /* Dark overlay effect - dims everything except navbar when hovering menu items */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.65);
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Show dark overlay when hovering on jump links or their dropdowns */
+        body:has(.jump-men:hover)::after,
+        body:has(.jump-women:hover)::after,
+        body:has(.jump-kids:hover)::after,
+        body:has(.jump-home:hover)::after,
+        body:has(.jump-beauty:hover)::after,
+        body:has(.jump-genz:hover)::after,
+        body:has(.jump-studio:hover)::after,
+        body:has(.jump-overlay:hover)::after,
+        body:has(.jump-overlay-studio:hover)::after {
+            opacity: 1;
+        }
+
         .jump-links .jump-men:hover+.jump-overlay {
             display: flex;
+        }
+
+        .jump-men:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #ee5f73;
         }
 
         .jump-overlay:hover {
@@ -267,12 +300,20 @@
             display: flex;
         }
 
+        .jump-women:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #fb56c1;
+        }
+
         .jump-links .jump-kids:hover {
             border-bottom: 4px solid #f26a10;
         }
 
         .jump-links .jump-kids:hover+.jump-overlay {
             display: flex;
+        }
+
+        .jump-kids:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #f26a10;
         }
 
         .jump-links .jump-home:hover {
@@ -283,12 +324,20 @@
             display: flex;
         }
 
+        .jump-home:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #f2c210;
+        }
+
         .jump-links .jump-beauty:hover {
             border-bottom: 4px solid #0db7af;
         }
 
         .jump-links .jump-beauty:hover+.jump-overlay {
             display: flex;
+        }
+
+        .jump-beauty:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #0db7af;
         }
 
         .jump-links .jump-genz:hover {
@@ -299,12 +348,20 @@
             display: flex;
         }
 
+        .jump-genz:has(+ .jump-overlay:hover) {
+            border-bottom: 4px solid #0db7af;
+        }
+
         .jump-links .jump-studio:hover {
             border-bottom: 4px solid #ff3f6c;
         }
 
         .jump-links .jump-studio:hover+.jump-overlay-studio {
             display: flex;
+        }
+
+        .jump-studio:has(+ .jump-overlay-studio:hover) {
+            border-bottom: 4px solid #ff3f6c;
         }
 
         .jump-overlay-studio {
@@ -318,24 +375,31 @@
             background-color: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             box-sizing: border-box;
-            z-index: 200;
+            z-index: 1001;
             justify-content: center;
             align-items: center;
+        }
+
+        .jump-overlay-studio:hover {
+            display: flex;
         }
 
         .jump-overlay-studio .jump-overlay-studio-img-1 {
             margin-top: 20px;
             width: 20%;
         }
+
         .jump-overlay-studio .jump-overlay-studio-text {
             margin: 20px 0;
             font-size: 18px;
             color: #282c3f;
             font-weight: 500;
         }
+
         .jump-overlay-studio .jump-overlay-studio-img-2 {
             width: 90%;
         }
+
         .jump-overlay-studio .jump-overlay-studio-button {
             margin: 20px 0;
             display: flex;
@@ -349,6 +413,7 @@
             color: #07080c;
             border: 1px solid #686868;
         }
+
         .jump-links sup {
             color: #ff3f6c;
             font-size: 10px;
@@ -392,6 +457,7 @@
             align-items: center;
             justify-content: center;
             gap: 25px;
+            height: 75px;
         }
 
         .nav-icons {
@@ -408,8 +474,100 @@
             margin-top: 2px;
         }
 
+        .nav-icons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            height: 75px;
+            justify-content: center;
+        }
+
+        .nav-icons span {
+            font-size: 12px;
+            font-weight: 700;
+            color: #282c3f;
+            margin-top: 2px;
+        }
+
         .nav-icons:hover span {
             color: #ee5f73;
+        }
+
+        /* Profile Dropdown Overlay */
+        .profile-overlay {
+            display: none;
+            position: absolute;
+            top: 76px;
+            right: 20px;
+            width: 240px;
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            padding: 0 25px;
+        }
+
+        .nav-icons:hover + .profile-overlay,
+        .profile-overlay:hover {
+            display: block;
+        }
+
+        .profile-overlay .profile-overlay-links-category {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e9e9ed;
+        }
+
+        .profile-overlay .profile-overlay-links-category:last-child {
+            border-bottom: none;
+        }
+
+        .profile-overlay .profile-overlay-links-category > div:first-child {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-bottom: 8px;
+        }
+
+        .profile-overlay .profile-overlay-links-category span {
+            font-size: 13px;
+            color: #424553;
+        }
+
+        .profile-overlay .profile-overlay-links-category span b {
+            font-size: 14px;
+            color: #282c3f;
+            font-weight: 700;
+        }
+
+        .button-login {
+            border: 1px solid #d4d5d9;
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: #ff3f6c;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .button-login:hover {
+            border-color: #ff3f6c;
+        }
+
+        .profile-overlay-links {
+            font-size: 14px;
+            color: #282c3f;
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .profile-overlay-links:hover {
+            font-weight: 600;
+            color: #ff3f6c;
         }
 
         .logo-container {
@@ -517,14 +675,16 @@
             box-sizing: border-box;
             position: sticky;
             top: 100px;
-            height: 80vh;
             align-self: flex-start;
+            height: 80vh;
             overflow-y: scroll;
         }
 
         aside::-webkit-scrollbar {
             display: none;
         }
+
+
 
         .filter-header {
             font-size: 17px;
@@ -600,10 +760,91 @@
             accent-color: #ff3f6c;
         }
 
-        input[type="range"] {
+        .filter-types {
+            position: relative;
+        }
+
+        /* Price Range Slider Styles */
+        .range {
+            margin: 20px 0;
+            --thumb-size: 14px;
+            --thumb-border: 2px;
+        }
+
+        .range-slider {
+            height: 5px;
+            position: relative;
+            background-color: #e9e9ed;
+            border-radius: 2px;
+            margin: 20px 0;
+        }
+
+        .range-selected {
+            height: 100%;
+            position: absolute;
+            border-radius: 5px;
+            background-color: #ff3f6c;
+        }
+
+        .range-input {
+            position: relative;
+        }
+
+        .range-input input {
+            position: absolute;
             width: 100%;
-            margin: 10px 0;
-            accent-color: #ff3f6c;
+            height: 5px;
+            top: -1px;
+            background: none;
+            pointer-events: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .range-input input::-webkit-slider-thumb {
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            border-radius: 50%;
+            border: var(--thumb-border) solid #ff3f6c;
+            background-color: #fff;
+            pointer-events: auto;
+            -webkit-appearance: none;
+            cursor: pointer;
+            margin-top: -33.5px;
+        }
+
+        .range-input input::-moz-range-thumb {
+            height: var(--thumb-size);
+            width: var(--thumb-size);
+            border-radius: 50%;
+            border: var(--thumb-border) solid #ff3f6c;
+            background-color: #fff;
+            pointer-events: auto;
+            -moz-appearance: none;
+            cursor: pointer;
+        }
+
+        .range-price {
+            margin: 20px 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .range-price label {
+            font-size: 12px;
+            color: #424553;
+        }
+
+        .range-price input {
+            width: 60px;
+            padding: 6px 8px;
+            border: 1px solid #d4d5d9;
+            border-radius: 2px;
+            font-size: 13px;
+            color: #282c3f;
         }
 
         label {
@@ -625,7 +866,6 @@
             padding: 0 20px 0 0;
             box-sizing: border-box;
         }
-
         /* #region Main Content Header */
         .main-header {
             display: flex;
@@ -818,7 +1058,6 @@
             border-bottom: 1px solid #e9e9ed;
 
         }
-
         /* #region Products Grid */
 
 
@@ -1055,6 +1294,134 @@
 
         .next-page-button:hover {
             border: 1px solid #969696;
+        }
+
+        /* #endregion */
+
+        /* #region Footer */
+        footer {
+            background-color: #FAFBFC;
+            padding: 50px 60px;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #282c3f;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 0 0 20px 0;
+            color: #282c3f;
+        }
+
+        .footer-col h4 {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 15px 0;
+            color: #282c3f;
+        }
+
+        .footer-col a {
+            display: block;
+            color: #696b79;
+            font-size: 14px;
+            margin-bottom: 12px;
+            text-decoration: none;
+        }
+
+        .footer-col a:hover {
+            font-weight: 700;
+            color: #282c3f;
+        }
+
+        .app-links a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .app-links img {
+            width: 140px;
+            margin-bottom: 10px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0;
+        }
+
+        .social-links img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .footer-promise {
+            display: flex;
+            gap: 60px;
+            padding: 40px 0;
+            border-top: 1px solid #d4d5d9;
+            border-bottom: 1px solid #d4d5d9;
+        }
+
+        .promise-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .promise-item img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .promise-item div {
+            font-size: 14px;
+            color: #696b79;
+        }
+
+        .promise-item strong {
+            display: block;
+            color: #282c3f;
+            font-size: 14px;
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+        }
+
+        .footer-copyright {
+            text-align: center;
+        }
+
+        .footer-copyright p {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #696b79;
+        }
+
+        .footer-copyright a {
+            color: #ff3f6c;
+            text-decoration: none;
+        }
+
+        .footer-copyright a:hover {
+            text-decoration: underline;
         }
 
         /* #endregion */
@@ -1708,6 +2075,30 @@
                         <div class="myntra-sprite icon-profile"></div>
                         <span>Profile</span>
                     </a>
+                    <div class="profile-overlay">
+                        <div class="profile-overlay-links-category">
+                            <div>
+                                <span><b>Welcome</b></span>
+                                <span>To access account and manage orders</span>
+                            </div>
+                            <div class="button-login">LOGIN / SIGNUP</div>
+                        </div>
+                        <div class="profile-overlay-links-category">
+                            <a class="profile-overlay-links" href="">Orders</a>
+                            <a class="profile-overlay-links" href="">Wishlist</a>
+                            <a class="profile-overlay-links" href="">Gift Cards</a>
+                            <a class="profile-overlay-links" href="">Contact Us</a>
+                            <a class="profile-overlay-links" href="">Myntra Insider</a>
+                        </div>
+                        <div class="profile-overlay-links-category">
+                            <a class="profile-overlay-links" href="">Myntra Credits</a>
+                            <a class="profile-overlay-links" href="">Coupons</a>
+                            <a class="profile-overlay-links" href="">Saved Cards</a>
+                            <a class="profile-overlay-links" href="">Saved VPAs</a>
+                            <a class="profile-overlay-links" href="">Saved Addresses</a>
+                        </div>
+                    </div>
+
                     <a href="#" class="nav-icons">
                         <div class="myntra-sprite icon-wishlist"></div>
                         <span>Wishlist</span>
@@ -1775,12 +2166,20 @@
                 </div>
                 <div class="filter-types">
                     <div class="filter-types-names">PRICE</div>
-                    <input type="range" class="min" id="min-price" min="0" max="10001" step="100" value="0">
-                    <input type="range" class="max" id="max-price" min="0" max="10001" step="100" value="10001">
-                    <div>
-                        &#8377;<output id="min-price-output">0</output>
-                        -
-                        &#8377;<output id="max-price-output">10001</output>
+                    <div class="range">
+                        <div class="range-slider">
+                            <span class="range-selected"></span>
+                        </div>
+                        <div class="range-input">
+                            <input type="range" class="min" min="0" max="10001" value="564" step="100">
+                            <input type="range" class="max" min="0" max="10001" value="9855" step="100">
+                        </div>
+                        <div class="range-price">
+                            <label>Min</label>
+                            <input type="number" class="min" value="0">
+                            <label>Max</label>
+                            <input type="number" class="max" value="10001">
+                        </div>
                     </div>
                 </div>
                 <div class="filter-types">
@@ -1936,317 +2335,152 @@
             </div>
             <div class="card-navigation">
                 <div class="card-nav-buttons">
-                    <div class="page-1-button">
-                        << Page 1</div>
-                            <div class="previous-page-button">
-                                < Previous</div>
-                                    <div class="current-total-page"> page 1 of 5072</div>
-                                    <div class="next-page-button"> Next ></div>
-                            </div>
-                    </div>
+                    <div class="page-1-button">&lt;&lt; Page 1</div>
+                    <div class="previous-page-button">&lt; Previous</div>
+                    <div class="current-total-page"> page 1 of 5072</div>
+                    <div class="next-page-button"> Next &gt;</div>
+                </div>
+            </div>
         </main>
 
     </div>
+    
     <footer>
-        <div>
-            <div>
-                <p><strong>Styling the T-shirt for Men</strong></p>
-                <p>T-shirts are without a doubt every mans favourite garment. They are versatile, stylish and
-                    can be worn in a million different ways. In fact, there are so many varieties when it comes
-                    to&nbsp;<a href="https://www.myntra.com/tshirts">t-shirts</a>&nbsp;for men that it could be
-                    difficult to settle on a particular kind while shopping. A t-shirt can be styled even with
-                    shirts for men to create fun ensembles that are semi-formal or smart casual. There is a
-                    t-shirt for men that can complement any kind of lowers that you might have in mind, be
-                    it&nbsp;<a href="https://www.myntra.com/track-pants">track pants</a>,&nbsp;<a
-                        href="https://www.myntra.com/lounge-shorts">lounge shorts</a>&nbsp;or&nbsp;<a
-                        href="https://www.myntra.com/innerwear">innerwear</a>.</p>
-                <p>You can also select and style a t-shirt for men according to the season and occasion, which
-                    means that the same garment could be used to create completely different looks entirely
-                    depending on the scenario and weather. However, to be able to do this successfully, you must
-                    first have an understanding of styling t-shirts and your personal preference; this includes
-                    how you would like to project yourself. Read on to find out more.</p>
-                <p><strong>Styling a T-shirt for Men</strong></p>
-                <p>We have covered the basics and thrown in a couple of tricks to style a t-shirt for&nbsp;<a
-                        href="https://www.myntra.com/shop/men">men</a>&nbsp;in the best way, so read on and take
-                    notes.</p>
-                <p>Colours</p>
-                <p>When it comes to a t-shirt for men, there are a few colours which are essential in any
-                    wardrobe. These are the most basic colours which will set the tone for your collection; they
-                    are white, black, navy blue and grey. Apart from this, you can also add on dark shades of
-                    maroon, green and brown to mix and match with your&nbsp;<a
-                        href="https://www.myntra.com/joggers">joggers</a>&nbsp;or&nbsp;<a
-                        href="https://www.myntra.com/tracksuits">tracksuits</a>.</p>
-                <p>Fits</p>
-                <p>Generally speaking, the fits of t-shirts for men range from long-line, regular, slim, fitted
-                    and loose. There is no set rule in particular when it comes to choosing one over the other.
-                    Having said that, you must take time to know what works best with your body type and fashion
-                    sensibilities. For instance, a fitted t-shirt for men would flatter a fit physique or can
-                    work to be an inner layer, for a winter look.</p>
-                <p>Necklines</p>
-                <p>The three most common necklines are crew, scoop and V-neck but there are combinations and
-                    variations of these too. You are likely to notice that the crew neckline is the most
-                    versatile style and is worn widely. To start off your collection, you can work with an
-                    understanding of the above-mentioned options and choose accordingly.</p>
-                <p><strong>Select a T-shirt for Men Online</strong></p>
-                <p>We have an absolutely wide variety of t-shirts for men on Myntra and here are a few of our
-                    favourites to start you off in the right direction.</p>
-                <p>GAS Men Black Printed&nbsp;<a href="https://www.myntra.com/round-neck-tshirts">Round Neck
-                        T-shirt</a></p>
-                <p>If you are all about that rocker chic look, then this t-shirt for men is surely up your
-                    alley. It has a round neckline, short sleeves and a graphic print in front. This can be
-                    paired with tapering&nbsp;<a href="https://www.myntra.com/jeans">jeans</a>, sneakers and a
-                    leather strap watch.</p>
-                <p>Nike Men Blue Polo Collar T-shirt</p>
-                <p>Whether you enjoy playing cricket or are a fan of the game, you should definitely have this
-                    piece in your collection. It is made of light-weight polyester and boasts Nikes DRI-FIT
-                    technology.</p>
-                <p>Polo Ralph Lauren Cotton Blend Fleece Pullover</p>
-                <p>This t-shirt is inspired by old-school baseball tees and is washed to have a vintage look.
-                    The grey melange and navy colours complement cargo pants or lounge shorts and will look
-                    great paired with white sneakers.</p>
-                <p><strong>Get Your Shopping On!</strong></p>
-                <p>Visit Myntra and transform your closet with garments for every occasion. We bring you all the
-                    top brands at your fingertips, with the best discounts and a wide selection to pick from. So
-                    log in to Myntra today and get shopping on-the-go!</p>
-                <div>
-                    <div>
-                        <ul>
-                            <li><strong><strong><em>What are the latest trends in men's
-                                            T-shirts?</em></strong></strong></li>
-                        </ul>
-                        <div>
-                            <div>
-                                <p>Here are some of the latest trends in the men's T-shirt categories that you
-                                    can shop from:</p>
-                                <ul>
-                                    <li>Typography: Men's T-shirts have seen a new trend with culture-defining
-                                        quotes printed on them. The minimalist look of the T-shirt makes them a
-                                        perfect option for all sorts of events. They come in a variety of
-                                        colours and can be paired with a jacket for parties.</li>
-                                    <li>Super Hero T-shirts: Men's obsession with comic books has come to an
-                                        all-time high. Owning a T-shirt of their favourite superhero can
-                                        generate a sense of pride and motivation.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <ul>
-                            <li><strong><strong><em>What's the difference between designing a men's T-shirt and
-                                            women's T-shirt?</em></strong></strong></li>
-                        </ul>
-                        <div>
-                            <div>The differences between men's and women's T-shirts lies in the physical facets
-                                of the design.
-                                <ul>
-                                    <li>T-shirts for women are designed to be shorter than those for men.</li>
-                                    <li>Men's T-shirts are usually intended to be fitted around the chest and
-                                        then flow loosely from there. Women's T-shirts are meant to flatter the
-                                        curves and are more form-fitting.</li>
-                                    <li>Women's T-shirts have cap sleeves whereas men's T-shirt arms are
-                                        slightly longer.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <ul>
-                            <li><strong><strong><em>What are the best designer T-shirts for
-                                            men?</em></strong></strong></li>
-                        </ul>
-                        <div>
-                            <div>Some of the best designer T-shirts for men include :
-                                <ul>
-                                    <li>Calvin Klein makes some of the best designer T-shirts for men. They
-                                        believe the key is subtleness, which can be seen on their T-shirts.</li>
-                                    <li>HRX - Their T-shirts are always designed to make a statement. The brand
-                                        has focused on making T-shirts that not only look good but also would
-                                        suit your active style.</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <ul>
-                            <li><strong><strong><em>What is the best plain T-shirt for
-                                            men?</em></strong></strong></li>
-                        </ul>
-                        <div>
-                            <div>Round Neck to V-neck, from dark, moody colours to bright saturated colours are
-                                great styling pieces for men.</div>
-                        </div>
-                    </div>
-                    <div>
-                        <ul>
-                            <li><strong><strong><em>What colour T-shirts do men mostly
-                                            prefer?</em></strong></strong></li>
-                        </ul>
-                        <div>
-                            <div>Dark navy blue, black and white are the most preferred T-shirt colours among
-                                men.</div>
-                        </div>
-                    </div>
-                </div>
-                <h2><strong>Bestseller:&nbsp;</strong></h2>
-                <p><a
-                        href="https://www.myntra.com/tshirts/roadster/roadster-men-white--pure-cotton-t-shirt/2275365/buy">Roadster
-                        Men White Pure Cotton T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/hrx-by-hrithik-roshan/hrx-by-hrithik-roshan-men-yellow-printed-cotton-pure-cotton-t-shirt/1700944/buy">HRX
-                        by Hrithik Roshan Men Yellow Printed Cotton Pure Cotton T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/urbano-fashion/urbano-fashion-men-teal-green-slim-fit-tropical-printed-pure-cotton-t-shirt/12377258/buy">Urbano
-                        Fashion Men Teal Green Slim Fit Tropical Printed Pure Cotton T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/huetrap/huetrap-men-beige--black-typography-printed-sustainable-t-shirt/11148764/buy">Huetrap
-                        Men Beige &amp; Black Typography Printed Sustainable T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/roadster/roadster-men-black-cotton-pure-cotton-t-shirt/1996777/buy">Roadster
-                        Men Black Cotton Pure Cotton T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/louis-philippe-jeans/louis-philippe-jeans-men-black-graphic-printed-pure-cotton-slim-fit-casual-t-shirt/16878774/buy">Louis
-                        Philippe Jeans Men Black Graphic Printed Pure Cotton Slim Fit Casual
-                        T-shirt</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tshirts/hrx-by-hrithik-roshan/hrx-by-hrithik-roshan-men-olive-green-solid-bio-wash-running-tshirt/11999496/buy">HRX
-                        by Hrithik Roshan Men Olive Green Solid Bio-Wash Running Tshirt</a>&nbsp;</p>
-                <h2><strong>SHOP BY BRAND:&nbsp;</strong></h2>
-                <p><a href="https://www.myntra.com/bewakoof">Bewakoof</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/zivame">Zivame</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/levis">Levis</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/manyavar">Manyavar</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/selected">Selected</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/skechers">Skechers</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/hopscotch">Hopscotch</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/jockey">Jockey</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/marks-and-spencer">Marks &amp; Spencer</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/louis-philippe">Louis Philippe</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/andamen">Andamen</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/tommy-hilfiger">Tommy Hilfiger</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/the-souled-store">The Souled Store</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/winered">WineRed</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/asics">Asics</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/monte-carlo">Monte Carlo</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/under-armour">Under Armour</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/basics">Basics</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/chumbak">Chumbak</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/french-crown">French Crown</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/lacoste">Lacoste</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/lee-cooper">Lee Cooper</a>&nbsp;|&nbsp;<a
-                        href="https://www.myntra.com/ritu-kumar">Ritu Kumar</a></p>
-                <p><strong>Shop T-Shirt By Color:</strong></p>
-                <p><a href="https://www.myntra.com/black-tshirt-for-men">Black T-Shirt For
-                        Men</a>&nbsp;|&nbsp;<a href="https://www.myntra.com/white-t-shirt-for-men">White T-Shirt
-                        For Men</a>&nbsp;|&nbsp;<a href="https://www.myntra.com/white-tshirt-for-girls">White
-                        T-shirt For Girls</a>&nbsp;|&nbsp;<a href="https://www.myntra.com/white-t-shirt-for-boys">White
-                        T-Shirt For
-                        Boys</a>&nbsp;|&nbsp;<a href="https://www.myntra.com/brown-tshirt-for-men">Brown T-shirt
-                        For Men</a></p>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>ONLINE SHOPPING</h3>
+                <a href="#">Men</a>
+                <a href="#">Women</a>
+                <a href="#">Kids</a>
+                <a href="#">Home & Living</a>
+                <a href="#">Beauty</a>
+                <a href="#">Gift Cards</a>
+                <a href="#">Myntra Insider</a>
             </div>
-            <div>
-                <h2 data-reactid="6">Men T-shirts&nbsp;price list</h2>
-                <table data-reactid="10">
-                    <thead data-reactid="11">
-                        <tr data-reactid="12">
-                            <th data-reactid="13">Men T-shirts</th>
-                            <th data-reactid="14">PRICE (RS)</th>
-                        </tr>
-                    </thead>
-                    <tbody data-reactid="15">
-                        <tr data-reactid="16">
-                            <td data-reactid="17"><a
-                                    href="https://www.myntra.com/lounge-tshirts/levis/levis-men-soft-pure-cotton-round-neck-half-sleeve-tshirt/12027436/buy"
-                                    data-refreshpage="true" data-reactid="18">Levis Men Soft Pure Cotton Round Neck Half
-                                    Sleeve Tshirt</a></td>
-                            <td data-reactid="19">Rs.&nbsp;577</td>
-                        </tr>
-                        <tr data-reactid="22">
-                            <td data-reactid="23"><a
-                                    href="https://www.myntra.com/lounge-tshirts/pepe+jeans/pepe-jeans-men-crew-neck-relaxed-fit-lounge-tshirt/32762106/buy"
-                                    data-refreshpage="true" data-reactid="24">Pepe Jeans Men Crew Neck Relaxed Fit
-                                    Lounge Tshirt</a></td>
-                            <td data-reactid="25">Rs.&nbsp;335</td>
-                        </tr>
-                        <tr data-reactid="28">
-                            <td data-reactid="29"><a
-                                    href="https://www.myntra.com/lounge-tshirts/pepe+jeans/pepe-jeans-men-crew-neck-relaxed-fit-lounge-tshirt/33353185/buy"
-                                    data-refreshpage="true" data-reactid="30">Pepe Jeans Men Crew Neck Relaxed Fit
-                                    Lounge Tshirt</a></td>
-                            <td data-reactid="31">Rs.&nbsp;335</td>
-                        </tr>
-                        <tr data-reactid="34">
-                            <td data-reactid="35"><a
-                                    href="https://www.myntra.com/lounge-tshirts/levis/levis-men-soft-pure-cotton-round-neck-half-sleeve-tshirt/12027432/buy"
-                                    data-refreshpage="true" data-reactid="36">Levis Men Soft Pure Cotton Round Neck Half
-                                    Sleeve Tshirt</a></td>
-                            <td data-reactid="37">Rs.&nbsp;577</td>
-                        </tr>
-                        <tr data-reactid="40">
-                            <td data-reactid="41"><a
-                                    href="https://www.myntra.com/lounge-tshirts/u.s.+polo+assn./us-polo-assn-embroidered-logo-pure-cotton-lounge-t-shirts/22492620/buy"
-                                    data-refreshpage="true" data-reactid="42">U.S. Polo Assn. Embroidered Logo Pure
-                                    Cotton Lounge T-shirts</a></td>
-                            <td data-reactid="43">Rs.&nbsp;482</td>
-                        </tr>
-                        <tr data-reactid="46">
-                            <td data-reactid="47"><a
-                                    href="https://www.myntra.com/lounge-tshirts/pepe+jeans/pepe-jeans-men-crew-neck-relaxed-fit-lounge-tshirt/32762104/buy"
-                                    data-refreshpage="true" data-reactid="48">Pepe Jeans Men Crew Neck Relaxed Fit
-                                    Lounge Tshirt</a></td>
-                            <td data-reactid="49">Rs.&nbsp;335</td>
-                        </tr>
-                        <tr data-reactid="52">
-                            <td data-reactid="53"><a
-                                    href="https://www.myntra.com/lounge-tshirts/xyxx/xyxx-pace-ultra-breezy-super-combed-cotton-solid-crew-neck-t-shirt/32463272/buy"
-                                    data-refreshpage="true" data-reactid="54">XYXX Pace Ultra Breezy, Super Combed
-                                    Cotton Solid Crew Neck T-Shirt</a></td>
-                            <td data-reactid="55">Rs.&nbsp;399</td>
-                        </tr>
-                        <tr data-reactid="58">
-                            <td data-reactid="59"><a
-                                    href="https://www.myntra.com/lounge-tshirts/u.s.+polo+assn./us-polo-assn-embroidered-logo-v-neck-cotton-lounge-t-shirts/22492580/buy"
-                                    data-refreshpage="true" data-reactid="60">U.S. Polo Assn. Embroidered Logo V-Neck
-                                    Cotton Lounge T-shirts</a></td>
-                            <td data-reactid="61">Rs.&nbsp;503</td>
-                        </tr>
-                        <tr data-reactid="64">
-                            <td data-reactid="65"><a
-                                    href="https://www.myntra.com/lounge-tshirts/lux+cozi/lux-cozi-polo-collar-lounge-tshirts/28138200/buy"
-                                    data-refreshpage="true" data-reactid="66">Lux Cozi Polo Collar Lounge Tshirts</a>
-                            </td>
-                            <td data-reactid="67">Rs.&nbsp;380</td>
-                        </tr>
-                        <tr data-reactid="70">
-                            <td data-reactid="71"><a
-                                    href="https://www.myntra.com/tshirts/metronaut/metronaut-men-polo-collar-t-shirt/39323434/buy"
-                                    data-refreshpage="true" data-reactid="72">Metronaut Men Polo Collar T-shirt</a></td>
-                            <td data-reactid="73">Rs.&nbsp;489</td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div data-reactid="76">Data last updated on&nbsp;05/02/2026</div>
-            </div>
-        </div>
-        <div>
 
-        </div>
-        <div>
-            <div>
-                <div>buy Men T-shirts</div>
-                <div>
-                </div>
-                <div></div>
-                <div></div>
+            <div class="footer-col">
+                <h3>CUSTOMER POLICIES</h3>
+                <a href="#">Contact Us</a>
+                <a href="#">FAQ</a>
+                <a href="#">T&C</a>
+                <a href="#">Terms Of Use</a>
+                <a href="#">Track Orders</a>
+                <a href="#">Shipping</a>
+                <a href="#">Cancellation</a>
+                <a href="#">Returns</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Grievance Officer</a>
             </div>
+
+            <div class="footer-col">
+                <h3>USEFUL LINKS</h3>
+                <a href="#">Blog</a>
+                <a href="#">Careers</a>
+                <a href="#">Site Map</a>
+                <a href="#">Corporate Information</a>
+                <a href="#">Whitehat</a>
+            </div>
+
+            <div class="footer-col">
+                <h3>EXPERIENCE APP</h3>
+                <div class="app-links">
+                    <a href="#"><img src="https://constant.myntassets.com/web/assets/img/80cc455a-92d2-4b5c-a038-7da0d92af33f1539674178924-google_play.png" alt="Google Play"></a>
+                    <a href="#"><img src="https://constant.myntassets.com/web/assets/img/bc5e11ad-0250-420a-ac71-115a57ca35d51539674178941-apple_store.png" alt="App Store"></a>
+                </div>
+                <h4>KEEP IN TOUCH</h4>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/myntra"><img src="https://constant.myntassets.com/web/assets/img/d2bec182-bef5-4fab-ade0-034d21ec82e31574604275433-fb.png" alt="Facebook"></a>
+                    <a href="https://twitter.com/myntra"><img src="https://constant.myntassets.com/web/assets/img/f10bc513-c5a4-490c-9a9c-eb7a3cc8252b1574604275383-twitter.png" alt="Twitter"></a>
+                    <a href="https://www.youtube.com/user/myntradotcom"><img src="https://constant.myntassets.com/web/assets/img/a7e3c86e-566a-44a6-a733-179389dd87111574604275355-yt.png" alt="YouTube"></a>
+                    <a href="https://www.instagram.com/myntra"><img src="https://constant.myntassets.com/web/assets/img/b4fcca19-5fc1-4199-93ca-4cae3210ef7f1574604275408-insta.png" alt="Instagram"></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-promise">
+            <div class="promise-item">
+                <img src="https://constant.myntassets.com/web/assets/img/6c3306ca-1efa-4a27-8769-3b69d16948741574602902452-original.png" alt="Original">
+                <div>
+                    <strong>100% ORIGINAL</strong> guarantee for all products
+                </div>
+            </div>
+            <div class="promise-item">
+                <img src="https://assets.myntassets.com/assets/images/retaillabs/2023/5/22/becb1b16-86cc-4e78-bdc7-7801c17947831684737106127-Return-Window-image.png" alt="Return">
+                <div>
+                    <strong>Return within 14 days</strong> of receiving your order
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-copyright">
+                <p>In case of any concern, <a href="#">Contact Us</a></p>
+                <p>© 2026 www.myntra.com. All rights reserved.</p>
+                <p><a href="https://www.flipkart.com/">A Flipkart company</a></p>
+            </div>
+        </div>
     </footer>
 </body>
 <script src="assets/products/products.js"></script>
 
 <script>
-    var slider = document.getElementById("min-price");
-    var output = document.getElementById("min-price-output");
-    output.innerHTML = slider.value;
-    slider.oninput = function () { output.innerHTML = this.value; }
+    let rangeMin = 100;
+    const range = document.querySelector(".range-selected");
+    const rangeInput = document.querySelectorAll(".range-input input");
+    const rangePrice = document.querySelectorAll(".range-price input");
 
-    // Logic for Max Price Slider
-    var maxSlider = document.getElementById("max-price");
-    var maxOutput = document.getElementById("max-price-output");
-    maxOutput.innerHTML = maxSlider.value;
-    maxSlider.oninput = function () { maxOutput.innerHTML = this.value; }
+    function updateRangeDisplay(minRange, maxRange) {
+        const maxValue = parseInt(rangeInput[0].max);
+        const minValue = parseInt(rangeInput[0].min);
+        const minPercent = ((minRange - minValue) / (maxValue - minValue)) * 100;
+        const maxPercent = ((maxRange - minValue) / (maxValue - minValue)) * 100;
+        
+        // Calculate thumb width as percentage of track
+        const thumbSize = 14;
+        const trackWidth = rangeInput[0].offsetWidth;
+        const thumbWidthPercent = (thumbSize / trackWidth) * 100;
+
+        rangePrice[0].value = minRange;
+        rangePrice[1].value = maxRange;
+        range.style.left = minPercent + "%";
+        range.style.right = (100 - maxPercent) + "%";
+    }
+
+    // Initialize slider state on load
+    updateRangeDisplay(parseInt(rangeInput[0].value), parseInt(rangeInput[1].value));
+
+    rangeInput.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minRange = parseInt(rangeInput[0].value);
+            let maxRange = parseInt(rangeInput[1].value);
+            if (maxRange - minRange < rangeMin) {
+                if (e.target.className === "min") {
+                    rangeInput[0].value = maxRange - rangeMin;
+                    minRange = parseInt(rangeInput[0].value);
+                } else {
+                    rangeInput[1].value = minRange + rangeMin;
+                    maxRange = parseInt(rangeInput[1].value);
+                }
+            }
+            updateRangeDisplay(minRange, maxRange);
+        });
+    });
+
+    rangePrice.forEach((input) => {
+        input.addEventListener("input", (e) => {
+            let minPrice = rangePrice[0].value;
+            let maxPrice = rangePrice[1].value;
+            if (maxPrice - minPrice >= rangeMin && maxPrice <= rangeInput[1].max) {
+                if (e.target.className === "min") {
+                    rangeInput[0].value = minPrice;
+                    updateRangeDisplay(parseInt(minPrice), parseInt(rangeInput[1].value));
+                } else {
+                    rangeInput[1].value = maxPrice;
+                    updateRangeDisplay(parseInt(rangeInput[0].value), parseInt(maxPrice));
+                }
+            }
+        });
+    });
 
     // Logic to toggle Radio Buttons (Uncheck if clicked again)
     function toggleRadio(e, id) {
