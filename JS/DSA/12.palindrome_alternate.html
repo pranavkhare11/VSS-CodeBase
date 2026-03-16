@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+<script>
+
+    let number = 1234321;
+    let temp = number;
+    let result = 0;
+
+    while (temp > result) {
+        let rem = temp % 10;
+        result = result * 10 + rem;
+        temp = Math.floor(temp / 10);
+
+    }
+    if (temp == result || temp == Math.floor(result / 10)) {
+        console.log("Palindrome");
+    }
+    else {
+        console.log("Not Palindrome");
+    }
+</script>
+</html>

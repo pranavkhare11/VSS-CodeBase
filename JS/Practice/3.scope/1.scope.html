@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functional Scope</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<script>
+    var a = 10; // global scope
+    let b = 20; // script scope
+    const c = 30; // script scope
+
+    function sayHi() {
+        var a1 = "Aviral"; // block scope
+        let a2 = "Rahul"; // block scope
+        const a3 = "shruti"; // block scope
+        console.log("Hello from SayHi");
+    }
+
+    sayHi();
+
+    console.log("A :", a);
+    console.log("B :", b);
+    console.log("C :", c);
+    // console.log("a1 :", a1); // ReferenceError: a1 is not defined
+    // console.log("a2 :", a2); // ReferenceError: a2 is not defined
+    // console.log("a3 :", a3); // ReferenceError: a3 is not defined
+</script>

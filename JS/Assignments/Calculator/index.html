@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator-window {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .inputs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .inputs input {
+            width: 110px;
+            height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .result {
+            display: flex;
+            gap: 10px;
+        }
+
+        .result input {
+            width: 170px;
+            height: 50px;
+            font-size: 16px;
+            text-align: right;
+            font-weight: bold;
+        }
+
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        button {
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            color: #222;
+        }
+
+        .buttons .equals-plus-button {
+            width: 50px;
+        }
+
+        .op-plus {
+            background-color: #2e7d32;
+            color: #fff;
+        }
+
+        .op-minus {
+            background-color: #ef6c00;
+            color: #fff;
+        }
+
+        .op-mul {
+            background-color: #1565c0;
+            color: #fff;
+        }
+
+        .op-div {
+            background-color: #6a1b9a;
+            color: #fff;
+        }
+
+        .op-mod {
+            background-color: #c62828;
+            color: #fff;
+        }
+
+        .btn-active {
+            filter: brightness(1.25);
+        }
+
+        .btn-selected {
+            animation-duration: 1s;
+            animation-iteration-count: infinite;
+            animation-timing-function: ease-in-out;
+        }
+
+        .op-plus.btn-selected {
+            animation-name: pulse-plus;
+        }
+
+        .op-minus.btn-selected {
+            animation-name: pulse-minus;
+        }
+
+        .op-mul.btn-selected {
+            animation-name: pulse-mul;
+        }
+
+        .op-div.btn-selected {
+            animation-name: pulse-div;
+        }
+
+        .op-mod.btn-selected {
+            animation-name: pulse-mod;
+        }
+
+        @keyframes pulse-plus {
+            0%, 100% {
+                background-color: #2e7d32;
+            }
+            50% {
+                background-color: #43a047;
+            }
+        }
+
+        @keyframes pulse-minus {
+            0%, 100% {
+                background-color: #ef6c00;
+            }
+            50% {
+                background-color: #ff8f00;
+            }
+        }
+
+        @keyframes pulse-mul {
+            0%, 100% {
+                background-color: #1565c0;
+            }
+            50% {
+                background-color: #1e88e5;
+            }
+        }
+
+        @keyframes pulse-div {
+            0%, 100% {
+                background-color: #6a1b9a;
+            }
+            50% {
+                background-color: #8e24aa;
+            }
+        }
+
+        @keyframes pulse-mod {
+            0%, 100% {
+                background-color: #c62828;
+            }
+            50% {
+                background-color: #e53935;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="calculator-window">
+            <div class="inputs">
+                <input type="number" step="any" id="input-1">
+                <input type="number" step="any" id="input-2">
+            </div>
+            <div class="result">
+                <input type="text" id="result" readonly>
+                <button id="clear-button">clear</button>
+            </div>
+            <div class="buttons">
+                <div class="row">
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                    <button>&divide;</button>
+                </div>
+                <div class="row">
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                    <button>&times;</button>
+                </div>
+                <div class="row">
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>&minus;</button>
+                </div>
+                <div class="row">
+                    <button>0</button>
+                    <button>.</button>
+                    <button class="equals-plus-button">&plus;</button>
+                    <button>%</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const buttons = document.querySelectorAll('button');
+    const input1 = document.getElementById('input-1');
+    const input2 = document.getElementById('input-2');
+    const resultField = document.getElementById('result');
+    const operatorSymbols = ['+', '-', '*', '/', '%'];
+    let activeInput = input1;
+    let lastOperator = '';
+    const operatorClassMap = {
+        '+': 'op-plus',
+        '-': 'op-minus',
+        '*': 'op-mul',
+        '/': 'op-div',
+        '%': 'op-mod'
+    };
+    const operatorLabelMap = {
+        '÷': '/',
+        '×': '*',
+        '−': '-',
+        '+': '+'
+    };
+
+    const buttonMap = new Map();
+
+    buttons.forEach((button) => {
+        const label = button.textContent.trim();
+        const normalizedLabel = normalizeOperator(label) || label;
+        if (!buttonMap.has(label)) {
+            buttonMap.set(label, button);
+        }
+
+        if (!buttonMap.has(normalizedLabel)) {
+            buttonMap.set(normalizedLabel, button);
+        }
+
+        if (operatorClassMap[normalizedLabel]) {
+            button.classList.add(operatorClassMap[normalizedLabel]);
+        }
+    });
+
+    input1.addEventListener('focus', () => {
+        activeInput = input1;
+    });
+
+    input2.addEventListener('focus', () => {
+        activeInput = input2;
+    });
+
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const value = normalizeOperator(button.textContent) || button.textContent;
+
+            if (operatorSymbols.includes(value)) {
+                lastOperator = value;
+                setOperatorSelected(value);
+                flashButton(value);
+                const answer = calculate(input1.value, input2.value, value);
+                resultField.value = answer;
+                return;
+            }
+
+            if (value === 'clear') {
+                input1.value = '';
+                input2.value = '';
+                resultField.value = '';
+                activeInput = input1;
+                lastOperator = '';
+                clearOperatorSelected();
+                flashButton('clear');
+                return;
+            }
+
+            activeInput.value += value;
+            flashButton(value);
+        });
+    });
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Delete') {
+            input1.value = '';
+            input2.value = '';
+            resultField.value = '';
+            activeInput = input1;
+            lastOperator = '';
+            clearOperatorSelected();
+            flashButton('clear');
+            return;
+        }
+    });
+    input1.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            input2.focus();
+        }
+    });
+
+    input2.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            const operator = lastOperator || '+';
+            lastOperator = operator;
+            setOperatorSelected(operator);
+            resultField.value = calculate(input1.value, input2.value, operator);
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (operatorSymbols.includes(event.key)) {
+            event.preventDefault();
+            lastOperator = event.key;
+            setOperatorSelected(lastOperator);
+            flashButton(lastOperator);
+            resultField.value = calculate(input1.value, input2.value, lastOperator);
+        }
+    });
+
+    window.addEventListener('keydown', (event) => {
+        if (event.key.length === 1 && /[0-9.]/.test(event.key)) {
+            flashButton(event.key);
+        }
+    });
+
+    function flashButton(label) {
+        const button = buttonMap.get(label);
+        if (!button) {
+            return;
+        }
+
+        button.classList.add('btn-active');
+        window.setTimeout(() => {
+            button.classList.remove('btn-active');
+        }, 150);
+    }
+
+    function clearOperatorSelected() {
+        operatorSymbols.forEach((symbol) => {
+            const button = buttonMap.get(symbol);
+            if (button) {
+                button.classList.remove('btn-selected');
+            }
+        });
+    }
+
+    function setOperatorSelected(operator) {
+        clearOperatorSelected();
+        const button = buttonMap.get(operator);
+        if (button) {
+            button.classList.add('btn-selected');
+        }
+    }
+
+    function calculate(a, b, operator) {
+        const left = Number(a);
+        const right = Number(b);
+
+        if (!Number.isFinite(left) || !Number.isFinite(right)) {
+            return 'Error';
+        }
+
+        switch (operator) {
+            case '+':
+                return left + right;
+            case '-':
+                return left - right;
+            case '*':
+                return left * right;
+            case '/':
+                return right === 0 ? 'Error' : left / right;
+            case '%':
+                return right === 0 ? 'Error' : left % right;
+            default:
+                return 'Error';
+        }
+    }
+
+    function normalizeOperator(label) {
+        const trimmed = String(label).trim();
+        return operatorLabelMap[trimmed] || '';
+    }
+</script>
+
+</html>

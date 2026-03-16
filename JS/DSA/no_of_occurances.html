@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Character Frequency</title>
+</head>
+<body>
+	<script>
+		const input = "aabbbcaa";
+		let output = "";
+		let count = 1;
+
+		for (let i = 1; i <= input.length; i++) {
+			if (input[i] === input[i - 1]) {
+				count++;
+			} else {
+				output += `${count}${input[i - 1]}`;
+				count = 1;
+			}
+		}
+
+		console.log(output);
+	</script>
+</body>
+</html>

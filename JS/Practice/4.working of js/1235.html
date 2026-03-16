@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    var product = "Laptop";
+    var price = 50000;
+    var quantity = 2;
+    var taxRate = 0.18;
+
+    function calculateSubtotal(price, quantity) {
+        var subtotal = price * quantity;
+        return subtotal;
+    }
+
+    function calculateTax(amount, taxRate) {
+        var tax = amount * taxRate;
+        return tax;
+    }
+
+    function calculateTotal(price, quantity, taxRate) {
+        var subtotal = calculateSubtotal(price, quantity);
+        var tax = calculateTax(subtotal, taxRate);
+        var total = subtotal + tax;
+        return total;
+    }
+
+    var totalAmount = calculateTotal(price, quantity, taxRate);
+    console.log(`The total amount for ${quantity} ${product}(s) is: ${totalAmount}`);
+
+</script>
+
+</html>

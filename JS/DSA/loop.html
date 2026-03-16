@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    let input = 3749;
+    /**
+     * @param {number} num
+     * @return {string}
+     */
+    var intToRoman = function (num) {
+        let str = num.toString();
+        let result = "";
+
+        for (let i = 0; i < str.length; i++) {
+            let digit = parseInt(str[i]);
+            let place = str.length - 1 - i;
+
+            if (place == 0) {
+                if (digit < 4) {
+                    for (let j = digit; j > 0; j--) {
+                        result += "I";
+                    }
+                }
+                else if (digit == 4) {
+                    result += "IV";
+                }
+                else if (digit == 5) {
+                    result += "V";
+                }
+                else if (digit > 5 && digit < 9) {
+                    result += "V";
+                    for (let j = digit - 5; j > 0; j--) {
+                        result += "I";
+                    }
+                }
+                else if (digit == 9) {
+                    result += "IX";
+                }
+            }
+            else if (place == 1) {
+                if (digit < 4) {
+                    for (let j = digit; j > 0; j--) {
+                        result += "X";
+                    }
+                }
+                else if (digit == 4) {
+                    result += "XL";
+                }
+                else if (digit == 5) {
+                    result += "L";
+                }
+                else if (digit > 5 && digit < 9) {
+                    result += "L";
+                    for (let j = digit - 5; j > 0; j--) {
+                        result += "X";
+                    }
+                }
+                else if (digit == 9) {
+                    result += "XC";
+                }
+            }
+            else if (place == 2) {
+                if (digit < 4) {
+                    for (let j = digit; j > 0; j--) {
+                        result += "C";
+                    }
+                }
+                else if (digit == 4) {
+                    result += "CD";
+                }
+                else if (digit == 5) {
+                    result += "D";
+                }
+                else if (digit > 5 && digit < 9) {
+                    result += "D";
+                    for (let j = digit - 5; j > 0; j--) {
+                        result += "C";
+                    }
+                }
+                else if (digit == 9) {
+                    result += "CM";
+                }
+            }
+            else if (place == 3) {
+                for (let j = digit; j > 0; j--) {
+                    result += "M";
+                }
+            }
+        }
+
+        return result;
+    };
+
+    console.log(intToRoman(input));
+</script>
+
+</html>

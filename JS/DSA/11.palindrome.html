@@ -1,0 +1,16 @@
+<script>
+    let input = 123454321;
+    let str = input.toString();
+    let n = str.toString().length - 1;
+    let isPalindrome = true;
+
+
+    for (let i = 0; i < n / 2; i++) {
+        if (str[i] !== str[n - i]) {
+            console.log("false");
+            break;
+        }
+
+    }
+    console.log("true");
+</script>

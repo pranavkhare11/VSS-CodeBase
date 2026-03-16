@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Is Allowed To Vote</h1>
+    Enter your age: <input type="text" id="age">
+    <button onclick="checkVotingEligibility()">Check</button>
+    <p id="result"></p>
+</body>
+<script>
+    function checkVotingEligibility() {
+        const ageInput = document.getElementById('age').value;
+        const age = parseInt(ageInput);
+        const resultElement = document.getElementById('result');
+
+        if (isNaN(age)) {
+            resultElement.textContent = "Enter a valid no.";
+            console.log("Enter a valid no.");
+            return;
+        }
+
+        const isAbove18 = age >= 18;
+
+        if (!isAbove18) {
+            resultElement.textContent = "Not allowed to vote";
+            console.log("Not allowed to vote");
+        } else {
+            resultElement.textContent = "Allowed to vote";
+            console.log("Allowed to vote");
+        }
+    }
+</script>
+
+</html>
