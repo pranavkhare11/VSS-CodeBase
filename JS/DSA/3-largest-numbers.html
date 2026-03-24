@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+
+    // const input = [100, -5, 1, 4, 15, 11, 13, 12, 6, 10, 3, 10];
+    const input = [1, 4, 6, 10, 3, 222, 10, 11, 2, 4, 2, 222, 2, 220];
+
+    let first = -Infinity;
+    let second = -Infinity;
+    let third = -Infinity;
+
+    for (let i = 0; i < input.length; i++) {
+        const currVal = input[i];
+
+        if (currVal > first) {
+            third = second;
+            second = first;
+            first = currVal;
+        }
+        else if (currVal > second && currVal < first) {
+            third = second;
+            second = currVal;
+        }
+        else if (currVal > third && currVal < second) {
+            third = currVal;
+        }
+    }
+
+    console.log("First:", first);
+    console.log("Second:", second);
+    console.log("Third:", third);
+    console.log(-Infinity);
+
+</script>
+
+</html>

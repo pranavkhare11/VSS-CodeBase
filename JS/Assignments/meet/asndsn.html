@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+            background-color: black;
+            color: white;
+        }
+
+        .item-wrapper {
+            display: flex;
+            border: 1px solid black;
+            padding: 8px 16px;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #main-screen {
+            flex: 3;
+            background-color: grey;
+        }
+
+        #sidebar {
+            flex: 1;
+            background-color: lightblue;
+        }
+
+        .wrapper {
+            display: flex;
+            gap: 4px;
+        }
+
+        h1 {
+            padding: 4px;
+        }
+
+        .initial-element {
+            padding: 4px 8px;
+            border-radius: 50%;
+            background: grey;
+        }
+
+        svg{
+            fill: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <div id="main-screen"></div>
+        <div id="sidebar">
+            <h1>People</h1>
+            <div style="border: 1px solid;">Search bar</div>
+            <p></p>
+            In the meeting<br /><br />
+            <span id="contributor" style="display: flex; justify-content: space-between">
+                <span>Contributor</span>
+                <span>10</span>
+            </span>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    const sidebarElement = document.getElementById("sidebar");
+
+    const namesList = ["Aviral", "Rahul", "Aviral", "Rahul", "Aviral", "Rahul"];
+
+    const listContainer = document.createElement("ul");
+    sidebarElement.appendChild(listContainer);
+
+    const createIcon = (iconPath) => {
+        const icon = document.createElement('span');
+        icon.classList.add("icon");
+        icon.innerHTML = iconPath;
+
+        return icon;
+    }
+
+    const createListItem = (name) => {
+        const itemWrapper = document.createElement("div");
+        itemWrapper.classList.add("item-wrapper");
+
+        const initialElement = document.createElement("p");
+        initialElement.classList.add("initial-element");
+        initialElement.innerText = name.charAt(0);
+        itemWrapper.appendChild(initialElement);
+
+        const fullNameElement = document.createElement("p");
+        fullNameElement.innerText = name;
+        itemWrapper.appendChild(fullNameElement);
+
+        // icons adding
+        const iconContainer = document.createElement("div");
+        iconContainer.classList.add("icon-container");
+        iconContainer.appendChild(createIcon('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="Hdh4hc cIGbvc"><path fill="none" d="M0 0h24v24H0zm0 0h24v24H0z"/><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28m-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18zM4.27 3 3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73z"/></svg>'));
+        iconContainer.appendChild(createIcon('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="Hdh4hc cIGbvc"><path fill="none" d="M0 0h24v24H0zm0 0h24v24H0z"/><path d="M19 11h-1.7c0 .74-.16 1.43-.43 2.05l1.23 1.23c.56-.98.9-2.09.9-3.28m-4.02.17c0-.06.02-.11.02-.17V5c0-1.66-1.34-3-3-3S9 3.34 9 5v.18zM4.27 3 3 4.27l6.01 6.01V11c0 1.66 1.33 3 2.99 3 .22 0 .44-.03.65-.08l1.66 1.66c-.71.33-1.5.52-2.31.52-2.76 0-5.3-2.1-5.3-5.1H5c0 3.41 2.72 6.23 6 6.72V21h2v-3.28c.91-.13 1.77-.45 2.54-.9L19.73 21 21 19.73z"/></svg>'));
+
+
+        //list adding
+        const listItem = document.createElement("li");
+        listItem.appendChild(itemWrapper);
+
+        listContainer.appendChild(listItem);
+    };
+
+    for (const name of namesList) {
+        createListItem(name);
+    }
+
+    // Contributor icon
+    const contributor = document.getElementById("contributor");
+    contributor.appendChild(createIcon('<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentFill" viewBox="0 0 14 9"><path d="M.19 1.272.81.653a.375.375 0 0 1 .53 0L7 6.3 12.66.653a.375.375 0 0 1 .53 0l.62.62a.375.375 0 0 1 0 .53L7.264 8.346a.375.375 0 0 1-.53 0L.19 1.802a.375.375 0 0 1 0-.53"/></svg>'))
+</script>

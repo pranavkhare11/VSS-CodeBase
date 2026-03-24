@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+    let nums = [3, 11, 35, 50, 20, 1, 15, 10, 5, 8, 25, 30, 40, 45, 60, 55, 70, 65, 80, 75];
+
+    let k = 11;
+
+
+    for (let i = 0; i < nums.length - 1; i++) {
+        for (let j = 0; j < nums.length - i - 1; j++){
+            if (nums[j] > nums[j + 1]) {
+                let temp = nums[j + 1];
+                nums[j + 1] = nums[j];
+                nums[j] = temp;
+            }
+        }
+    }
+    console.log(nums);
+    console.log(nums[nums.length - k]);
+
+    let sortedArr = nums.sort((a, b) => a - b);
+    console.log(sortedArr);
+    console.log(sortedArr[sortedArr.length - k]);
+
+    console.log(nums.sort((a, b) => b - a)[k - 1]);
+
+</script>
+
+</html>

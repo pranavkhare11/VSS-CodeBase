@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Meet</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0px;
+            padding: 0px;
+
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: #a0a0a0;
+            background-color: rgb(73, 73, 73);
+        }
+
+        .aside {
+            width: 300px;
+            background-color: rgb(19, 19, 19);
+            padding: 5px 5px 30px 5px;
+            display: flex;
+            position: absolute;
+            right: 0;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+        }
+
+        .aside-body-inner {
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            background-color: #1e1f21;
+            height: 100%;
+        }
+
+        .aside-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 5px 10px 5px 10px;
+            color: #fff;
+        }
+
+        .aside-buttons-div {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            justify-content: center;
+            color: #c4c4c4;
+            font-size: 12px;
+        }
+
+        .aside-buttons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 5px 10px;
+            border-radius: 25px;
+            background-color: #004a77;
+            cursor: pointer;
+        }
+
+        .aside-buttons .button-svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .aside-search-bar-div {
+            display: flex;
+            align-items: center;
+            margin: 10px 10px 0px 10px;
+            padding: 5px 10px;
+            border: 1px solid #7c7c7c;
+            border-radius: 7.5px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .add-participant-modal {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(32, 33, 36, 0.72);
+            z-index: 1000;
+        }
+
+        .add-participant-modal.hidden {
+            display: none;
+        }
+
+        .add-participant-panel {
+            width: min(420px, calc(100% - 32px));
+            padding: 18px;
+            border: 1px solid #3c4043;
+            border-radius: 14px;
+            background-color: #202124;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+        }
+
+        .add-participant-title {
+            color: #e8eaed;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .add-participant-input {
+            width: 100%;
+            padding: 9px 10px;
+            border: 1px solid #5f6368;
+            border-radius: 6px;
+            background-color: #1e1f21;
+            color: #e8eaed;
+        }
+
+        .add-participant-actions {
+            margin-top: 8px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .panel-action-button {
+            border: 1px solid #5f6368;
+            background-color: #1e1f21;
+            color: #e8eaed;
+            border-radius: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .panel-action-button.primary {
+            border-color: #1a73e8;
+            background-color: #1a73e8;
+            color: #fff;
+        }
+
+        .aside-search-bar {
+            padding: 5px 10px;
+
+            border: none;
+            background-color: #1e1f21;
+            color: #e2e2e2;
+        }
+
+        .aside-search-bar>.search-svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        input::placeholder {
+            color: #7c7c7c;
+        }
+
+        input:focus {
+            outline: none;
+        }
+
+        .list-lable {
+            color: #c4c4c4;
+            margin: 10px 10px 0px 10px;
+            font-size: 12px;
+        }
+
+
+        .participant-list {
+
+            border: 1px solid #7c7c7c;
+            border-radius: 7.5px;
+            margin: 10px 5px 10px 5px;
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #c4c4c4;
+            padding: 10px 10px;
+            border-bottom: 1px solid #7c7c7c;
+            transition: border-bottom-color 0.35s ease;
+        }
+
+        .participant-list.collapsed .list-header {
+            border-bottom-color: transparent;
+        }
+
+        .list-header-left {
+            font-size: 12px;
+        }
+
+        .list-header-right {
+            display: flex;
+            align-items: center;
+            gap: 17.5px;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+
+        .fa-angle-up {
+            font-size: 20px;
+            cursor: pointer;
+            transition: transform 0.35s ease;
+        }
+
+        .svg-icons {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .participant-list-body {
+            max-height: 360px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            transition: max-height 0.35s ease;
+        }
+
+        .participant-list-body.collapsed {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .fa-angle-up.collapsed {
+            transform: rotate(180deg);
+        }
+
+
+        .participant {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            color: #e8eaed;
+        }
+
+        .participant-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .participant-right {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .menu-icon-button {
+            border: none;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            padding: 0;
+            border-radius: 4px;
+        }
+
+        .menu-icon-button:hover {
+            background-color: #2b2c2f;
+        }
+
+        .menu-icon-button:focus-visible {
+            outline: 1px solid #8ab4f8;
+            outline-offset: 1px;
+        }
+
+        .participant-actions {
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            display: none;
+            flex-direction: column;
+            min-width: 110px;
+            background-color: #2a2b2e;
+            border: 1px solid #5f6368;
+            border-radius: 8px;
+            padding: 4px;
+            z-index: 20;
+            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .participant-actions.is-open {
+            display: flex;
+        }
+
+        .participant-action-button {
+            border: none;
+            background: transparent;
+            color: #e8eaed;
+            text-align: left;
+            padding: 7px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .participant-action-button:hover {
+            background-color: #3a3b3e;
+        }
+
+        .participant-action-button.remove {
+            color: #ff9d9d;
+        }
+
+        .pinned-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid #5cbf6d;
+            background-color: #1f4f2b;
+            color: #9af0aa;
+            font-size: 11px;
+            line-height: 1;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        .pinned-indicator-icon {
+            width: 12px;
+            height: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pinned-indicator-icon svg {
+            fill: currentColor;
+        }
+
+
+        .participant-profile {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+        }
+
+        .participant-name {
+            font-size: 12px;
+            color: #d7d7d7;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+            fill: #d1d1d1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <main>
+        <div>
+            <div>
+                <aside class="aside">
+                    <div class="aside-body-inner">
+                        <div class="aside-header">
+                            <div>People</div>
+                            <div>&#10005;</div>
+                        </div>
+                        <div class="aside-buttons-div">
+                            <div class="aside-buttons">
+                                <div class="svg-icons button-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-mic-mute"
+                                        viewBox="0 0 16 16" id="Mic-Mute--Streamline-Bootstrap" height="16" width="16">
+                                        <desc>
+                                            Mic Mute Streamline Icon: https://streamlinehq.com
+                                        </desc>
+                                        <path
+                                            d="M13 8c0 0.564 -0.094 1.107 -0.266 1.613l-0.814 -0.814A4 4 0 0 0 12 8V7a0.5 0.5 0 0 1 1 0zm-5 4c0.818 0 1.578 -0.245 2.212 -0.667l0.718 0.719a5 5 0 0 1 -2.43 0.923V15h3a0.5 0.5 0 0 1 0 1h-7a0.5 0.5 0 0 1 0 -1h3v-2.025A5 5 0 0 1 3 8V7a0.5 0.5 0 0 1 1 0v1a4 4 0 0 0 4 4m3 -9v4.879l-1 -1V3a2 2 0 0 0 -3.997 -0.118l-0.845 -0.845A3.001 3.001 0 0 1 11 3"
+                                            stroke-width="1"></path>
+                                        <path
+                                            d="m9.486 10.607 -0.748 -0.748A2 2 0 0 1 6 8v-0.878l-1 -1V8a3 3 0 0 0 4.486 2.607m-7.84 -9.253 12 12 0.708 -0.708 -12 -12z"
+                                            stroke-width="1"></path>
+                                    </svg>
+                                </div>
+                                All muted
+                            </div>
+                            <div id="add-people-button" class="aside-buttons">
+                                <div class="svg-icons button-svg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 512 512">
+                                        <path fill-opacity=".2"
+                                            d="M414.4 194.5c0 15.9.2 22.3.3 14.2.2-8.2.2-21.2 0-29-.1-7.8-.3-1.2-.3 14.8m0 97c0 15.9.2 22.3.3 14.2.2-8.2.2-21.2 0-29-.1-7.8-.3-1.2-.3 14.8" />
+                                        <path fill-opacity=".3"
+                                            d="M181.3 301.7c10.8.2 28.6.2 39.5 0 10.8-.1 1.9-.2-19.8-.2s-30.6.1-19.7.2" />
+                                        <path fill-opacity=".4"
+                                            d="M371.3 223.7c8.2.2 21.2.2 29 0 7.8-.1 1.2-.3-14.8-.3-15.9 0-22.3.2-14.2.3m97 0c8.1.2 21.3.2 29.5 0 8.1-.1 1.4-.3-14.8-.3s-22.9.2-14.7.3M288 264.5c-2.4 2.5-4.2 4.5-3.9 4.5s2.5-2 4.9-4.5 4.2-4.5 3.9-4.5-2.5 2-4.9 4.5m83.3-1.8c8.2.2 21.2.2 29 0 7.8-.1 1.2-.3-14.8-.3-15.9 0-22.3.2-14.2.3m97 0c8.1.2 21.3.2 29.5 0 8.1-.1 1.4-.3-14.8-.3s-22.9.2-14.7.3M348 310.2c4.1 4.5 5 5.3 5 4.5 0-.2-2.1-2.3-4.7-4.7l-4.8-4.5z" />
+                                        <path fill-opacity=".5"
+                                            d="M356.4 243c0 10.7.2 15.1.3 9.7.2-5.3.2-14.1 0-19.5-.1-5.3-.3-.9-.3 9.8M80 338.5c-2.4 2.5-4.2 4.5-3.9 4.5s2.5-2 4.9-4.5 4.2-4.5 3.9-4.5-2.5 2-4.9 4.5" />
+                                        <path fill-opacity=".6"
+                                            d="M453.4 194.5c0 15.9.2 22.3.3 14.2.2-8.2.2-21.2 0-29-.1-7.8-.3-1.2-.3 14.8M113 264.2c2.4 2.7 4.5 4.8 4.7 4.8.8 0 0-.9-4.4-5l-4.8-4.5zm340.4 27.3c0 15.9.2 22.3.3 14.2.2-8.2.2-21.2 0-29-.1-7.8-.3-1.2-.3 14.8M53 310.5c-2.4 2.5-4.2 4.5-3.9 4.5s2.5-2 4.9-4.5 4.2-4.5 3.9-4.5-2.5 2-4.9 4.5m268 27.7c4.1 4.5 5 5.3 5 4.5 0-.2-2.1-2.3-4.7-4.7l-4.8-4.5z" />
+                                        <path fill-opacity=".7"
+                                            d="M259 117.4c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3m165.3 48.3c5.3.2 14.1.2 19.5 0 5.3-.1.9-.3-9.8-.3s-15.1.2-9.7.3" />
+                                        <path fill-opacity=".8"
+                                            d="M199.8 55.7c.6.2 1.8.2 2.5 0 .6-.3.1-.5-1.3-.5s-1.9.2-1.2.5m224.5 265c5.3.2 14.1.2 19.5 0 5.3-.1.9-.3-9.8-.3s-15.1.2-9.7.3m-22.9 125.8c0 5.5.1 7.6.3 4.7s.2-7.4 0-10-.3-.2-.3 5.3" />
+                                        <path fill-opacity=".9"
+                                            d="M115.9 89.7c-1.3 1.6-1.2 1.7.4.4.9-.7 1.7-1.5 1.7-1.7 0-.8-.8-.3-2.1 1.3M287.5 92c1 1.1 2 2 2.3 2s-.3-.9-1.3-2-2-2-2.3-2 .3.9 1.3 2m-176.1 2.2-1.9 2.3 2.3-1.9c2.1-1.8 2.7-2.6 1.9-2.6-.2 0-1.2 1-2.3 2.2M254 112.4c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3m10 10c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3M138 235.3c0 .2 1.5 1.6 3.3 3.3l3.2 2.9-2.9-3.3c-2.8-3-3.6-3.7-3.6-2.9m121.9 3.4c-1.3 1.6-1.2 1.7.4.4s2.1-2.1 1.3-2.1c-.2 0-1 .8-1.7 1.7m-199 65c-1.3 1.6-1.2 1.7.4.4.9-.7 1.7-1.5 1.7-1.7 0-.8-.8-.3-2.1 1.3m280.1.7c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3m11 11c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3m6 7c0 .2.8 1 1.8 1.7 1.5 1.3 1.6 1.2.3-.4s-2.1-2.1-2.1-1.3m-237.7 96.3c44.4.2 117 .2 161.5 0 44.4-.1 8-.2-80.8-.2s-125.2.1-80.7.2M.1 436.6c0 1.1.3 1.4.6.6.3-.7.2-1.6-.1-1.9-.3-.4-.6.2-.5 1.3m100.2 20.1c55.5.2 145.9.2 201 0 55.1-.1 9.8-.2-100.8-.2s-155.6.1-100.2.2" />
+                                        <g stroke-width="0">
+                                            <path
+                                                d="M179.6 57.6c-47.2 8.5-86.7 45.6-97.6 91.8-9.7 40.8 1.3 81.9 30.4 113.3l6.7 7.2-3.4 1.4c-1.8.8-4.5 1.8-5.8 2.2s-6.7 2.9-12.1 5.6c-39.6 19.8-72.3 57.4-86.9 99.9-6.8 19.6-9.4 34.8-10.5 59.7L-.3 456H401v-16c0-31.7-6.4-58-20.7-85-20.8-39.5-53.2-68.2-94.8-84l-2.7-1 6.7-7.3c22.3-24.2 33.7-53 33.6-85.1-.1-58.9-43.2-109.9-101.5-120.1-10.9-1.9-31.3-1.8-42 .1m41.1 38.5c50.5 11.6 78.2 66.4 58.2 115-9.4 23-29.6 40.9-54.4 48.5-8 2.4-10.6 2.7-23.5 2.7s-15.5-.3-23.5-2.7c-29.1-8.8-51-31.3-58.6-60.1-2.9-11-3.2-30-.5-40.5 11.8-46.5 55.9-73.6 102.3-62.9M254 302c43.8 7 85.9 44.1 101.4 89.4 2.5 7.2 6.5 23.4 6.6 26.3 0 1-32.9 1.3-161.1 1.3H39.8l.7-4.7c2-13.8 6.1-25.5 14.2-41.4 7.1-13.7 15.7-25.2 28-36.9 18.6-17.9 39.1-28.9 61.9-33.4 8.6-1.8 99.2-2.2 109.4-.6" />
+                                            <path d="M415 195v29h-58v38h58v58h38v-58h59v-38h-59v-58h-38z" />
+                                        </g>
+                                    </svg>
+                                </div>
+
+                                Add people
+                            </div>
+                        </div>
+                        <div class="aside-search-bar-div">
+                            <div class="svg-icons search-svg">
+                                <svg fill="#000000" height="200px" width="200px" version="1.1" id="Layer_1"
+                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                    viewBox="0 0 330 330" xml:space="preserve">
+                                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                    <g id="SVGRepo_iconCarrier">
+                                        <g id="XMLID_17_">
+                                            <path id="XMLID_18_"
+                                                d="M125.005,165.008c-22.058,0-40.003-17.945-40.003-40.002c0-8.284-6.716-15-15-15c-8.284,0-15,6.716-15,15 c0,38.6,31.403,70.002,70.003,70.002c8.284,0,15-6.716,15-15C140.005,171.724,133.289,165.008,125.005,165.008z">
+                                            </path>
+                                            <path id="XMLID_19_"
+                                                d="M325.606,304.394L223.329,202.117c16.706-21.256,26.682-48.04,26.682-77.111 C250.011,56.077,193.934,0,125.005,0C56.077,0,0,56.077,0,125.005C0,193.933,56.077,250.01,125.005,250.01 c29.07,0,55.855-9.975,77.111-26.681l102.278,102.277C307.322,328.536,311.161,330,315,330c3.839,0,7.678-1.464,10.606-4.394 C331.464,319.749,331.464,310.251,325.606,304.394z M30,125.005C30,72.619,72.619,30,125.005,30 c52.386,0,95.006,42.619,95.006,95.005c0,52.386-42.62,95.005-95.006,95.005C72.619,220.01,30,177.391,30,125.005z">
+                                            </path>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </div>
+                            <input class="aside-search-bar" type="text" placeholder="Search for people" />
+                        </div>
+
+
+                        <div class="list-lable">IN THE MEETING</div>
+
+
+                        <div class="participant-list">
+                            <div class="list-header">
+                                <div class="list-header-left">Contributors</div>
+                                <div class="list-header-right">
+                                    <div id="participant-count"></div>
+                                    <i class="fa fa-angle-up"></i>
+                                </div>
+                            </div>
+                            <div id="participant-list" class="participant-list-body">
+                                <div class="participants">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <div id="add-participant-modal" class="add-participant-modal hidden">
+        <form id="add-participant-panel" class="add-participant-panel">
+            <div class="add-participant-title">Add people</div>
+            <input id="add-participant-input" class="add-participant-input" type="text" placeholder="Enter participant name" />
+            <div class="add-participant-actions">
+                <button id="cancel-add-participant" class="panel-action-button" type="button">Cancel</button>
+                <button class="panel-action-button primary" type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+<script>
+    let participantCount = 0;
+    let currentSearchText = "";
+    const participantList = document.querySelector(".participants");
+    const participantCountElement = document.getElementById("participant-count");
+    const addPeopleButton = document.getElementById("add-people-button");
+    const addParticipantModal = document.getElementById("add-participant-modal");
+    const addParticipantPanel = document.getElementById("add-participant-panel");
+    const addParticipantInput = document.getElementById("add-participant-input");
+    const cancelAddParticipantButton = document.getElementById("cancel-add-participant");
+    const searchInput = document.querySelector(".aside-search-bar");
+    const collapseArrow = document.querySelector(".fa-angle-up");
+    const participantListBody = document.getElementById("participant-list");
+    const participantBox = document.querySelector(".participant-list");
+
+    const names = ["Vidhya Skill School(you)", "Abhishek Garg", "Almas Chamadiya", "ANKIT RAJPUT", "Aviral Jain", "Ayush Gupta", "Deepanshu Garg", "Pinky Thawani", "Pranav", "Rakshit Dalal", "Shivani Vishwakarma", "Shruti Prajapati", "vikas vanve"];
+    const avatarColors = [
+        "#1a73e8", "#ea4335", "#fbbc04", "#34a853",
+        "#8e24aa", "#00acc1", "#f4511e", "#5e35b1"
+    ];
+    const micMuteIconMarkup = `
+        <svg xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-mic-mute"
+            viewBox="0 0 16 16" id="Mic-Mute--Streamline-Bootstrap" height="16" width="16">
+            <desc>
+                Mic Mute Streamline Icon: https://streamlinehq.com
+            </desc>
+            <path
+                d="M13 8c0 0.564 -0.094 1.107 -0.266 1.613l-0.814 -0.814A4 4 0 0 0 12 8V7a0.5 0.5 0 0 1 1 0zm-5 4c0.818 0 1.578 -0.245 2.212 -0.667l0.718 0.719a5 5 0 0 1 -2.43 0.923V15h3a0.5 0.5 0 0 1 0 1h-7a0.5 0.5 0 0 1 0 -1h3v-2.025A5 5 0 0 1 3 8V7a0.5 0.5 0 0 1 1 0v1a4 4 0 0 0 4 4m3 -9v4.879l-1 -1V3a2 2 0 0 0 -3.997 -0.118l-0.845 -0.845A3.001 3.001 0 0 1 11 3"
+                stroke-width="1">
+            </path>
+            <path
+                d="m9.486 10.607 -0.748 -0.748A2 2 0 0 1 6 8v-0.878l-1 -1V8a3 3 0 0 0 4.486 2.607m-7.84 -9.253 12 12 0.708 -0.708 -12 -12z"
+                stroke-width="1">
+            </path>
+        </svg>
+    `;
+    const menuIconMarkup = `
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000" class="bi bi-three-dots-vertical">
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+            <g id="SVGRepo_iconCarrier">
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
+            </g>
+        </svg>
+    `;
+    const pinIconMarkup = `
+        <svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path d="M10.5 1.5a1 1 0 0 1 .9 1.4l-.7 1.5 1.8 1.8c.4.4.1 1-.5 1h-3l-1.5 2.2V14c0 .3-.4.5-.6.3l-1.2-1.2a.5.5 0 0 1-.1-.6l1.1-2.2-2.4-2.4h-2c-.6 0-.9-.7-.5-1.1l1.8-1.8-.7-1.5a1 1 0 0 1 .9-1.4h6.7z"></path>
+        </svg>
+    `;
+
+    function getInitial(name) {
+        return name.trim().charAt(0).toUpperCase();
+    }
+
+    function getColorFromName(name) {
+        let hash = 0;
+        for (let i = 0; i < name.length; i++) {
+            hash = name.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        return avatarColors[Math.abs(hash) % avatarColors.length];
+    }
+
+    function formatParticipantName(name) {
+        return name
+            .split(" ")
+            .filter(Boolean)
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+            .join(" ");
+    }
+
+    function createSvgTemplate(markup) {
+        const template = document.createElement("template");
+        template.innerHTML = markup.trim();
+        return template.content.firstElementChild;
+    }
+
+    const matchedName = (arr, char) => {
+        return arr.filter((item) => item.searchValue.includes(char));
+    };
+
+    const micMuteIconTemplate = createSvgTemplate(micMuteIconMarkup);
+    const menuIconTemplate = createSvgTemplate(menuIconMarkup);
+    const pinIconTemplate = createSvgTemplate(pinIconMarkup);
+
+    let participantsData = names.map((name, index) => ({
+        id: index,
+        order: index,
+        pinned: false,
+        rawName: name,
+        searchValue: name.toLowerCase(),
+        displayName: formatParticipantName(name),
+        initial: getInitial(name),
+        avatarColor: getColorFromName(name)
+    }));
+    let nextParticipantId = participantsData.length;
+    let nextParticipantOrder = participantsData.length;
+    const adminNameKey = "vidhyaskillschool";
+
+    function updateParticipantCount() {
+        participantCount = participantsData.length;
+        participantCountElement.textContent = participantCount;
+    }
+
+    updateParticipantCount();
+
+    function closeAllActionMenus() {
+        const openMenus = document.querySelectorAll(".participant-actions.is-open");
+        openMenus.forEach((menu) => menu.classList.remove("is-open"));
+    }
+
+    function getNameComparisonKey(name) {
+        return name.toLowerCase().replace(/[^a-z]/g, "");
+    }
+
+    function isAdminParticipant(participant) {
+        return getNameComparisonKey(participant.rawName).includes(adminNameKey);
+    }
+
+    function getSortableParticipantName(participant) {
+        return participant.rawName.replace(/\(.*?\)/g, "").trim().toLowerCase();
+    }
+
+    function sortParticipantsForDisplay(participantEntries) {
+        return [...participantEntries].sort((a, b) => {
+            const aIsAdmin = isAdminParticipant(a);
+            const bIsAdmin = isAdminParticipant(b);
+            if (aIsAdmin !== bIsAdmin) {
+                return Number(bIsAdmin) - Number(aIsAdmin);
+            }
+
+            if (a.pinned !== b.pinned) {
+                return Number(b.pinned) - Number(a.pinned);
+            }
+
+            const nameComparison = getSortableParticipantName(a).localeCompare(getSortableParticipantName(b), undefined, {
+                sensitivity: "base"
+            });
+            if (nameComparison !== 0) {
+                return nameComparison;
+            }
+
+            return a.order - b.order;
+        });
+    }
+
+    function removeParticipantById(participantId) {
+        participantsData = participantsData.filter((participant) => participant.id !== participantId);
+        updateParticipantCount();
+        renderCurrentParticipants();
+    }
+
+    function setParticipantPinnedState(participantId, shouldPin) {
+        const participant = participantsData.find((entry) => entry.id === participantId);
+        if (participant) {
+            participant.pinned = shouldPin;
+        }
+        renderCurrentParticipants();
+    }
+
+    function addParticipantByName(nameInput) {
+        const trimmedValue = nameInput.trim();
+        if (!trimmedValue) {
+            return false;
+        }
+
+        const participant = {
+            id: nextParticipantId++,
+            order: nextParticipantOrder++,
+            pinned: false,
+            rawName: trimmedValue,
+            searchValue: trimmedValue.toLowerCase(),
+            displayName: formatParticipantName(trimmedValue),
+            initial: getInitial(trimmedValue),
+            avatarColor: getColorFromName(trimmedValue)
+        };
+
+        participantsData.push(participant);
+        updateParticipantCount();
+
+        // Reset search so newly added participant is visible immediately.
+        currentSearchText = "";
+        searchInput.value = "";
+        renderCurrentParticipants();
+
+        return true;
+    }
+
+    function openAddParticipantPanel() {
+        addParticipantModal.classList.remove("hidden");
+        addParticipantInput.focus();
+    }
+
+    function closeAddParticipantPanel() {
+        addParticipantModal.classList.add("hidden");
+        addParticipantInput.value = "";
+    }
+
+    function createParticipantRow(participantData) {
+        const participant = document.createElement("div");
+        participant.classList.add("participant");
+        participant.dataset.participantId = String(participantData.id);
+
+        const leftSection = document.createElement("div");
+        leftSection.classList.add("participant-left");
+
+        const profile = document.createElement("div");
+        profile.classList.add("participant-profile");
+        profile.style.backgroundColor = participantData.avatarColor;
+        profile.textContent = participantData.initial;
+
+        const nameElement = document.createElement("div");
+        nameElement.classList.add("participant-name");
+        nameElement.textContent = participantData.displayName;
+
+        leftSection.append(profile, nameElement);
+
+        const rightSection = document.createElement("div");
+        rightSection.classList.add("participant-right");
+
+        const statusIndicator = document.createElement("div");
+        if (participantData.pinned) {
+            statusIndicator.classList.add("pinned-indicator");
+
+            const pinIconHolder = document.createElement("span");
+            pinIconHolder.classList.add("pinned-indicator-icon");
+            pinIconHolder.appendChild(pinIconTemplate.cloneNode(true));
+
+            const pinnedText = document.createElement("span");
+            pinnedText.textContent = "Pinned";
+
+            statusIndicator.append(pinIconHolder, pinnedText);
+        } else {
+            statusIndicator.classList.add("svg-icon");
+            statusIndicator.appendChild(micMuteIconTemplate.cloneNode(true));
+        }
+
+        const menuIconButton = document.createElement("button");
+        menuIconButton.type = "button";
+        menuIconButton.classList.add("menu-icon-button", "svg-icons");
+        menuIconButton.setAttribute("aria-label", "Open participant actions");
+        menuIconButton.dataset.action = "toggle-menu";
+        menuIconButton.appendChild(menuIconTemplate.cloneNode(true));
+
+        const actionsMenu = document.createElement("div");
+        actionsMenu.classList.add("participant-actions");
+
+        const pinButton = document.createElement("button");
+        pinButton.type = "button";
+        pinButton.classList.add("participant-action-button");
+        pinButton.textContent = participantData.pinned ? "Unpin" : "Pin";
+        pinButton.dataset.action = "toggle-pin";
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.classList.add("participant-action-button", "remove");
+        removeButton.textContent = "Remove";
+        removeButton.dataset.action = "remove";
+
+        actionsMenu.append(pinButton, removeButton);
+
+        rightSection.append(statusIndicator, menuIconButton, actionsMenu);
+        participant.append(leftSection, rightSection);
+
+        return participant;
+    }
+
+    function getFilteredParticipants() {
+        const sortedParticipants = sortParticipantsForDisplay(participantsData);
+        if (currentSearchText === "") {
+            return sortedParticipants;
+        }
+        return matchedName(sortedParticipants, currentSearchText);
+    }
+
+    function renderCurrentParticipants() {
+        closeAllActionMenus();
+        renderParticipants(getFilteredParticipants());
+    }
+
+    function renderParticipants(participantEntries) {
+        participantList.textContent = "";
+
+        const fragment = document.createDocumentFragment();
+        participantEntries.forEach((participantData) => {
+            fragment.appendChild(createParticipantRow(participantData));
+        });
+        participantList.appendChild(fragment);
+    }
+
+    function applyParticipantSearch(searchText) {
+        currentSearchText = searchText.trim().toLowerCase();
+        renderCurrentParticipants();
+    }
+
+    // Add initial participants
+    renderCurrentParticipants();
+
+    searchInput.addEventListener("input", (event) => {
+        applyParticipantSearch(event.target.value);
+    });
+
+    participantList.addEventListener("click", (event) => {
+        const actionElement = event.target.closest("[data-action]");
+        if (!actionElement || !participantList.contains(actionElement)) {
+            return;
+        }
+
+        const participantElement = actionElement.closest(".participant");
+        if (!participantElement) {
+            return;
+        }
+
+        const participantId = Number(participantElement.dataset.participantId);
+        if (!Number.isInteger(participantId)) {
+            return;
+        }
+
+        const action = actionElement.dataset.action;
+        event.stopPropagation();
+
+        if (action === "toggle-menu") {
+            const actionsMenu = participantElement.querySelector(".participant-actions");
+            if (!actionsMenu) {
+                return;
+            }
+
+            const isOpen = actionsMenu.classList.contains("is-open");
+            closeAllActionMenus();
+            if (!isOpen) {
+                actionsMenu.classList.add("is-open");
+            }
+            return;
+        }
+
+        if (action === "toggle-pin") {
+            const participant = participantsData.find((entry) => entry.id === participantId);
+            if (!participant) {
+                return;
+            }
+
+            setParticipantPinnedState(participantId, !participant.pinned);
+            return;
+        }
+
+        if (action === "remove") {
+            removeParticipantById(participantId);
+        }
+    });
+
+    addPeopleButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        openAddParticipantPanel();
+    });
+
+    addParticipantPanel.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const wasAdded = addParticipantByName(addParticipantInput.value);
+        if (wasAdded) {
+            closeAddParticipantPanel();
+        }
+    });
+
+    cancelAddParticipantButton.addEventListener("click", () => {
+        closeAddParticipantPanel();
+    });
+
+    addParticipantPanel.addEventListener("click", (event) => {
+        event.stopPropagation();
+    });
+
+    addParticipantModal.addEventListener("click", (event) => {
+        if (event.target === addParticipantModal) {
+            closeAddParticipantPanel();
+        }
+    });
+
+    document.addEventListener("click", () => {
+        closeAllActionMenus();
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closeAddParticipantPanel();
+        }
+    });
+
+    collapseArrow.addEventListener("click", () => {
+        participantListBody.classList.toggle("collapsed");
+        collapseArrow.classList.toggle("collapsed");
+        participantBox.classList.toggle("collapsed");
+    });
+
+</script>
+
+
+</html>

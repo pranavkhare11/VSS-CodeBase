@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Normal vs Arrow Func</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    function addNum(num1, num2) {
+        const sum = num1 + num2;
+        return sum;
+    }
+
+    // Via Arrow function
+    const addNum2 = (num1, num2) => {
+        const sum = num1 + num2;
+        return sum;
+    }
+
+    // Via Arrow function
+    const addNum21 = (num1, num2) => {
+        return num1 + num2;
+    }
+
+    // Via arrow function - shorter
+    const addNum3 = (num1, num2) => num1 + num2;
+
+    const addNum4 = (ab1, ab2) => ab1 + ab2;
+
+    console.log("addNum: call: ", addNum(20, 20));
+    console.log("addNum2: call: ", addNum2(20, 20));
+    console.log("addNum21: call: ", addNum21(20, 20));
+    console.log("addNum3: call: ", addNum3(20, 20));
+    console.log("addNum4: call: ", addNum4(20, 20));
+
+</script>
