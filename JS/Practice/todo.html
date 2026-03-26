@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Todo App</title>
+    <style>
+        /* Basic page styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 50px;
+        }
+
+        /* Container for the todo app */
+        .todo-container {
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        /* Input and add button styling */
+        .todo-input-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        #newTodoInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        #addTodoButton {
+            padding: 10px 15px;
+            margin-left: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        #addTodoButton:hover {
+            background-color: #218838;
+        }
+
+        /* Todo list styling */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+            border: none;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="todo-container">
+        <h1>Todo List</h1>
+
+        <!-- Input for new todo and add button -->
+        <div class="todo-input-container">
+            <input type="text" id="newTodoInput" placeholder="Enter a new todo">
+            <button id="addTodoButton">Add</button>
+        </div>
+
+        <!-- List of todos -->
+        <ul id="todoList"></ul>
+    </div>
+
+    <script>
+        // Array to hold existing todos
+        let todos = [
+            "Buy groceries",
+            "Read a book",
+            "Workout for 30 mins",
+            "Call a friend",
+            "Write journal"
+        ];
+
+        // Get references to DOM elements
+        const todoListElement = document.getElementById('todoList');
+        const newTodoInputElement = document.getElementById('newTodoInput');
+        const addTodoButtonElement = document.getElementById('addTodoButton');
+
+        // Function to render all todos in the UI
+        function renderTodos() {
+            // Clear current list
+            todoListElement.innerHTML = '';
+
+            // Loop through todos array and create list items
+            todos.forEach((todoText, index) => {
+                const listItemElement = document.createElement('li');
+
+                // Create span for todo text
+                const todoTextElement = document.createElement('span');
+                todoTextElement.textContent = todoText;
+
+                // Create delete button
+                const deleteButtonElement = document.createElement('button');
+                deleteButtonElement.textContent = 'Delete';
+                deleteButtonElement.className = 'delete-button';
+
+                // Add click event to delete the todo
+                deleteButtonElement.addEventListener('click', () => {
+                    const confirmDelete = confirm(`Are you sure you want to delete "${todoText}"?`);
+                    if (confirmDelete) {
+                        todos.splice(index, 1); // Remove todo from array
+                        renderTodos(); // Re-render list
+                    }
+                });
+
+                // Append text and button to list item
+                listItemElement.appendChild(todoTextElement);
+                listItemElement.appendChild(deleteButtonElement);
+
+                // Append list item to ul
+                todoListElement.appendChild(listItemElement);
+            });
+        }
+
+        // Event listener for adding a new todo
+        addTodoButtonElement.addEventListener('click', () => {
+            const newTodoText = newTodoInputElement.value.trim(); // Remove whitespace
+
+            if (newTodoText !== '') {
+                todos.push(newTodoText); // Add new todo to array
+                newTodoInputElement.value = ''; // Clear input
+                renderTodos(); // Re-render list
+            } else {
+                alert('Please enter a valid todo.');
+            }
+        });
+
+        // Render initial todos on page load
+        renderTodos();
+    </script>
+
+</body>
+
+</html>

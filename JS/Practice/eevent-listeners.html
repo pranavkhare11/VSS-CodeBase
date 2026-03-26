@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="heading">Hello World</h1>
+    <button id="btn1">Click Me</button>
+
+</body>
+
+<script>
+    let count = 0;
+    const headingElem = document.getElementById("heading");
+    const btn1Elem = document.getElementById("btn1");
+    btn1Elem.addEventListener("click", () => {
+        count++
+        headingElem.textContent = "Thanks for clicking via addEventListener " + count;
+    })</script>
+
+
+</html>

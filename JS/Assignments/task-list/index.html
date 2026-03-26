@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        .svg-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #556fe2 0%, #7e3385 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            height: 100vh;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box {
+            display: flex;
+            flex-direction: column;
+            background-color: #fff;
+            border-radius: 12px;
+            width: 350px;
+            height: 420px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .header-div {
+            background: linear-gradient(135deg, #556fe2 0%, #7e3385 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .heading {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0 5px;
+        }
+
+        .quote {
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        #task-count {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        .task-container {
+            flex: 1;
+            padding: 0 20px 10px 20px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+        }
+
+        .task-container::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .task-container::-webkit-scrollbar-button {
+            display: none;
+        }
+
+        .task-container::-webkit-scrollbar-track {
+            background-color: #d4c5e2;
+            border-radius: 10px;
+        }
+
+        .task-container::-webkit-scrollbar-thumb {
+            background-color: #4a3670;
+            border-radius: 10px;
+            border: 2px solid #d4c5e2;
+        }
+
+        .task-container::-webkit-scrollbar-thumb:hover {
+            background-color: #3d2d5a;
+        }
+
+        .no-tasks {
+            margin-top: 20px;
+            font-size: 13px;
+            ;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #aaaaaa;
+        }
+
+        .task-svg {
+            width: 60px;
+            height: 60px;
+            /* fill: #c9c9c9; */
+        }
+
+        .no-tasks-message {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .task-item {
+            margin: 2px 0;
+            padding: 5px;
+            border: 2px dashed #eea8ff;
+            background-color: #edd7f1;
+            border-radius: 3px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task-text {
+            flex: 1;
+            transition: all 0.2s ease;
+        }
+
+        .task-text.completed {
+            text-decoration: line-through;
+            color: #999;
+        }
+
+        .checkmark-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+            color: #6d5aa1;
+            font-size: 16px;
+        }
+
+        .checkmark-button:hover {
+            background-color: #f0e5f7;
+        }
+
+        .checkmark-button.checked {
+            color: #28a745;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .edit-button,
+        .delete-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.2s ease;
+        }
+
+        .edit-button svg,
+        .delete-button svg {
+            width: 15px;
+            height: 15px;
+            fill: #6d5aa1;
+        }
+
+        .delete-button:hover {
+            background-color: #e7503c4d;
+            padding: 5px;
+        }
+
+        .delete-button:hover svg {
+            fill: #e7563c;
+        }
+
+        .input-container {
+            display: flex;
+            padding: 10px 20px;
+            background-color: #e2e2e2;
+            border-top: 1px solid #eee;
+        }
+
+        #taskInput {
+            flex: 1;
+            padding: 5px 10px 5px 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        #taskInput:focus {
+            outline: none;
+            border-color: #7e3385;
+            box-shadow: 0 0 5px rgba(126, 51, 133, 0.5);
+        }
+
+        #addTaskButton {
+            padding: 5px 30px;
+            margin-left: 10px;
+            background: linear-gradient(135deg, #556fe2 0%, #7e3385 100%);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        #addTaskButton:active {
+            translate: 0 -1px;
+        }
+
+        .add-task-svg {
+            width: 20px;
+            height: 20px;
+            fill: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="container">
+            <div class="box">
+                <div class="header-div">
+                    <div class="heading">My Tasks</div>
+                    <div class="quote">Stay Organized And Productive</div>
+                    <div id="task-count">0 tasks</div>
+                </div>
+                <div class="task-container">
+                    <div class="no-tasks">
+                        <div class="svg-icon task-svg">
+                            <svg viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M4 5.25C4 3.45508 5.45507 2 7.25 2H20.75C22.5449 2 24 3.45507 24 5.25V17.3787C23.8796 17.4592 23.7653 17.5527 23.659 17.659L22.5 18.818V5.25C22.5 4.2835 21.7165 3.5 20.75 3.5H7.25C6.2835 3.5 5.5 4.2835 5.5 5.25V22.7497C5.5 23.7162 6.2835 24.4997 7.25 24.4997H15.3177L16.8177 25.9997H7.25C5.45507 25.9997 4 24.5446 4 22.7497V5.25Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M10.5 8.75C10.5 9.44036 9.94036 10 9.25 10C8.55964 10 8 9.44036 8 8.75C8 8.05964 8.55964 7.5 9.25 7.5C9.94036 7.5 10.5 8.05964 10.5 8.75Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M9.25 15.2498C9.94036 15.2498 10.5 14.6902 10.5 13.9998C10.5 13.3095 9.94036 12.7498 9.25 12.7498C8.55964 12.7498 8 13.3095 8 13.9998C8 14.6902 8.55964 15.2498 9.25 15.2498Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M9.25 20.5C9.94036 20.5 10.5 19.9404 10.5 19.25C10.5 18.5596 9.94036 18 9.25 18C8.55964 18 8 18.5596 8 19.25C8 19.9404 8.55964 20.5 9.25 20.5Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M12.75 8C12.3358 8 12 8.33579 12 8.75C12 9.16421 12.3358 9.5 12.75 9.5H19.25C19.6642 9.5 20 9.16421 20 8.75C20 8.33579 19.6642 8 19.25 8H12.75Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M12 13.9998C12 13.5856 12.3358 13.2498 12.75 13.2498H19.25C19.6642 13.2498 20 13.5856 20 13.9998C20 14.414 19.6642 14.7498 19.25 14.7498H12.75C12.3358 14.7498 12 14.414 12 13.9998Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M12.75 18.5C12.3358 18.5 12 18.8358 12 19.25C12 19.6642 12.3358 20 12.75 20H19.25C19.6642 20 20 19.6642 20 19.25C20 18.8358 19.6642 18.5 19.25 18.5H12.75Z"
+                                        fill="#c9c9c9"></path>
+                                    <path
+                                        d="M25.7803 19.7803L19.7803 25.7803C19.6397 25.921 19.4489 26 19.25 26C19.0511 26 18.8603 25.921 18.7197 25.7803L15.7216 22.7823C15.4287 22.4894 15.4287 22.0145 15.7216 21.7216C16.0145 21.4287 16.4894 21.4287 16.7823 21.7216L19.25 24.1893L24.7197 18.7197C25.0126 18.4268 25.4874 18.4268 25.7803 18.7197C26.0732 19.0126 26.0732 19.4874 25.7803 19.7803Z"
+                                        fill="#c9c9c9"></path>
+                                </g>
+                            </svg>
+                        </div>
+                        <div class="no-tasks-message">No tasks yet. Add one to get started!</div>
+                    </div>
+                    <div class="task-list"></div>
+                </div>
+                <div class="input-container">
+                    <input type="text" id="taskInput" placeholder="Add a new task..." />
+                    <button id="addTaskButton">
+                        <div class="svg-icon add-task-svg">
+                            <svg viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>plus [#1455]</title>
+                                    <desc>Created with Sketch.</desc>
+                                    <defs> </defs>
+                                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                        <g id="Dribbble-Light-Preview" transform="translate(-259.000000, -480.000000)"
+                                            fill="#fff">
+                                            <g id="icons" transform="translate(56.000000, 160.000000)">
+                                                <path
+                                                    d="M214.55,326 L212.45,326 L212.45,329 L209.3,329 L209.3,331 L212.45,331 L212.45,334 L214.55,334 L214.55,331 L217.7,331 L217.7,329 L214.55,329 L214.55,326 Z M221.9,334 L224,334 L224,326 L221.9,326 L221.9,334 Z M221.9,338 L219.8,338 L219.8,340 L224,340 L224,336 L221.9,336 L221.9,338 Z M219.8,320 L219.8,322 L221.9,322 L221.9,324 L224,324 L224,320 L219.8,320 Z M203,334 L205.1,334 L205.1,326 L203,326 L203,334 Z M205.1,336 L203,336 L203,340 L207.2,340 L207.2,338 L205.1,338 L205.1,336 Z M203,320 L203,324 L205.1,324 L205.1,322 L207.2,322 L207.2,320 L203,320 Z M209.3,340 L217.7,340 L217.7,338 L209.3,338 L209.3,340 Z M209.3,322 L217.7,322 L217.7,320 L209.3,320 L209.3,322 Z"
+                                                    id="plus-[#1455]"> </path>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+<script>
+    let tasks = [];
+    let taskCountElement = document.getElementById('task-count');
+    let taskListElement = document.querySelector('.task-list');
+    let noTasksElement = document.querySelector('.no-tasks');
+    let taskInputElement = document.getElementById('taskInput');
+    let addTaskButton = document.getElementById('addTaskButton');
+
+    function updateTaskCount() {
+        taskCountElement.textContent = `${tasks.length} ${tasks.length === 1 ? 'task' : 'tasks'}`;
+    }
+    function renderTasks() {
+        taskListElement.innerHTML = '';
+        if (tasks.length === 0) {
+            noTasksElement.style.display = 'flex';
+        } else {
+            noTasksElement.style.display = 'none';
+            tasks.forEach((task, index) => {
+                let taskItem = document.createElement('div');
+                taskItem.className = 'task-item';
+                taskItem.dataset.index = index;
+
+                const checkmarkChar = task.completed ? '✓' : '☐';
+
+                taskItem.innerHTML = `
+                    <button class="checkmark-button ${task.completed ? 'checked' : ''}">
+                        ${checkmarkChar}
+                    </button>
+                    <div class="task-text ${task.completed ? 'completed' : ''}">${task.name}</div>
+                    <div class="task-actions">
+                        <button class="edit-button">
+                            <svg fill="#000000" height="200px" width="200px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 348.882 348.882" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path d="M333.988,11.758l-0.42-0.383C325.538,4.04,315.129,0,304.258,0c-12.187,0-23.888,5.159-32.104,14.153L116.803,184.231 c-1.416,1.55-2.49,3.379-3.154,5.37l-18.267,54.762c-2.112,6.331-1.052,13.333,2.835,18.729c3.918,5.438,10.23,8.685,16.886,8.685 c0,0,0.001,0,0.001,0c2.879,0,5.693-0.592,8.362-1.76l52.89-23.138c1.923-0.841,3.648-2.076,5.063-3.626L336.771,73.176 C352.937,55.479,351.69,27.929,333.988,11.758z M130.381,234.247l10.719-32.134l0.904-0.99l20.316,18.556l-0.904,0.99 L130.381,234.247z M314.621,52.943L182.553,197.53l-20.316-18.556L294.305,34.386c2.583-2.828,6.118-4.386,9.954-4.386 c3.365,0,6.588,1.252,9.082,3.53l0.419,0.383C319.244,38.922,319.63,47.459,314.621,52.943z"></path> <path d="M303.85,138.388c-8.284,0-15,6.716-15,15v127.347c0,21.034-17.113,38.147-38.147,38.147H68.904 c-21.035,0-38.147-17.113-38.147-38.147V100.413c0-21.034,17.113-38.147,38.147-38.147h131.587c8.284,0,15-6.716,15-15 s-6.716-15-15-15H68.904c-37.577,0-68.147,30.571-68.147,68.147v180.321c0,37.576,30.571,68.147,68.147,68.147h181.798 c37.576,0,68.147-30.571,68.147-68.147V153.388C318.85,145.104,312.134,138.388,303.85,138.388z"></path> </g> </g></svg></button>
+                        <button class="delete-button">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 12V17" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg></button>
+                    </div>
+                `;
+                taskListElement.appendChild(taskItem);
+            });
+        }
+    }
+
+    function addTask() {
+        let newTask = taskInputElement.value.trim();
+        if (newTask) {
+            tasks.push({ name: newTask, completed: false });
+            updateTaskCount();
+            renderTasks();
+            taskInputElement.value = '';
+        }
+    }
+
+    addTaskButton.addEventListener('click', addTask);
+
+    taskInputElement.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            addTask();
+        }
+    });
+    taskListElement.addEventListener('click', (e) => {
+        const taskItem = e.target.closest('.task-item');
+        if (!taskItem) return;
+
+        const index = parseInt(taskItem.dataset.index);
+
+        const checkmarkButton = e.target.closest('.checkmark-button');
+        const deleteButton = e.target.closest('.delete-button');
+        const editButton = e.target.closest('.edit-button');
+
+        if (checkmarkButton) {
+            tasks[index].completed = !tasks[index].completed;
+            renderTasks();
+        } else if (deleteButton) {
+            tasks.splice(index, 1);
+            updateTaskCount();
+            renderTasks();
+        } else if (editButton) {
+            const taskText = taskItem.querySelector('.task-text');
+            const input = document.createElement('input');
+            input.id = 'editTaskInput';
+            input.type = 'text';
+            input.value = tasks[index].name;
+
+            taskText.replaceWith(input);
+            input.focus();
+            input.select();
+
+            const saveEdit = () => {
+                if (input.value.trim()) {
+                    tasks[index].name = input.value.trim();
+                    renderTasks();
+                } else {
+                    renderTasks();
+                }
+            };
+
+            input.addEventListener('blur', saveEdit);
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    saveEdit();
+                }
+            });
+        }
+    });
+
+
+
+</script>
+
+</html>

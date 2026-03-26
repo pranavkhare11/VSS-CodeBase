@@ -5,69 +5,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Meet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         * {
             box-sizing: border-box;
-            margin: 0px;
-            padding: 0px;
+            margin: 0;
+            padding: 0;
+        }
 
+        :root {
+            --bg-base: #202124;
+            --bg-elev-1: #26282d;
+            --bg-elev-2: #2f3136;
+            --bg-hover: #343740;
+            --surface-border: #42454c;
+            --text-primary: #f1f3f4;
+            --text-secondary: #c8ccd1;
+            --text-muted: #9aa0a6;
+            --accent: #8ab4f8;
+            --accent-strong: #1a73e8;
+            --danger-soft: #ffb4ab;
+            --success-border: #5ac17b;
+            --success-bg: #1c4630;
+            --success-text: #a6efc1;
+            --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.45);
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: "Space Grotesk", "Segoe UI", sans-serif;
             font-size: 12px;
-            color: #a0a0a0;
-            background-color: rgb(73, 73, 73);
+            color: var(--text-secondary);
+            background:
+                radial-gradient(circle at 18% 12%, rgba(26, 115, 232, 0.15), transparent 40%),
+                radial-gradient(circle at 88% 84%, rgba(102, 187, 106, 0.14), transparent 35%),
+                #3f4249;
+            min-height: 100vh;
+        }
+
+        main {
+            min-height: 100vh;
         }
 
         .aside {
-            width: 300px;
-            background-color: rgb(19, 19, 19);
-            padding: 5px 5px 30px 5px;
+            width: min(360px, 100vw);
+            background-color: transparent;
+            padding: 12px;
             display: flex;
-            position: absolute;
+            position: fixed;
+            top: 0;
             right: 0;
             flex-direction: column;
             justify-content: space-between;
-            height: 100vh;
+            height: 100dvh;
         }
 
         .aside-body-inner {
             display: flex;
             flex-direction: column;
-            border-radius: 10px;
-            background-color: #1e1f21;
+            border-radius: 16px;
+            background: linear-gradient(160deg, #24262b 0%, #202124 100%);
+            border: 1px solid rgba(138, 180, 248, 0.12);
+            box-shadow: var(--shadow-lg);
             height: 100%;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .aside-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-
-            padding: 5px 10px 5px 10px;
-            color: #fff;
+            padding: 14px 16px 10px;
+            color: var(--text-primary);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
         }
 
         .aside-buttons-div {
             display: flex;
-            gap: 20px;
-            margin-top: 10px;
+            gap: 10px;
+            margin-top: 6px;
             justify-content: center;
-            color: #c4c4c4;
+            color: var(--text-secondary);
             font-size: 12px;
+            padding: 0 12px;
         }
 
         .aside-buttons {
             display: flex;
             align-items: center;
-            gap: 15px;
-            padding: 5px 10px;
+            gap: 10px;
+            padding: 8px 12px;
             border-radius: 25px;
-            background-color: #004a77;
+            border: 1px solid var(--surface-border);
+            background-color: var(--bg-elev-2);
             cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .aside-buttons:hover {
+            transform: translateY(-1px);
+            background-color: #363941;
+            border-color: #5b6069;
+        }
+
+        #add-people-button {
+            background: linear-gradient(120deg, #165ec0 0%, #1a73e8 100%);
+            border-color: #2c7ee9;
+            color: #f8fbff;
         }
 
         .aside-buttons .button-svg {
@@ -78,10 +129,17 @@
         .aside-search-bar-div {
             display: flex;
             align-items: center;
-            margin: 10px 10px 0px 10px;
-            padding: 5px 10px;
-            border: 1px solid #7c7c7c;
-            border-radius: 7.5px;
+            margin: 12px 12px 0;
+            padding: 8px 10px;
+            border: 1px solid var(--surface-border);
+            border-radius: 12px;
+            background-color: #292b30;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .aside-search-bar-div:focus-within {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.2);
         }
 
         .hidden {
@@ -94,7 +152,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background-color: rgba(32, 33, 36, 0.72);
+            background-color: rgba(20, 21, 24, 0.7);
+            backdrop-filter: blur(2px);
             z-index: 1000;
         }
 
@@ -104,67 +163,92 @@
 
         .add-participant-panel {
             width: min(420px, calc(100% - 32px));
-            padding: 18px;
-            border: 1px solid #3c4043;
-            border-radius: 14px;
-            background-color: #202124;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+            padding: 18px 18px 16px;
+            border: 1px solid var(--surface-border);
+            border-radius: 16px;
+            background: linear-gradient(160deg, #26282d 0%, #202124 100%);
+            box-shadow: var(--shadow-lg);
+            animation: modal-pop 0.2s ease;
         }
 
         .add-participant-title {
-            color: #e8eaed;
-            font-size: 16px;
+            color: var(--text-primary);
+            font-size: 17px;
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
+        }
+
+        .add-participant-subtitle {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-bottom: 12px;
         }
 
         .add-participant-input {
             width: 100%;
-            padding: 9px 10px;
-            border: 1px solid #5f6368;
-            border-radius: 6px;
-            background-color: #1e1f21;
-            color: #e8eaed;
+            padding: 10px 12px;
+            border: 1px solid #5c616a;
+            border-radius: 10px;
+            background-color: #202227;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .add-participant-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(138, 180, 248, 0.2);
         }
 
         .add-participant-actions {
-            margin-top: 8px;
+            margin-top: 12px;
             display: flex;
             justify-content: flex-end;
             gap: 8px;
         }
 
         .panel-action-button {
-            border: 1px solid #5f6368;
-            background-color: #1e1f21;
-            color: #e8eaed;
-            border-radius: 6px;
-            padding: 6px 10px;
+            border: 1px solid #5e636c;
+            background-color: #25272c;
+            color: var(--text-primary);
+            border-radius: 10px;
+            padding: 7px 12px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: 500;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        .panel-action-button:hover {
+            background-color: #31343b;
+            border-color: #6b717a;
         }
 
         .panel-action-button.primary {
-            border-color: #1a73e8;
-            background-color: #1a73e8;
+            border-color: var(--accent-strong);
+            background-color: var(--accent-strong);
             color: #fff;
+        }
+
+        .panel-action-button.primary:hover {
+            background-color: #2b7de9;
+            border-color: #2b7de9;
         }
 
         .aside-search-bar {
             padding: 5px 10px;
-
             border: none;
-            background-color: #1e1f21;
-            color: #e2e2e2;
+            background-color: transparent;
+            color: var(--text-primary);
+            width: 100%;
         }
 
-        .aside-search-bar-div>.search-svg {
+        .aside-search-bar>.search-svg {
             width: 16px;
             height: 16px;
         }
 
         input::placeholder {
-            color: #7c7c7c;
+            color: var(--text-muted);
         }
 
         input:focus {
@@ -172,26 +256,33 @@
         }
 
         .list-lable {
-            color: #c4c4c4;
-            margin: 10px 10px 0px 10px;
-            font-size: 12px;
+            color: var(--text-muted);
+            margin: 14px 14px 0;
+            font-size: 11px;
+            letter-spacing: 0.6px;
+            font-weight: 600;
         }
 
 
         .participant-list {
-
-            border: 1px solid #7c7c7c;
-            border-radius: 7.5px;
-            margin: 10px 5px 10px 5px;
+            border: 1px solid var(--surface-border);
+            border-radius: 14px;
+            margin: 10px 10px 12px;
+            overflow: hidden;
+            background-color: rgba(255, 255, 255, 0.01);
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
         }
 
         .list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #c4c4c4;
-            padding: 10px 10px;
-            border-bottom: 1px solid #7c7c7c;
+            color: var(--text-secondary);
+            padding: 12px 12px;
+            border-bottom: 1px solid var(--surface-border);
             transition: border-bottom-color 0.35s ease;
         }
 
@@ -201,13 +292,14 @@
 
         .list-header-left {
             font-size: 12px;
+            font-weight: 600;
         }
 
         .list-header-right {
             display: flex;
             align-items: center;
-            gap: 17.5px;
-            margin-right: 5px;
+            gap: 14px;
+            margin-right: 3px;
             font-weight: bold;
         }
 
@@ -215,6 +307,7 @@
             font-size: 20px;
             cursor: pointer;
             transition: transform 0.35s ease;
+            color: var(--text-muted);
         }
 
         .svg-icons {
@@ -223,13 +316,31 @@
             justify-content: center;
             width: 24px;
             height: 24px;
+            color: var(--text-secondary);
         }
 
         .participant-list-body {
-            max-height: 360px;
+            max-height: none;
+            flex: 1;
+            min-height: 0;
             overflow-y: auto;
-            scrollbar-width: none;
+            scrollbar-width: thin;
+            scrollbar-color: #4a4d55 transparent;
             transition: max-height 0.35s ease;
+            overscroll-behavior: contain;
+        }
+
+        .participant-list-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .participant-list-body::-webkit-scrollbar-thumb {
+            background-color: #4a4d55;
+            border-radius: 999px;
+        }
+
+        .participant-list-body::-webkit-scrollbar-track {
+            background-color: transparent;
         }
 
         .participant-list-body.collapsed {
@@ -246,8 +357,17 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px;
-            color: #e8eaed;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            border-radius: 10px;
+            margin: 4px;
+            transition: background-color 0.2s ease;
+            animation: item-fade-in 0.25s ease;
+        }
+
+        .participant:hover,
+        .participant.menu-open {
+            background-color: var(--bg-hover);
         }
 
         .participant-left {
@@ -265,20 +385,24 @@
         }
 
         .menu-icon-button {
-            border: none;
+            border: 1px solid transparent;
             background: transparent;
             color: inherit;
             cursor: pointer;
             padding: 0;
-            border-radius: 4px;
+            border-radius: 8px;
+            width: 28px;
+            height: 28px;
+            transition: background-color 0.2s ease, border-color 0.2s ease;
         }
 
         .menu-icon-button:hover {
-            background-color: #2b2c2f;
+            background-color: #3a3d46;
+            border-color: #51555f;
         }
 
         .menu-icon-button:focus-visible {
-            outline: 1px solid #8ab4f8;
+            outline: 2px solid var(--accent);
             outline-offset: 1px;
         }
 
@@ -289,12 +413,12 @@
             display: none;
             flex-direction: column;
             min-width: 110px;
-            background-color: #2a2b2e;
-            border: 1px solid #5f6368;
-            border-radius: 8px;
-            padding: 4px;
+            background-color: #2a2d33;
+            border: 1px solid #5a5f69;
+            border-radius: 10px;
+            padding: 5px;
             z-index: 20;
-            box-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.42);
         }
 
         .participant-actions.is-open {
@@ -304,20 +428,21 @@
         .participant-action-button {
             border: none;
             background: transparent;
-            color: #e8eaed;
+            color: var(--text-primary);
             text-align: left;
-            padding: 7px 8px;
-            border-radius: 6px;
+            padding: 8px 9px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 12px;
+            font-weight: 500;
         }
 
         .participant-action-button:hover {
-            background-color: #3a3b3e;
+            background-color: #3b3f48;
         }
 
         .participant-action-button.remove {
-            color: #ff9d9d;
+            color: var(--danger-soft);
         }
 
         .pinned-indicator {
@@ -326,9 +451,9 @@
             gap: 5px;
             padding: 3px 8px;
             border-radius: 999px;
-            border: 1px solid #5cbf6d;
-            background-color: #1f4f2b;
-            color: #9af0aa;
+            border: 1px solid var(--success-border);
+            background-color: var(--success-bg);
+            color: var(--success-text);
             font-size: 11px;
             line-height: 1;
             font-weight: 600;
@@ -350,28 +475,71 @@
 
 
         .participant-profile {
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #ffffff;
             font-weight: 600;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
             flex-shrink: 0;
         }
 
         .participant-name {
-            font-size: 12px;
-            color: #d7d7d7;
+            font-size: 13px;
+            color: var(--text-primary);
+            font-weight: 500;
         }
 
         svg {
             width: 100%;
             height: 100%;
-            fill: #d1d1d1;
+            fill: currentColor;
+        }
+
+        @keyframes modal-pop {
+            from {
+                opacity: 0;
+                transform: translateY(10px) scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes item-fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .aside {
+                width: 100vw;
+                padding: 0;
+            }
+
+            .aside-body-inner {
+                border-radius: 0;
+                height: 100dvh;
+                border-left: none;
+                border-right: none;
+            }
+
+            .aside-buttons-div {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -483,6 +651,7 @@
     <div id="add-participant-modal" class="add-participant-modal hidden">
         <form id="add-participant-panel" class="add-participant-panel">
             <div class="add-participant-title">Add people</div>
+            <div class="add-participant-subtitle">Invite by participant name</div>
             <input id="add-participant-input" class="add-participant-input" type="text" placeholder="Enter participant name" />
             <div class="add-participant-actions">
                 <button id="cancel-add-participant" class="panel-action-button" type="button">Cancel</button>
@@ -601,6 +770,9 @@
     function closeAllActionMenus() {
         const openMenus = document.querySelectorAll(".participant-actions.is-open");
         openMenus.forEach((menu) => menu.classList.remove("is-open"));
+
+        const activeRows = document.querySelectorAll(".participant.menu-open");
+        activeRows.forEach((row) => row.classList.remove("menu-open"));
     }
 
     function getNameComparisonKey(name) {
@@ -823,6 +995,7 @@
             closeAllActionMenus();
             if (!isOpen) {
                 actionsMenu.classList.add("is-open");
+                participantElement.classList.add("menu-open");
             }
             return;
         }

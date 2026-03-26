@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <main class="main-container">
+            <div class="box">
+                <div class="header">
+                    <h1 class="heading">Anagram</h1>
+                    <p class="info-text">Enter two strings</p>
+                </div>
+                <div class="input-group">
+                    <p class="lable">String 1:</p>
+                    <input class="inputs" type="text" id="string1">
+                </div>
+
+                <div class="input-group">
+                    <p class="lable">String 2:</p>
+                    <input class="inputs" type="text" id="string2">
+                </div>
+                <div class="button-group">
+                    <button onclick="checkAnagram()">Check</button>
+                </div>
+                <div class="result-group">
+                    <p id="result"></p>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+</body>
+<script>
+    let checkAnagram = () => {
+        let str1 = document.getElementById("string1").value.toLowerCase();
+        let str2 = document.getElementById("string2").value.toLowerCase();
+        let regex = /[^a-zA-Z0-9" "]/g;
+
+        if(str1.match(regex) || str2.match(regex)||str1.length == 0 || str2.length == 0){
+            document.getElementById("result").innerText = "Please enter valid string";
+            return;
+        }
+        
+        if (str1.length != str2.length) {
+            document.getElementById("result").innerText = "Not Anagram";
+            return;
+        }
+        if (str1 === str2) {
+            document.getElementById("result").innerText = "Anagram";
+            return;
+        }
+        
+        let charCount = {};
+        
+        for(let char of str1){
+            charCount[char] = (charCount[char] || 0) + 1;
+        }
+        
+        for(let char of str2){
+            if(!charCount[char]){
+                document.getElementById("result").innerText = "Not Anagram";
+                return;
+            }
+            charCount[char]--;
+        }
+        
+        document.getElementById("result").innerText = "Anagram";
+
+    }
+
+</script>
+
+</html>
