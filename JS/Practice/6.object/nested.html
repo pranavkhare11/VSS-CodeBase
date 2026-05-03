@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+
+
+</body>
+
+<script>
+    const person = {
+        name: "John",
+        age: 30,
+        address: {
+            city: "New York",
+            country: "USA"
+        },
+        education: {
+            isgraduate:{
+                status: true,
+                degree: "Bachelor's",
+                year: 2012
+            },
+            ispostgraduate:{
+                status: false
+            }
+        },
+        hobies: ["reading", "traveling", "coding"]
+    };
+
+    console.log(person);
+
+    console.log(person.name);
+    console.log(person.address.city);
+    console.log(person.education.isgraduate.degree);
+
+
+    person.hobies.push("gaming");
+    person.hobies.splice(0, 1);
+    console.log(person.education.ispostgraduate.status);
+    // console.log(person.address.ispostgraduate.status);
+    console.log(person.hobies);
+</script>
+</html>

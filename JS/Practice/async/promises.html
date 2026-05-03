@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<script>
+    let a = 10;
+    let b = 40;
+    console.log("A: ", a);
+
+    const placeSwiggyOrder = () => {
+        return new Promise((reply, reject) => {
+            reply("Order placed successfully")
+        })
+    }
+
+    const addNum = (num1, num2) => {
+        return num1 + num2
+    }
+
+    console.log("Add numbers")
+
+    const sumOfNo = addNum(a, b);
+
+    console.log("sumOfNo: ", sumOfNo);
+
+    // const placeOrderRes = placeSwiggyOrder();
+
+    placeSwiggyOrder().then((res) => {
+        console.log("Promise Response: ", res)
+    })
+
+    // console.log("placeOrderRes", placeOrderRes);
+
+    console.log("Code completed")
+</script>

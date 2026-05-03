@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const k = 11000;
+
+    const apicall = () => fetch("https://httpbin.org/delay/10");
+
+    const timeout = (ms) =>
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error("operation timed out")), ms)
+        );
+
+    Promise.race([apicall(), timeout(k)])
+        .then((result) => result.json())
+        .then((data) => console.log("API Response:", data))
+        .catch((err) => console.error(err.message));
+
+    //now with abort controller
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const abortableApiCall = () =>
+        fetch("https://httpbin.org/delay/10", { signal });
+
+    const abortTimeout = setTimeout(() => controller.abort(), k);
+
+    abortableApiCall()
+        .then((result) => result.json())
+        .then((data) => console.log("API Response with abort controller:", data))
+        .catch((err) => {
+            if (err.name === "AbortError") {
+                console.error("Request aborted due to timeout");
+                return;
+            }
+
+            console.error(err.message);
+        })
+        .finally(() => clearTimeout(abortTimeout));
+</script>
+
+</html>

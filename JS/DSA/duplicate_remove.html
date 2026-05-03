@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+    const inputArray = [6, 4, 8, 9, 5, 4, 9, 7, 5, 2, 6, 2, 3, 8, 7, 9, 2, 1, 5, 1, 2, 2, 3, 4, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5];
+
+    // const register = new Set();
+    //     for (const num of inputArray) {
+    //         if (register.has(num)) {
+    //             continue;
+    //         }
+    //         else {
+    //             register.add(num);
+    //         }
+    //     }
+    //     console.log(register);
+
+
+    let result = [];
+    for (let i = 0; i < inputArray.length; i++) {
+        if (!result.includes(inputArray[i])) {
+            result.push(inputArray[i]);
+        }
+    }
+    for (let i = 0; i < result.length - 1; i++) {
+        for (let j = 0; j < result.length - 1 - i; j++) {
+            if (result[j] > result[j + 1]) {
+                let temp = result[j + 1];
+                result[j + 1] = result[j];
+                result[j] = temp;
+            }
+        }
+    }
+    console.log(result);
+    let sortedArray = [];
+    for (let i = 0; i < inputArray.length; i++) {
+        for (let j = 0; j < sortedArray.length; j++) {
+            if (inputArray[i] < sortedArray[j]) {
+
+            }
+        }
+    }
+
+    let result2 = inputArray.reduce((arr, num) => {
+        if (!arr.includes(num)) {
+            arr.push(num);
+        }
+        return arr;
+    }, []);
+    console.log(result2);
+
+
+
+    function removeDuplicatesViaObjV2(arr) {
+
+        const results = [];
+        const foundKeys = {};
+
+        for (let i = 0; i < arr.length; i++) {
+            const currElem = arr[i];
+
+            // // Check whether if this currElem exists inside results
+            // if (!results.includes(currElem)) {
+            //   // results.includes(currElem) === false
+            //   results.push(currElem);
+            // }
+
+            // Logic to check inside object // 5
+            if (!foundKeys.hasOwnProperty(currElem)) {
+                results.push(currElem);
+                foundKeys[currElem] = true;
+            }
+        }
+        return results;
+    }
+    console.log(removeDuplicatesViaObjV2(inputArray));
+
+
+
+</script>
+
+</html>

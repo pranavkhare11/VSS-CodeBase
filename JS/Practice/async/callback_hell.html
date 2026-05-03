@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    const a0 = () => {
+        return new Promise((reply, reject) => {
+            reply({ message: "Promise A0 success" });
+        });
+    };
+
+    const a = () => {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reply({ message: "Promise A success" });
+            }, 3000);
+        });
+    };
+
+    const b = () => {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reply({ message: "Promise B success" });
+            }, 1000);
+        });
+    };
+
+    const c = () => {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reply({ message: "Promise C success" });
+            }, 1000);
+        });
+    };
+
+    const d = () => {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reject({ message: "Promise d failed" });
+            }, 2000);
+        });
+    };
+
+    const e = () => {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reply({ message: "Promise e success" });
+            }, 1000);
+        });
+    };
+
+    // a0()
+    //     .then((meraOutput) => {
+    //         console.log("a0 then: ", meraOutput);
+
+    //         a()
+    //             .then((aData) => {
+    //                 console.log("a then: ", aData);
+
+    //                 b()
+    //                     .then((bData) => {
+    //                         console.log("b then: ", bData);
+
+    //                         c()
+    //                             .then((cData) => {
+    //                                 console.log("c then: ", cData);
+
+    //                                 d()
+    //                                     .then((dData) => {
+    //                                         console.log("d then: ", dData);
+
+
+    //                                     })
+    //                                     .catch((dError) => {
+    //                                         console.log("d catch: ", dError);
+    //                                         e()
+    //                                             .then((eData) => {
+    //                                                 console.log("e then: ", eData);
+    //                                             })
+    //                                             .catch((eError) => {
+    //                                                 console.log("e catch: ", eError);
+    //                                             });
+    //                                     });
+    //                             })
+    //                             .catch((cError) => {
+    //                                 console.log("c catch: ", cError);
+    //                             });
+    //                     })
+    //                     .catch((bError) => {
+    //                         console.log("b catch: ", bError);
+    //                     });
+    //             })
+    //             .catch((aError) => {
+    //                 console.log("a catch: ", aError);
+    //             });
+    //     })
+    //     .catch((meraError) => {
+    //         console.log("a0 catch: ", meraError);
+    //     });
+
+    const runPromises = async () => {
+        const a0response = await a0()
+            .then((result) => {
+
+                return console.log("a0 response: ", result);;
+            }).catch((error) => {
+                console.log("Error in a0: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+
+
+        const aresponse = await a()
+            .then((result) => {
+                return console.log("a response: ", result);
+            }).catch((error) => {
+                console.log("Error in a: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+
+        const bresponse = await b()
+            .then((result) => {
+                return console.log("b response: ", result);
+            }).catch((error) => {
+                console.log("Error in b: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+
+        const cresponse = await c()
+            .then((result) => {
+                return console.log("c response: ", result);
+            }).catch((error) => {
+                console.log("Error in c: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+        console.log("c response: ", cresponse);
+
+        const dresponse = await d()
+            .then((result) => {
+                return console.log("d response: ", result);
+            })
+            .catch((error) => {
+                console.log("Error in d: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+
+        const eresponse = await e()
+            .then((result) => {
+                return console.log("e response: ", result);
+            })
+            .catch((error) => {
+                console.log("Error in e: ", error);
+                return null; // Return null or some default value to continue execution
+            });
+    };
+    runPromises().catch((error) => {
+        console.log("Error in promises: ", error);
+    });
+
+    runPromises();
+
+    const runPromises2 = async () => {
+        try {
+            const a0response = await a0();
+            console.log("a0 response: ", a0response);
+
+            const aresponse = await a();
+            console.log("a response: ", aresponse);
+
+            const bresponse = await b();
+            console.log("b response: ", bresponse);
+
+            const cresponse = await c();
+            console.log("c response: ", cresponse);
+
+            const dresponse = await d();
+            console.log("d response: ", dresponse);
+
+            const eresponse = await e();
+            console.log("e response: ", eresponse);
+
+        } catch (error) {
+            console.log("Error in promises: ", error);
+        }
+    };
+    // runPromises2();
+
+</script>
+
+</html>

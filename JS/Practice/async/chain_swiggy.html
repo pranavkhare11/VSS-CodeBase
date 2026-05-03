@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function selectRestaurant(name) {
+        return new Promise((resolve, reject) => {
+            console.log("Selecting restaurant...");
+            setTimeout(() => {
+                if (name) {
+                    resolve(`Restaurant "${name}" selected`);
+                } else {
+                    reject("No restaurant selected");
+                }
+            }, 1000);
+        });
+    }
+
+    function addToCart(items) {
+        return new Promise((resolve, reject) => {
+            console.log("Adding items to cart...");
+            setTimeout(() => {
+                if (items.length > 0) {
+                    resolve("Items added to cart");
+                } else {
+                    reject("Cart is empty");
+                }
+            }, 1000);
+        });
+    }
+
+    function makePayment(amount) {
+        return new Promise((resolve, reject) => {
+            console.log("Processing payment...");
+            setTimeout(() => {
+                if (amount > 0) {
+                    resolve(`Payment of ₹${amount} successful`);
+                } else {
+                    reject("Payment failed");
+                }
+            }, 1000);
+        });
+    }
+
+    function assignDelivery() {
+        return new Promise((resolve) => {
+            console.log("Assigning delivery partner...");
+            setTimeout(() => {
+                resolve("Delivery partner assigned");
+            }, 1000);
+        });
+    }
+
+    function deliverOrder() {
+        return new Promise((resolve) => {
+            console.log("Order out for delivery...");
+            setTimeout(() => {
+                resolve("Order delivered 🍕");
+            }, 1000);
+        });
+    }
+
+    // Promise chaining
+    selectRestaurant("Pizza Hut")
+        .then((res) => {
+            console.log(res);
+            return addToCart(["Pizza", "Coke"]);
+        })
+        .then((res) => {
+            console.log(res);
+            return makePayment(500);
+        })
+        .then((res) => {
+            console.log(res);
+            return assignDelivery();
+        })
+        .then((res) => {
+            console.log(res);
+            return deliverOrder();
+        })
+        .then((finalStatus) => {
+            console.log(finalStatus);
+        })
+        .catch((err) => {
+            console.error("Order failed:", err);
+        });
+</script>
+
+</html>

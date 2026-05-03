@@ -157,6 +157,193 @@
             border-radius: 6px;
             width: fit-content;
         }
+
+        /* CART */
+        .cart_sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            z-index: 20;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            border-left: 1px solid #ececec;
+            box-shadow: -8px 0 24px rgba(0, 0, 0, 0.12);
+            transition: right 0.25s ease;
+        }
+
+        .cart_sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #efefef;
+            background: #fff;
+        }
+
+        .cart-header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+            color: #222;
+        }
+
+        .cart-close-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .cart-list {
+            flex: 1;
+            overflow-y: auto;
+            list-style: none;
+            margin: 0;
+            padding: 12px;
+            background: #fafafa;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #ededed;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .cart-item-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            background: #fff;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2c2c2c;
+            line-height: 1.3;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1f7a36;
+            margin-bottom: 6px;
+        }
+
+        .quantity-input {
+            width: 64px;
+            padding: 4px 6px;
+            border-radius: 8px;
+            border: 1px solid #d8d8d8;
+            font-size: 13px;
+            font-family: inherit;
+        }
+
+        .cart-item-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .remove-btn {
+            border: 1px solid #ffd5de;
+            background: #fff0f4;
+            color: #d53b63;
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .quantity-control {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .quantity-control button {
+            width: 24px;
+            height: 24px;
+        }
+
+        .quantity-control input {
+            width: 30px;
+        }
+
+        .cart-empty {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #7a7a7a;
+            font-size: 14px;
+            min-height: 120px;
+            background: #fff;
+            border: 1px dashed #ddd;
+            border-radius: 12px;
+        }
+        
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            
+            flex-direction: column;
+            align-items: center;
+            padding: 16px;
+            border-top: 1px solid #efefef;
+            background: #ffffff;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .cart-total .subtotal-line,.cart-total .delivery-line,.cart-total .total-line{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 400px;
+        }
+        .Total-bold{
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .left-total {
+            color: #4b4b4b;
+        }
+
+        .right-total {
+            color: #1f7a36;
+        }
+
+        @media (max-width: 480px) {
+            .cart_sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
     </style>
 </head>
 
@@ -175,16 +362,42 @@
 
         <div class="actions">
             <div>Login</div>
-            <div>Cart 🛒</div>
+            <button id="cart-btn">Cart 🛒</button>
         </div>
     </div>
 
     <!-- PRODUCTS -->
-    <div id="product-list"></div>
+    <div>
+        <main id="product-list"></main>
+        <aside class="cart_sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h2>Shopping Cart</h2>
+                <button class="cart-close-btn" id="cart-close-btn">✕</button>
+            </div>
+            <ul class="cart-list" id="cart-list">
+                <div class="cart-empty">Your cart is empty</div>
+            </ul>
+            <div class="cart-total">
+                <div class="subtotal-line">
+                    <div class="left-total">Subtotal:</div>
+                    <div class="right-total">₹<span id="cart-subtotal-amount">0</span></div>
+                </div>
+                <div class="delivery-line">
+                    <div class="left-total">Delivery Charges:</div>
+                    <div class="right-total">₹<span id="cart-delivery-amount">0</span></div>
+                </div>
+                <div class="total-line">
+                    <div class="left-total Total--bold">Total:</div>
+                    <div class="right-total Total--bold">₹<span id="cart-total-amount">0</span></div>
+                </div>
+            </div>
+        </aside>
+    </div>
 
     <script>
         const products = [
             {
+                "id": "a1",
                 "name": "Haldiram's Bhujia | Spicy & Crunchy Snack",
                 "brand": "Haldiram's",
                 "price": 57,
@@ -197,6 +410,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/27282136-b33d-4b7e-bdb5-750c0db37047/Haldiram-s-Bhujia-Spicy-Crunchy-Snack.jpeg"
             },
             {
+                "id": "a2",
                 "name": "GO Desi Kolkata Jhal Muri",
                 "brand": "GO Desi",
                 "price": 58,
@@ -209,6 +423,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2161-2161,pr-true,f-auto,q-40,dpr-2/cms/product_variant/75027de7-1fd6-47c9-b068-0d4bd4729279/GO-Desi-Kolkata-Jhal-Muri.jpeg"
             },
             {
+                "id": "a3",
                 "name": "Haldiram's Mixture | Crunchy Savory Snack",
                 "brand": "Haldiram's",
                 "price": 73,
@@ -221,6 +436,8 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/a76cc5fd-f05d-4acc-832f-737ad8b3dc1b/Haldiram-s-Mixture-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a4",
+
                 "name": "Let's try Namkeen Combo Pack Of 6 | Crunchy Party Mix Peanut Party Mix Aloo Bhujia",
                 "brand": "Let's Try",
                 "price": 81,
@@ -233,6 +450,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1024-1024,pr-true,f-auto,q-40,dpr-2/cms/product_variant/57d184be-9937-48e0-aba7-fc5a0d0330ea/Let-s-try-Namkeen-Combo-Pack-Of-6-Crunchy-Party-Mix-Peanut-Party-Mix-Aloo-Bhujia.jpeg"
             },
             {
+                "id": "a5",
                 "name": "Haldiram's Aloo Bhujia | Crunchy Savory Snack",
                 "brand": "Haldiram's",
                 "price": 52,
@@ -245,6 +463,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/ed01b616-3361-467d-bcbf-8f35b3ebfd3c/Haldiram-s-Aloo-Bhujia-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a6",
                 "name": "Let's try Lite Mixture | Savory Snack",
                 "brand": "Let's Try",
                 "price": 57,
@@ -257,6 +476,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1600-1600,pr-true,f-auto,q-40,dpr-2/cms/product_variant/9d8b13e3-b3fb-4d93-8117-e60c9717164a/Let-s-try-Lite-Mixture-Savory-Snack.jpeg"
             },
             {
+                "id": "a7",
                 "name": "Let's try Kerala Garlic Mix | Regional Namkeen",
                 "brand": "Let's Try",
                 "price": 73,
@@ -269,6 +489,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1600-1600,pr-true,f-auto,q-40,dpr-2/cms/product_variant/a85e8124-2936-4980-909e-add163e2e405/Let-s-try-Kerala-Garlic-Mix-Regional-Namkeen.jpeg"
             },
             {
+                "id": "a8",
                 "name": "Too Yumm Bikaneri Bhujia Sev Snacks",
                 "brand": "Too Yumm",
                 "price": 55,
@@ -281,6 +502,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/46d74066-24c1-4c01-8a42-4fc838e23778/Too-Yumm-Bikaneri-Bhujia-Sev-Snacks-30-Less-Saturated-Fats-No-Palm-Oil-Healthy-Namkeen.jpeg"
             },
             {
+                "id": "a9",
                 "name": "Haldiram's Mixture | Crunchy Savory Snack",
                 "brand": "Haldiram's",
                 "price": 39,
@@ -293,6 +515,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/23cc01f8-daf2-42da-80b9-1ced69299ff0/Haldiram-s-Mixture-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a10",
                 "name": "Crax Mast Matar Green Peas Namkeen Snacks",
                 "brand": "Crax",
                 "price": 40,
@@ -305,6 +528,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-3000-3000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/89c16b06-22bb-4fe3-b65b-90b5efc19d8f/Crax-Mast-Matar-Green-Peas-Namkeen-Snacks.jpeg"
             },
             {
+                "id": "a11",
                 "name": "Haldiram's All In One Mixture | Crunchy & Savory",
                 "brand": "Haldiram's",
                 "price": 48,
@@ -317,6 +541,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/2d2d75bf-085d-4ebc-ad7a-62468fe94c8d/Haldiram-s-All-In-One-Mixture-Crunchy-Savory.jpeg"
             },
             {
+                "id": "a12",
                 "name": "Haldiram's Moong Dal | Crispy Fried Lentil Snack",
                 "brand": "Haldiram's",
                 "price": 57,
@@ -329,6 +554,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/bac3e221-d79b-4870-bd6c-b25838b340f1/Haldiram-s-Moong-Dal-Crispy-Fried-Lentil-Snack.jpeg"
             },
             {
+                "id": "a13",
                 "name": "Haldiram's Mini Bhakarwadi | Bite Sized Snack",
                 "brand": "Haldiram's",
                 "price": 53,
@@ -341,6 +567,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/ac8b442d-b243-45f6-bb19-7b93cdfae88e/Haldiram-s-Mini-Bhakarwadi-Bite-Sized-Snack.jpeg"
             },
             {
+                "id": "a14",
                 "name": "Haldiram's Ratlami Sev | Spicy Crunchy Namkeen",
                 "brand": "Haldiram's",
                 "price": 47,
@@ -353,6 +580,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1834-1834,pr-true,f-auto,q-40,dpr-2/cms/product_variant/c0c931f3-b03f-4d93-b659-0b6238d429bb/Haldiram-s-Ratlami-Sev-Spicy-Crunchy-Namkeen.jpeg"
             },
             {
+                "id": "a15",
                 "name": "Haldiram's Soya Sticks | Savory Snack",
                 "brand": "Haldiram's",
                 "price": 40,
@@ -365,6 +593,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/6781dcf9-c12e-4cad-b55d-1a7c64e511ba/Haldiram-s-Soya-Sticks-Savory-Snack.jpeg"
             },
             {
+                "id": "a16",
                 "name": "Haldiram's Aloo Bhujia | Crunchy Savory Snack",
                 "brand": "Haldiram's",
                 "price": 85,
@@ -377,6 +606,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/1cb383f1-57f4-41c9-8420-ae98d2cd46c1/Haldiram-s-Aloo-Bhujia-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a17",
                 "name": "Haldiram's All In One Mixture | Crunchy & Savory",
                 "brand": "Haldiram's",
                 "price": 96,
@@ -389,6 +619,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/250a66af-1cbf-4244-9d61-49ead7b0d670/Haldiram-s-All-In-One-Mixture-Crunchy-Savory.jpeg"
             },
             {
+                "id": "a18",
                 "name": "Haldiram's Lite Chiwda",
                 "brand": "Haldiram's",
                 "price": 36,
@@ -401,6 +632,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-873-873,pr-true,f-auto,q-40,dpr-2/cms/product_variant/c882150a-b6ad-4ff3-915b-8f3025d9f498/Haldiram-s-Lite-Chiwda.jpeg"
             },
             {
+                "id": "a19",
                 "name": "Haldiram's Panchratan Mixture | Flavorful & Crunchy",
                 "brand": "Haldiram's",
                 "price": 78,
@@ -413,6 +645,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2427-2427,pr-true,f-auto,q-40,dpr-2/cms/product_variant/6aa3d657-8bdc-46a5-b6fb-2720eb8fd5d5/Haldiram-s-Panchratan-Mixture-Flavorful-Crunchy.jpeg"
             },
             {
+                "id": "a20",
                 "name": "Bikaji Soya Sticks Masala Munch | Crispy & Spicy",
                 "brand": "Bikaji",
                 "price": 34,
@@ -425,6 +658,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2400-2400,pr-true,f-auto,q-40,dpr-2/cms/product_variant/ec4bcb1c-17e5-4e0a-b6b4-8fac762f153c/Bikaji-Soya-Sticks-Masala-Munch-Crispy-Spicy.jpeg"
             },
             {
+                "id": "a21",
                 "name": "Haldiram's Nagpur Golden Mixture | Savoury & Crunchy",
                 "brand": "Haldiram's",
                 "price": 44,
@@ -437,6 +671,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/e0313ebf-62f3-4fa5-bd5c-364d8bd8af27/Haldiram-s-Nagpur-Golden-Mixture-Savoury-Crunchy.jpeg"
             },
             {
+                "id": "a22",
                 "name": "Haldiram'ss Namkeen | Mini Samosa | Crispy & Flavourful",
                 "brand": "Haldiram's",
                 "price": 53,
@@ -449,6 +684,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/9c25d442-8708-4a0f-8812-b74d86541f14/Haldiram-ss-Namkeen-Mini-Samosa-Crispy-Flavourful.jpeg"
             },
             {
+                "id": "a23",
                 "name": "Modern Kitchens Spicy Murukku | Crunchy & Spicy",
                 "brand": "Modern Kitchens",
                 "price": 41,
@@ -461,6 +697,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-3344-3344,pr-true,f-auto,q-40,dpr-2/cms/product_variant/54f9da81-d5bf-4011-a400-2286cac0e351/Modern-Kitchens-Spicy-Murukku-Crunchy-Spicy.jpeg"
             },
             {
+                "id": "a24",
                 "name": "Haldiram's Bhujia | Spicy & Crunchy Snack",
                 "brand": "Haldiram's",
                 "price": 129,
@@ -473,6 +710,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1286-1286,pr-true,f-auto,q-40,dpr-2/cms/product_variant/fb3c80ff-a7ee-4d2e-870b-1990bea342b2/Haldiram-s-Bhujia-Spicy-Crunchy-Snack.jpeg"
             },
             {
+                "id": "a25",
                 "name": "Haldiram's Dal Biji | Crunchy Savory Snack",
                 "brand": "Haldiram's",
                 "price": 43,
@@ -485,6 +723,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2427-2427,pr-true,f-auto,q-40,dpr-2/cms/product_variant/2fee1866-0e3a-447c-a903-606448d576ea/Haldiram-s-Dal-Biji-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a26",
                 "name": "Crax Aloo Bhujia Namkeen Snacks | Crunchy & Savoury",
                 "brand": "Crax",
                 "price": 38,
@@ -497,6 +736,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-517-517,pr-true,f-auto,q-40,dpr-2/cms/product_variant/f1bbb0b9-bcc6-4665-a0b3-594290a3fdf9/Crax-Aloo-Bhujia-Namkeen-Snacks-Crunchy-Savoury.jpeg"
             },
             {
+                "id": "a27",
                 "name": "Haldiram's Fatafat Bhel",
                 "brand": "Haldiram's",
                 "price": 36,
@@ -509,6 +749,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/839659d1-6050-4e12-9eeb-65b78fd8b144/Haldiram-s-Fatafat-Bhel.jpeg"
             },
             {
+                "id": "a28",
                 "name": "Haldiram's Mathri",
                 "brand": "Haldiram's",
                 "price": 62,
@@ -521,6 +762,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-980-980,pr-true,f-auto,q-40,dpr-2/cms/product_variant/9a31da3a-fd82-4b74-b936-417088a8b863/Haldiram-s-Mathri.jpeg"
             },
             {
+                "id": "a29",
                 "name": "Haldiram'ss Namkeen | Chatpata Dal | Spicy & Crunchy",
                 "brand": "Haldiram's",
                 "price": 45,
@@ -533,6 +775,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/8da2d324-c0e6-49b8-924c-804b570bf8ce/Haldiram-ss-Namkeen-Chatpata-Dal-Spicy-Crunchy.jpeg"
             },
             {
+                "id": "a30",
                 "name": "Modern Kitchens Butter Murukku | Crunchy & Buttery",
                 "brand": "Modern Kitchens",
                 "price": 41,
@@ -545,6 +788,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2270-3344,pr-true,f-auto,q-40,dpr-2/cms/product_variant/20bc503e-4dce-49a7-99e7-0dc2a025757c/Modern-Kitchens-Butter-Murukku-Crunchy-Buttery.jpeg"
             },
             {
+                "id": "a31",
                 "name": "Sweet Karam Coffee Andhra Spicy Murukku Namkeen Snacks",
                 "brand": "Sweet Karam Coffee",
                 "price": 57,
@@ -557,6 +801,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2001-2001,pr-true,f-auto,q-40,dpr-2/cms/product_variant/a8e147fd-7bc6-4f90-a02b-b13aa8acfebd/Sweet-Karam-Coffee-Andhra-Spicy-Murukku-Namkeen-Snacks.jpeg"
             },
             {
+                "id": "a32",
                 "name": "Haldiram's Bhujia | Spicy & Crunchy Snack",
                 "brand": "Haldiram's",
                 "price": 109,
@@ -569,6 +814,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-887-887,pr-true,f-auto,q-40,dpr-2/cms/product_variant/415d9e7b-f7cf-4ef4-972e-ae1aa1efcd5e/Haldiram-s-Bhujia-Spicy-Crunchy-Snack.jpeg"
             },
             {
+                "id": "a33",
                 "name": "Haldiram Nagpur Ratlami Sev | Spicy Crunchy Sev",
                 "brand": "Haldiram's",
                 "price": 90,
@@ -581,6 +827,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/5f5899e8-052e-48b6-befd-bfb3093d94db/Haldiram-Nagpur-Ratlami-Sev-Spicy-Crunchy-Sev.jpeg"
             },
             {
+                "id": "a34",
                 "name": "Chheda's Small Bhakarwadi Snack",
                 "brand": "Chheda's",
                 "price": 38,
@@ -593,6 +840,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/601c834e-7208-46cc-a392-d084974527ea/Chheda-s-Small-Bhakarwadi-Snack.jpeg"
             },
             {
+                "id": "a35",
                 "name": "Balaji Chana Jor Garam",
                 "brand": "Balaji",
                 "price": 43,
@@ -605,6 +853,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1000-1000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/19ac8a2c-7a76-4089-8a81-13c71cfdbfb2/Balaji-Chana-Jor-Garam.jpeg"
             },
             {
+                "id": "a36",
                 "name": "Haldiram's Khatta Meetha | Savory Snack",
                 "brand": "Haldiram's",
                 "price": 90,
@@ -617,6 +866,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1500-1500,pr-true,f-auto,q-40,dpr-2/cms/product_variant/bd16334b-e5f2-4521-bcf9-ba8a4e015da6/Haldiram-s-Khatta-Meetha-Savory-Snack.jpeg"
             },
             {
+                "id": "a37",
                 "name": "Bikaji Bikaneri Bhujia | Crunchy Savory Snack",
                 "brand": "Bikaji",
                 "price": 49,
@@ -629,6 +879,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2000-2000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/5fb26d0a-80ba-45b5-8093-067a92154c4e/Bikaji-Bikaneri-Bhujia-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a38",
                 "name": "Bikano Navratan Mixture | Crunchy Spicy Indian Snack",
                 "brand": "Bikano",
                 "price": 54,
@@ -641,6 +892,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/f342b225-565a-4d7a-ace7-f3ad328a0d4a/Bikano-Navratan-Mixture-Crunchy-Spicy-Indian-Snack-Protein-Fiber-Rich-Tea-Time-Snack.jpeg"
             },
             {
+                "id": "a39",
                 "name": "Bikano Aloo Bhujia | Crunchy and Spicy Aloo Bhujia Snack",
                 "brand": "Bikano",
                 "price": 52,
@@ -653,6 +905,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/f23f5465-6afe-45fd-b7b9-0fb9b3e1e92d/Bikano-Aloo-Bhujia-Crunchy-and-Spicy-Aloo-Bhujia-Snack-Perfect-Tea-Time-Namkeen.jpeg"
             },
             {
+                "id": "a40",
                 "name": "Sweet Karam Coffee Special Madras Mixture",
                 "brand": "Sweet Karam Coffee",
                 "price": 67,
@@ -665,6 +918,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2001-2001,pr-true,f-auto,q-40,dpr-2/cms/product_variant/31d69855-00a1-4f57-9e67-2ec760236f1b/Sweet-Karam-Coffee-Special-Madras-Mixture-No-Palm-Oil-No-Preservatives.jpeg"
             },
             {
+                "id": "a41",
                 "name": "Balaji Aloo Sev | Crispy Potato Namkeen",
                 "brand": "Balaji",
                 "price": 38,
@@ -677,6 +931,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1000-1000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/58582de4-7521-4878-9044-0d6da889d16f/Balaji-Aloo-Sev-Crispy-Potato-Namkeen.jpeg"
             },
             {
+                "id": "a42",
                 "name": "Balaji Ratlami Sev | Spicy Crunchy Namkeen",
                 "brand": "Balaji",
                 "price": 72,
@@ -689,6 +944,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/59f761ee-ec98-4d3e-b3f3-0a069d7686fe/Balaji-Ratlami-Sev-Spicy-Crunchy-Namkeen.jpeg"
             },
             {
+                "id": "a43",
                 "name": "Haldiram's Bhujia | Spicy & Crunchy Snack",
                 "brand": "Haldiram's",
                 "price": 214,
@@ -701,6 +957,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1024-1024,pr-true,f-auto,q-40,dpr-2/cms/product_variant/71b0053e-2510-4681-a798-41aa99ca17c0/Haldiram-s-Bhujia-Spicy-Crunchy-Snack.png"
             },
             {
+                "id": "a44",
                 "name": "A2B Madras Mixture | Spicy & Crunchy Snack",
                 "brand": "A2B",
                 "price": 54,
@@ -713,6 +970,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/24a8f9ed-23ed-4a52-b642-89b8ca096a1f/A2B-Madras-Mixture-Spicy-Crunchy-Snack.jpeg"
             },
             {
+                "id": "a45",
                 "name": "Balaji Shing Bhujia | Spicy & Crunchy Snack",
                 "brand": "Balaji",
                 "price": 20,
@@ -725,6 +983,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1000-1000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/918f6575-704c-453e-b540-bc1ccddffd50/Balaji-Shing-Bhujia-Spicy-Crunchy-Snack.jpeg"
             },
             {
+                "id": "a46",
                 "name": "Bikaji Bikaneri Bhujia | Crunchy Savory Snack",
                 "brand": "Bikaji",
                 "price": 210,
@@ -737,6 +996,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/ea4c46db-532a-45ea-a862-9cf24bf74177/Bikaji-Bikaneri-Bhujia-Crunchy-Savory-Snack.jpeg"
             },
             {
+                "id": "a47",
                 "name": "Haldirams Namkeen - Lemon Bhel",
                 "brand": "Haldiram's",
                 "price": 36,
@@ -749,6 +1009,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2000-2427,pr-true,f-auto,q-40,dpr-2/cms/product_variant/85b6829a-4bac-4386-a73e-9c2445565ebb/Haldirams-Namkeen-Lemon-Bhel.jpg"
             },
             {
+                "id": "a48",
                 "name": "Bikano Bhujia Spicy & Crispy Namkeen",
                 "brand": "Bikano",
                 "price": 46,
@@ -761,6 +1022,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/c60cd6d7-d85a-43cd-abc2-55ca0d4ded0e/Bikano-Bhujia-Spicy-Crispy-Namkeen-Made-with-Husked-Dew-Moth-Bean-Flour-Chickpea-Flour.jpeg"
             },
             {
+                "id": "a49",
                 "name": "Bikaji Aloo Bhujia Tana-Tan | Sev Snack",
                 "brand": "Bikaji",
                 "price": 84,
@@ -773,6 +1035,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/36ab8ffc-13f3-4ae0-98d4-5a9f83278ebd/Bikaji-Aloo-Bhujia-Tana-Tan-Sev-Snack.jpeg"
             },
             {
+                "id": "a50",
                 "name": "A2B Ribbon Pakoda",
                 "brand": "A2B",
                 "price": 73,
@@ -785,6 +1048,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1200-1200,pr-true,f-auto,q-40,dpr-2/cms/product_variant/d7651363-7687-4b03-ac2f-d957e74eb188/A2B-Ribbon-Pakoda.jpeg"
             },
             {
+                "id": "a51",
                 "name": "Haldiram's Cornflakes Mixture | Crunchy & Tasty",
                 "brand": "Haldiram's",
                 "price": 73,
@@ -797,6 +1061,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2400-2400,pr-true,f-auto,q-40,dpr-2/cms/product_variant/a2881590-2059-46cc-994b-e3aeb2fb3a21/Haldiram-s-Cornflakes-Mixture-Crunchy-Tasty.jpeg"
             },
             {
+                "id": "a52",
                 "name": "Eat Better Co Millet Bhujia Pudina Masti Roasted | Not Fried",
                 "brand": "Eat Better Co",
                 "price": 9,
@@ -809,6 +1074,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1000-1000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/da186d81-95ba-433d-b5be-7d595525da58/Eat-Better-Co-Millet-Bhujia-Pudina-Masti-Roasted-Not-Fried.jpeg"
             },
             {
+                "id": "a53",
                 "name": "Modern Kitchens Boondi Masala",
                 "brand": "Modern Kitchens",
                 "price": 46,
@@ -821,6 +1087,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-2270-3344,pr-true,f-auto,q-40,dpr-2/cms/product_variant/f53cabcf-a894-49bb-809f-9ec98c331456/Modern-Kitchens-Boondi-Masala.jpeg"
             },
             {
+                "id": "a54",
                 "name": "Balaji Masala Sev Murmura | Savory Snack",
                 "brand": "Balaji",
                 "price": 38,
@@ -833,6 +1100,7 @@
                 "image": "https://cdn.zeptonow.com/production/ik-seo/tr:w-403,ar-1000-1000,pr-true,f-auto,q-40,dpr-2/cms/product_variant/211d1ab1-60f2-4a78-92cb-24f960269582/Balaji-Masala-Sev-Murmura-Savory-Snack.jpeg"
             },
             {
+                "id": "a55",
                 "name": "Bikaji Kolkata Chanachur | Savory Snack",
                 "brand": "Bikaji",
                 "price": 99,
@@ -847,6 +1115,53 @@
         ]
 
         const container = document.getElementById("product-list");
+        const cartBtn = document.getElementById("cart-btn");
+        const cartSidebar = document.getElementById("cart-sidebar");
+        const cartCloseBtn = document.getElementById("cart-close-btn");
+        const cartList = document.getElementById("cart-list");
+        const cartSubTotal = document.getElementById("cart-subtotal-amount");
+        const cartdelivery = document.getElementById("cart-delivery-amount");
+        const cartTotal = document.getElementById("cart-total-amount");
+
+        console.log("cartSubTotal element found:", cartSubTotal);
+        const DELIVERY_CHARGES = 49;
+        const FREE_DELIVERY_THRESHOLD = 149;
+        let cartItems = [];
+        let deliveryCharge = DELIVERY_CHARGES;
+        let cartSubTotalAmount = 0;
+
+        function updateTotal() {
+            console.log("updateTotal called, cartItems:", cartItems);
+            cartSubTotalAmount = cartItems.reduce((total, item) => {
+                console.log(`Calculating: ${item.price} * ${item.quantity} = ${item.price * item.quantity}`);
+                return total + (item.price * item.quantity);
+            }, 0);
+            console.log("Final total:", cartSubTotalAmount);
+            if (cartSubTotal) {
+                cartSubTotal.textContent = cartSubTotalAmount;
+                console.log("Updated cartSubTotal element to:", cartSubTotalAmount);
+            } else {
+                console.log("ERROR: cartSubTotal element not found");
+            }
+            if (cartSubTotalAmount < FREE_DELIVERY_THRESHOLD) {
+                    deliveryCharge = DELIVERY_CHARGES;
+                cartdelivery.textContent = deliveryCharge;
+                console.log("Updated cartdelivery element to:", "₹49");
+            } else {
+                deliveryCharge = 0;
+                cartdelivery.textContent = "0 (Free)";
+                
+                console.log("Updated cartdelivery element to:", "Free");
+            }
+            if (cartTotal) {
+                cartTotal.textContent = cartSubTotalAmount + deliveryCharge;
+                console.log("Updated cartTotal element to:", cartSubTotalAmount + deliveryCharge  );
+            } else {
+                console.log("ERROR: cartTotal element not found");
+            }
+
+        }
+        
 
         products.forEach(p => {
             const card = document.createElement("div");
@@ -861,6 +1176,27 @@
 
             const btn = document.createElement("button");
             btn.className = "add-btn";
+            btn.addEventListener("click", () => {
+                // if (cartItems[p.id]) {
+                //     cartItems[p.id]++;
+                // } else {
+                //     cartItems[p.id] = 1;
+                // }
+
+                const product = cartItems.find((item) => item.id === p.id);
+                if (!product) {
+                    cartItems.push({ ...p, quantity: 1 });
+                    updateTotal();
+                    updateCartUI();
+                    return;
+                }
+
+                product.quantity++;
+                updateTotal();
+                updateCartUI();
+                console.log(cartItems);
+            });
+
             btn.innerText = "ADD";
 
             imgBox.appendChild(img);
@@ -919,6 +1255,61 @@
 
             container.appendChild(card);
         });
+
+        function updateCartUI() {
+            console.log("inside update cart")
+
+            cartList.innerHTML = "";
+
+            cartItems.forEach((product) => {
+                // const product = products.find(p => p.id === productId);
+                console.log(product);
+                const li = document.createElement("li");
+                li.className = "cart-item";
+                li.innerHTML = `
+                        <img src="${product.image}" alt="${product.name}" class="cart-item-img">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${product.name}</div>
+                            <div class="cart-item-price">₹${product.price}</div>
+                            <input type="number" class="quantity-input" min="1" value="${product.quantity}">
+                        </div>
+                        <div class="cart-item-controls">
+                            <button class="remove-btn")">Remove</button>
+                        </div>
+                    `;
+
+                const quantityInput = li.querySelector(".quantity-input");
+                quantityInput.addEventListener("input", (e) => {
+                    const nextQty = parseInt(e.target.value, 10);
+                    product.quantity = Number.isNaN(nextQty) || nextQty < 1 ? 1 : nextQty;
+                    e.target.value = product.quantity;
+                    updateTotal();
+                });
+
+                cartList.appendChild(li);
+            });
+
+            updateTotal();
+
+        }
+
+        cartBtn.addEventListener("click", () => {
+            cartSidebar.classList.add("open");
+            updateCartUI();
+
+
+        });
+
+        cartCloseBtn.addEventListener("click", () => {
+            cartSidebar.classList.remove("open");
+        });
+
+        const removeitembtn = document.querySelector(".remove-btn");
+        removeitembtn.addEventListener("click", () => {
+
+        })
+
+
     </script>
 
 </body>

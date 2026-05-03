@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // Simulated API call — replace the fetch() inside with your real API call
+    function makeApiCall(id) {
+        const delay = 500 + Math.random() * 1500; // simulate 0.5–2s response time
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({ id, data: `Response from API #${id}` });
+            }, delay);
+        });
+    }
+
+    async function runApiPool(totalCalls = 100, maxConcurrent = 10) {
+        const results = new Array(totalCalls);   // store responses by original ID
+        let nextId = 1;                          // next API ID to dispatch (1-indexed)
+        const activeIds = [];                    // currently in-flight IDs (ordered by dispatch time)
+
+        function logActive() {
+            console.log("Active IDs:", JSON.stringify(activeIds));
+        }
+
+        // Dispatch one API call and handle its completion
+        function dispatch(id) {
+            activeIds.push(id);
+            logActive();
+
+            return makeApiCall(id).then((response) => {
+                // Store result
+                results[id - 1] = response;
+
+                // Remove this ID from active list
+                const idx = activeIds.indexOf(id);
+                if (idx !== -1) activeIds.splice(idx, 1);
+
+                console.log(`✓ API #${id} done. Removing from active.`);
+
+                // If there are more calls to make, dispatch the next one immediately
+                if (nextId <= totalCalls) {
+                    const newId = nextId++;
+                    return dispatch(newId);
+                }
+            });
+        }
+
+        // Seed the pool: fire off the first `maxConcurrent` calls
+        const initialBatch = [];
+        while (nextId <= Math.min(maxConcurrent, totalCalls)) {
+            initialBatch.push(dispatch(nextId++));
+        }
+
+        // Wait until all in-flight chains resolve
+        await Promise.all(initialBatch);
+
+        console.log("\nAll 100 API calls complete.");
+        console.log("Results:", results);
+        return results;
+    }
+
+    runApiPool(100, 10);
+</script>
+
+</html>

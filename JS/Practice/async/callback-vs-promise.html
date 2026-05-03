@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    // function doTaskUsingCb(callback) {
+    //     setTimeout(() => {
+    //         callback("First call");
+    //         callback("Second call");
+    //         callback("Third call");
+    //     }, 4000);
+    //     setTimeout(() => {
+    //         callback("First call");
+    //         callback("Second call");
+    //         callback("Third call");
+    //     }, 2000);
+    // }
+
+    // const cbFunc = (result) => {
+    //     console.log("Callback:", result);
+    // };
+
+    // doTaskUsingCb(cbFunc);
+
+
+    // // Promises
+
+    // function fetchDataUsingPromises() {
+    //     return new Promise((resolve, reject) => {
+    //         resolve("Data loaded");
+    //         resolve("Data loaded again"); // ignored
+    //         reject("Error occurred"); // ignored
+    //     });
+    // }
+
+    // fetchDataUsingPromises().then((data) => {
+    //     console.log("Promise:", data);
+    // });
+
+    // function fetchDataUsingCB(callback) {
+    //     setTimeout(() => {
+    //         callback("From API");
+    //     }, 1000);
+
+    //     setTimeout(() => {
+    //         callback("From cache"); // second call
+    //     }, 1500);
+    // }
+
+    // function fetchDataUsingPromises() {
+    //     return new Promise((reply, reject) => {
+    //         setTimeout(() => {
+    //             reply("From API");
+    //         }, 1000);
+
+    //         setTimeout(() => {
+    //             reply("From cache"); // second call
+    //         }, 1500);
+    //     });
+    // }
+
+    // fetchDataUsingCB((data) => {
+    //     console.log("Callback:", data);
+    // });
+
+    // fetchDataUsingPromises().then((data) => {
+    //     console.log("Promise:", data);
+    // });
+
+
+    // const calculator = (a, b, cbFunc) => {
+    //   setTimeout(() => {
+    //     cbFunc(a, b);
+    //   }, 3000);
+
+
+    // return "Calculator Done"
+    // };
+
+    // const add = (a, b) => a + b;
+    // const subtract = (a, b) => a - b;
+    // const multiply = (a, b) => a * b;
+    // const divide = (a, b) => a / b;
+
+    // // console.log(calculator(10, 20, add));
+    // // console.log(calculator(10, 20, subtract));
+    // // console.log(calculator(10, 20, multiply));
+    // // console.log(calculator(10, 20, divide));
+
+    // console.log(
+    //   calculator(1, 2, (data, data2) => {
+    //     console.log("Data: ", data , data2);
+    //   }),
+    // );
+
+
+    // const calculator = (a, b, cbFunc) => {
+    //     setTimeout(() => {
+    //         cbFunc(a, b);
+    //     }, 3000);
+
+    //     return "Calculator Done"
+    // };
+
+    // console.log(
+    //     calculator(10, 20, (divide) => {
+    //         console.log(divide);
+    //     })
+    // );
+    // console.log(calculator(10, 20, add));
+
+    // const safeDivide = (a, b, callback) => {
+    //     setTimeout(() => {
+    //         if (b === 0) {
+    //             callback("Error: Division by zero", null);
+    //         } else {
+    //             callback(null, a / b);
+    //         }
+    //     }, 1000);
+    // };
+
+    // safeDivide(10, 2, (err, result) => {
+    //     if (err) console.log(err);
+    //     else console.log(result);
+    // });
+
+    const safeDivide = (a, b, callback) => {
+        setTimeout(() => {
+            if (b === 0) {
+                callback();
+            } else {
+                callback(null, a / b);
+            }
+        }, 1000);
+    };
+
+    safeDivide(10, 0, (err, result) => {
+
+        console.log("Err", err);
+        console.log("result:", result);
+        if (err) console.log(err);
+        else console.log(result);
+    });
+
+</script>
+
+</html>

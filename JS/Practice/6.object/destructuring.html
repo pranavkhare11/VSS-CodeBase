@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+
+    const obj1 = { name: 'Abhi', otp: 12345, app: 'Google' }
+    const obj2 = { otp: 54321, app: 'Instagram' }
+    const obj3 = { name: 'Rohit', otp: 67890, app: 'Facebook' }
+
+
+    function email_destructured(data) {
+        const { name = 'user', otp, app } = data;
+        console.log(`Hello ${name}, Your ${app} app OTP is ${otp},
+    Please do not shere it with anyone & it's valid for 30 mins only.`);
+
+    }
+
+    email_destructured(obj1);
+    email_destructured(obj2);
+    email_destructured(obj3);
+</script>
+
+</html>

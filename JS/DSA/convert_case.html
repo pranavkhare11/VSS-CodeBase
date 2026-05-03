@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+            font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+            background:
+                radial-gradient(circle at 12% 20%, #ffe8d6 0%, transparent 38%),
+                radial-gradient(circle at 85% 85%, #d7f7ff 0%, transparent 40%),
+                linear-gradient(135deg, #f8fbff, #f4f4f1);
+            color: #1f2937;
+        }
+
+        .app {
+            width: min(980px, 100%);
+            background: rgba(255, 255, 255, 0.78);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: 20px;
+            padding: 24px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 16px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        h1 {
+            font-size: clamp(1.4rem, 1.5vw + 1rem, 2rem);
+            margin-bottom: 24px;
+            letter-spacing: 0.3px;
+        }
+
+        h2 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: #a9b1bb 1px solid;
+            padding: 12px 12px 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h2 > div {
+            flex: 1;
+        }
+
+        h2 button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            color: #475569;
+        }
+
+        h2 button:hover {
+            background: rgba(14, 165, 233, 0.1);
+            color: #0ea5e9;
+        }
+
+        h2 button:active {
+            transform: scale(0.95);
+        }
+
+        h2 button.copy-success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+            transform: scale(1.05);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.3);
+        }
+
+        h2 svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+        }
+
+        .text-box {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .text-area {
+            flex: 1;
+        }
+
+        .input-area,
+        .output-area {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            border: 1px solid #cbd5e1;
+            border-radius: 14px;
+            background: #fbfdff;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .output-area {
+            background: #f8fafc;
+        }
+
+        .input-area:focus-within,
+        .output-area:focus-within {
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.18);
+        }
+
+        textarea {
+            flex: 1;
+            width: 100%;
+            min-height: 260px;
+            resize: none;
+            border: none;
+            background: transparent;
+            padding: 0 12px 5px;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            color: #111827;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .change-button {
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: #0f172a;
+            background: linear-gradient(135deg, #c7f9cc, #bde0fe);
+            cursor: pointer;
+            box-shadow: 0 5px 16px rgba(15, 23, 42, 0.14);
+            transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+        }
+
+        .change-button:hover {
+            transform: translateY(-2px);
+            filter: saturate(1.12);
+            box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
+        }
+
+        .change-button:active {
+            transform: translateY(0);
+        }
+
+        @media (max-width: 760px) {
+            .app {
+                padding: 18px;
+            }
+
+            .text-box {
+                flex-direction: column;
+            }
+
+            textarea {
+                min-height: 190px;
+            }
+
+            .buttons {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app">
+        <h1>Case Converter</h1>
+        <div class="text-box">
+            <div class=" text-area input-area">
+                <h2>
+                    <div>Input text here</div>
+                    <button onclick="pasteText()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                    d="M12 0C11.2347 0 10.6293 0.125708 10.1567 0.359214C9.9845 0.44429 9.82065 0.544674 9.68861 0.62717L9.59036 0.688808C9.49144 0.751003 9.4082 0.803334 9.32081 0.853848C9.09464 0.984584 9.00895 0.998492 9.00053 0.999859C8.99983 0.999973 9.00019 0.999859 9.00053 0.999859C7.89596 0.999859 7 1.89543 7 3H6C4.34315 3 3 4.34315 3 6V20C3 21.6569 4.34315 23 6 23H18C19.6569 23 21 21.6569 21 20V6C21 4.34315 19.6569 3 18 3H17C17 1.89543 16.1046 1 15 1C15.0003 1 15.0007 1.00011 15 1C14.9916 0.998633 14.9054 0.984584 14.6792 0.853848C14.5918 0.80333 14.5086 0.751004 14.4096 0.688804L14.3114 0.62717C14.1793 0.544674 14.0155 0.44429 13.8433 0.359214C13.3707 0.125708 12.7653 0 12 0ZM16.7324 5C16.3866 5.5978 15.7403 6 15 6H9C8.25972 6 7.61337 5.5978 7.26756 5H6C5.44772 5 5 5.44772 5 6V20C5 20.5523 5.44772 21 6 21H18C18.5523 21 19 20.5523 19 20V6C19 5.44772 18.5523 5 18 5H16.7324ZM11.0426 2.15229C11.1626 2.09301 11.4425 2 12 2C12.5575 2 12.8374 2.09301 12.9574 2.15229C13.0328 2.18953 13.1236 2.24334 13.2516 2.32333L13.3261 2.37008C13.43 2.43542 13.5553 2.51428 13.6783 2.58539C13.9712 2.75469 14.4433 3 15 3V4H9V3C9.55666 3 10.0288 2.75469 10.3217 2.58539C10.4447 2.51428 10.57 2.43543 10.6739 2.37008L10.7484 2.32333C10.8764 2.24334 10.9672 2.18953 11.0426 2.15229Z"
+                                    fill="#0F0F0F"></path>
+                            </g>
+                        </svg>
+                    </button>
+                </h2>
+                <textarea name="input" id="input" cols="30" rows="10" placeholder="..."></textarea>
+            </div>
+            <div class="text-area output-area">
+                <h2>
+                    <div>Converted output here</div>
+                    <button onclick="copyText()">
+                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M20.9983 10C20.9862 7.82497 20.8897 6.64706 20.1213 5.87868C19.2426 5 17.8284 5 15 5H12C9.17157 5 7.75736 5 6.87868 5.87868C6 6.75736 6 8.17157 6 11V16C6 18.8284 6 20.2426 6.87868 21.1213C7.75736 22 9.17157 22 12 22H15C17.8284 22 19.2426 22 20.1213 21.1213C21 20.2426 21 18.8284 21 16V15"
+                                    stroke="#1C274C" stroke-width="2.2" stroke-linecap="round"></path>
+                                <path
+                                    d="M3 10V16C3 17.6569 4.34315 19 6 19M18 5C18 3.34315 16.6569 2 15 2H11C7.22876 2 5.34315 2 4.17157 3.17157C3.51839 3.82475 3.22937 4.69989 3.10149 6"
+                                    stroke="#1C274C" stroke-width="2.2" stroke-linecap="round"></path>
+                            </g>
+                        </svg>
+                    </button>
+                </h2>
+                <textarea name="output" id="output" cols="30" rows="10" placeholder="..." readonly></textarea>
+            </div>
+
+        </div>
+        <div class="buttons">
+            <button class="change-button" onclick="lowercaseAll()">Lowercase All</button>
+            <button class="change-button" onclick="uppercaseAll()">Uppercase All</button>
+            <button class="change-button" onclick="uppercaseEachWords()">Uppercase each words</button>
+            <button class="change-button" onclick="sentenceCase()">Sentence Case</button>
+        </div>
+    </div>
+
+
+</body>
+<script>
+
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+
+    function pasteText() {
+        navigator.clipboard.readText()
+            .then(text => {
+                input.value = text;
+            })
+            .catch(err => {
+                console.error('Failed to read clipboard contents: ', err);
+            });
+    }
+
+    function lowercaseAll() {
+        output.value = input.value.toLowerCase();
+    }
+
+    function uppercaseAll() {
+        output.value = input.value.toUpperCase();
+    }
+
+    function sentenceCase() {
+        output.value = input.value.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, c => c.toUpperCase()); // got this from internet
+    }
+    function uppercaseEachWords() {
+        output.value = input.value.toLowerCase().replace(/(^\w|\s\w)/g, c => c.toUpperCase());
+    }
+
+    function copyText() {
+        const copyBtn = event.target.closest('button');
+        navigator.clipboard.writeText(output.value)
+            .then(() => {
+                copyBtn.classList.add('copy-success');
+                setTimeout(() => {
+                    copyBtn.classList.remove('copy-success');
+                }, 1500);
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    }
+</script>
+
+</html>

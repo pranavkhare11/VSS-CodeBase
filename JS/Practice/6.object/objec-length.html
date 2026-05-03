@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    let obj = {
+        name: "aabhishek",
+        location: "morena",
+        education: {
+            graduation: "btech",
+            postgradution: "false",
+            phD: "false",
+            school: {
+                highschool: "true",
+                secondary: "true"
+            }
+        },
+        info: "funny"
+    }
+    console.log(Object.keys(obj).length, obj);
+    console.log(Object.keys(obj.education).length, obj.education);
+    console.log(Object.keys(obj.education.school).length, obj.education.school);
+    console.log(obj.info?.personal?.hobbies);
+
+    const { name, "location": p_location } = obj;
+
+    console.log(p_location);
+
+    // console.log(info);
+
+</script>
+
+</html>

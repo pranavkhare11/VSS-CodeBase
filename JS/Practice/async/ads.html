@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    console.log("1. Code started");
+
+    let s = 10;
+    const w = 20;
+
+    for (let i = 0; i < 4; i++) {
+        console.log("2. i: ", i);
+    }
+
+    const sum = (a, b) => a + b;
+
+    function sumV2(a, b) {
+        return a + b
+    }
+    setTimeout(() => {
+        console.log("3.3000 Set time out completed")
+    }, 3000);
+    setTimeout(() => {
+        console.log("3.2000 Set time out completed")
+    }, 2000);
+
+    setTimeout(() => {
+        console.log("3.1000 Set time out completed")
+    }, 1000);
+
+    setTimeout(() => {
+        console.log("3.500 Set time out completed")
+    }, 500);
+    
+    setTimeout(() => {
+        console.log("3.0 Set time out completed")
+    }, 0);
+
+    console.log("4. Set Time out completed");
+
+    fetch("https://fakestoreapi.com/products").then((data) => data.json()).then((data) => {
+        console.log("5. API response: ", data)
+    }).catch((err) => {
+        console.log("5.Error: ", err)
+    })
+    console.log("6. API call done");
+
+    console.log("7. Code completed");
+</script>
+
+</html>

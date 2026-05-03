@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+<script>
+
+
+    // 🧩 Problem: Delete Value at Given Path
+
+    // Write a function deletePath that takes:
+    // 1. An object
+    // 2. A string path with keys separated by dots
+
+    // The function should:
+    // - Delete the value at the given path if it exists
+    // - Return true if deletion was successful
+    // - Return false if the path does not exist
+
+    // Example:
+
+    const obj = {
+        a: {
+            b: {
+                c: 12,
+                d: 20,
+            },
+        },
+    };
+
+    const deletePath = (obj, path) => {
+        const deletedresult = structuredClone(obj);
+
+        const keys = path.split(".");
+        let result = deletedresult;
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (result !== null && result.hasOwnProperty(keys[i])) {
+                result = result[keys[i]];
+            } else {
+                return false;
+            }
+        }
+        const lastKey = keys[keys.length - 1];
+        if (result !== null && result.hasOwnProperty(lastKey)) {
+            delete result[lastKey];
+            return deletedresult;
+        }
+        return false;
+    };
+
+    console.log(deletePath(obj, "a.b.c")); // → true
+    // After deletion, obj becomes:
+    // { a: { b: { d: 20 } } }
+
+    console.log(deletePath(obj, "a.b.x")); //→ false
+    console.log(deletePath(obj, "a.x.c")); //→ false
+    console.log(deletePath(obj, "a.b.c.d")); //→ false
+
+
+</script>
+
+</html>

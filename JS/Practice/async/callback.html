@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function fetchDataUsingCB(callback) {
+        setTimeout(() => {
+            callback("From API");
+        }, 1000);
+
+        setTimeout(() => {
+            callback("From cache"); // second call
+        }, 1500);
+    }
+
+    function fetchDataUsingPromises() {
+        return new Promise((reply, reject) => {
+            setTimeout(() => {
+                reply("From API");
+            }, 1000);
+
+            setTimeout(() => {
+                reply("From cache"); // second call
+            }, 1500);
+        });
+    }
+
+    fetchDataUsingCB((data) => {
+        console.log("Callback:", data);
+    });
+
+    fetchDataUsingPromises().then((data) => {
+        console.log("Promise:", data);
+    });
+
+</script>
+
+</html>

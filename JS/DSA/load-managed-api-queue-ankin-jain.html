@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fixed Concurrency Pool</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-950 text-slate-100">
+
+    <div class="max-w-6xl mx-auto p-6">
+
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold">Concurrency Pool</h1>
+
+            <div class="space-x-2">
+                <button onclick="startPool()" class="px-4 py-2 bg-emerald-500 rounded-lg">
+                    Start
+                </button>
+
+                <button onclick="stopPool()" class="px-4 py-2 bg-red-500 rounded-lg">
+                    Stop
+                </button>
+                <button onclick="resetPool()" class="px-4 py-2 bg-red-500 rounded-lg">
+                    Clear
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-5 gap-3 mb-6 text-sm">
+
+            <div>Total: <span id="total">0</span></div>
+            <div class="text-green-400">Done: <span id="done">0</span></div>
+            <div class="text-red-400">Failed: <span id="failed">0</span></div>
+            <div class="text-yellow-400">Cancelled: <span id="cancelled">0</span></div>
+            <div class="text-blue-400">InFlight: <span id="inflight">0</span></div>
+
+        </div>
+
+        <pre id="log" class="h-80 overflow-auto bg-slate-900 p-3 rounded"></pre>
+
+    </div>
+
+    <script>
+
+        const LIMIT = 10;
+        const TIMEOUT = 5000;
+
+        let controller;
+        let initialState = {
+            total: 0,
+            done: 0,
+            failed: 0,
+            cancelled: 0,
+            inflight: 0
+        };
+
+
+        // state
+        let state = { ...initialState };
+
+
+
+        const logEl = document.getElementById("log");
+
+        let lastUIUpdate = 0;
+
+
+        function resetPool() {
+
+            // 1. stop first
+            stopPool();
+
+            // 2. wait for microtasks to finish cleanup
+            setTimeout(() => {
+
+                state = { ...initialState };
+
+                logEl.textContent = "Press start to run jobs";
+
+                updateUI();
+
+            }, 0);
+        }
+
+        /**
+         * Throttled UI update (fix performance issue)
+         */
+        function updateUI() {
+            const now = Date.now();
+            if (now - lastUIUpdate < 100) return; // throttle 100ms
+            lastUIUpdate = now;
+
+            document.getElementById("total").innerText = state.total;
+            document.getElementById("done").innerText = state.done;
+            document.getElementById("failed").innerText = state.failed;
+            document.getElementById("cancelled").innerText = state.cancelled;
+            document.getElementById("inflight").innerText = state.inflight;
+        }
+
+        function log(msg) {
+            logEl.textContent += msg + "\n";
+            logEl.scrollTop = logEl.scrollHeight; // Auto-scroll to bottom
+        }
+
+        /**
+         * FIXED FETCH TASK
+         * - Proper abort handling
+         * - Correct error classification
+         * - Throws AbortError for cancellations
+         */
+        async function fetchTask(url, signal) {
+            // Check immediate abort
+            if (signal.aborted) {
+                const error = new Error('Request aborted');
+                error.name = 'AbortError';
+                throw error;
+            }
+
+            const c = new AbortController();
+            const timeout = setTimeout(() => {
+                c.abort();
+            }, TIMEOUT);
+
+            const abortHandler = () => {
+                c.abort();
+            };
+            signal.addEventListener('abort', abortHandler, { once: true });
+
+            try {
+                const res = await fetch(url, { signal: c.signal });
+
+                if (!res.ok) {
+                    throw new Error(`HTTP_ERROR_${res.status}`);
+                }
+
+                const contentType = res.headers.get("content-type");
+
+                if (contentType && contentType.includes("application/json")) {
+                    return await res.json();
+                }
+
+                return await res.text();
+
+            } catch (err) {
+                // Convert any abort-related errors to AbortError
+                if (err.name === 'AbortError' || signal.aborted) {
+                    const abortErr = new Error('Request aborted');
+                    abortErr.name = 'AbortError';
+                    throw abortErr;
+                }
+                throw err;
+            } finally {
+                clearTimeout(timeout);
+                signal.removeEventListener('abort', abortHandler);
+            }
+        }
+
+        /**
+         * POOL ENGINE (COMPLETELY FIXED)
+         * - No race condition using queue pattern
+         * - Proper cancel handling
+         * - Correct state counting
+         */
+        async function runPool(tasks, signal) {
+            // Create a queue of remaining task indices (atomic by nature)
+            const remainingIndices = Array.from({ length: tasks.length }, (_, i) => i);
+
+            async function worker(workerId) {
+                while (!signal.aborted) {
+                    // Atomic operation: pop from array (no race condition)
+                    const currentIndex = remainingIndices.shift();
+
+                    if (currentIndex === undefined) break; // No more tasks
+
+                    const { url, id } = tasks[currentIndex];
+
+                    state.inflight++;
+                    updateUI();
+
+                    let taskCompleted = false;
+
+                    try {
+                        await fetchTask(url, signal);
+
+                        // Task completed successfully
+                        if (!signal.aborted) {
+                            state.done++;
+                            log(`✔ Worker ${workerId} Task ${id}`);
+                        } else {
+                            // Task completed but abort was called AFTER completion
+                            // This should count as done, not cancelled
+                            state.done++;
+                            log(`✔ Worker ${workerId} Task ${id} (completed before stop)`);
+                        }
+                        taskCompleted = true;
+
+                    } catch (err) {
+                        // Check if error is due to abort/cancellation
+                        const isAbortError = err.name === 'AbortError' ||
+                            signal.aborted ||
+                            err.message?.includes('aborted');
+
+                        if (isAbortError && !taskCompleted && signal.aborted) {
+                            // Task was cancelled mid-execution
+                            state.cancelled++;
+                            log(`⚠ Worker ${workerId} Task ${id} → CANCELLED`);
+                        } else if (!isAbortError) {
+                            // Real error (network, HTTP error, timeout, etc.)
+                            state.failed++;
+                            log(`✖ Worker ${workerId} Task ${id} → ${err.message}`);
+                        } else if (isAbortError && !signal.aborted) {
+                            // This shouldn't happen, but handle gracefully
+                            state.failed++;
+                            log(`✖ Worker ${workerId} Task ${id} → ${err.message}`);
+                        }
+                    } finally {
+                        state.inflight--;
+                        updateUI();
+                    }
+                }
+            }
+
+            // Start all workers
+            const workers = Array.from({ length: LIMIT }, (_, i) => worker(i + 1));
+            await Promise.all(workers);
+        }
+
+        /**
+         * START
+         */
+        async function startPool() {
+            // Reset everything
+            logEl.textContent = "";
+
+            // Cancel any existing pool
+            if (controller) {
+                controller.abort();
+                // Small delay to ensure previous pool cleans up
+                await new Promise(resolve => setTimeout(resolve, 100));
+            }
+
+            controller = new AbortController();
+
+            // Create tasks with random delays (0.1 to 3 seconds)
+            const tasks = Array.from({ length: 30 }, (_, i) => ({
+                url: `https://httpbin.org/delay/${(Math.random() * 3 + 0.5).toFixed(1)}`,
+                id: i + 1
+            }));
+
+            state = {
+                total: tasks.length,
+                done: 0,
+                failed: 0,
+                cancelled: 0,
+                inflight: 0
+            };
+
+            updateUI();
+
+            log("🚀 Started concurrency pool with " + LIMIT + " workers...");
+            log("📋 Total tasks: " + tasks.length);
+            log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+
+            const startTime = Date.now();
+
+            try {
+                await runPool(tasks, controller.signal);
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+                log("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+                log(`🎯 COMPLETED in ${elapsed}s`);
+                log(`✅ Done: ${state.done} | ❌ Failed: ${state.failed} | ⚠️ Cancelled: ${state.cancelled}`);
+            } catch (err) {
+                log(`\n❌ Pool error: ${err.message}`);
+            }
+        }
+
+        /**
+         * STOP
+         */
+        function stopPool() {
+            if (controller && !controller.signal.aborted) {
+                controller.abort();
+                log("🛑 STOPPING pool and aborting all in-flight requests...");
+                log("⏳ Waiting for workers to finish current tasks...");
+            } else {
+                log("⚠️ No active pool to stop");
+            }
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (controller) {
+                controller.abort();
+            }
+        });
+
+    </script>
+
+</body>
+
+</html>

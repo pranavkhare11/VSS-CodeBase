@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        p {
+            font-size: 2em;
+            font-family: monospace;
+        }
+
+        button {
+            margin: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <p>00:00:00</p>
+    <button id="start">Start</button>
+    <button id="stop">Stop</button>
+    <button id="reset">Reset</button>
+</body>
+<script>
+    const counterElem = document.querySelector("p");
+    const startBtn = document.getElementById("start");
+    const stopBtn = document.getElementById("stop");
+    const resetBtn = document.getElementById("reset");
+    let counter = 0;
+    let intervalRef;
+    let time_elapsed = 0;
+    startBtn.addEventListener("click", () => {
+        if (intervalRef) {
+            return;
+        }
+        intervalRef = setInterval(() => {
+            time_elapsed = counter;
+            counter++;
+
+
+        }, 10)
+    })
+    stopBtn.addEventListener("click", () => {
+        clearInterval(intervalRef);
+        intervalRef = null;
+    })
+    resetBtn.addEventListener("click", () => {
+        counter = 0;
+        time_elapsed = 0;
+        counterElem.textContent = "00:00:00";
+    })
+
+    setInterval(() => {
+        const minutes = Math.floor(time_elapsed / 6000);
+        const seconds = Math.floor((time_elapsed % 6000) / 100);
+        const milliseconds = time_elapsed % 100;
+        counterElem.textContent = `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}:${milliseconds.toString().padStart(2, "0")}`;
+    }, 10)
+
+</script>
+
+</html>

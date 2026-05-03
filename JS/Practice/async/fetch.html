@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Calling</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+<script>
+    // Way 1 - Using .then & .catch
+    fetch("https://fakestoreapi.com/products")
+        .then((data) => data.json()) // Searlisation way
+        .then((data) => {
+            console.log("Data using .then: ", data)
+        }).catch((err) => {
+            console.log("Error: ", err)
+        });
+</script>
+
+<script>
+    // Way 2 - Fetch Using Async & Await
+    const getProducts = async () => {
+        try {
+            const results = await fetch("https://fakestoreapi.com/products");
+            const parsedResponse = await results.json();
+            console.log("parsedResponse using async/await: ", parsedResponse)
+        } catch (err) {
+            console.log("Error: ", err)
+        }
+    }
+
+    getProducts()
+</script>
+
+<script>
+    // Way 3 - axios using async/await
+
+    const getProductsV2 = async () => {
+        try {
+            const axiosRes = await axios.get("https://fakestoreapi.com/products");
+            console.log("axiosRes: ", axiosRes)
+        } catch (err) {
+            console.log("Error: ", err)
+
+        }
+    }
+
+    getProductsV2();
+</script>

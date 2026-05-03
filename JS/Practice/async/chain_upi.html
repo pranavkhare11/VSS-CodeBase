@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    function validateUPI(upiId) {
+        return new Promise((resolve, reject) => {
+            console.log("Validating UPI ID...");
+            setTimeout(() => {
+                if (upiId.includes("@")) {
+                    resolve("UPI ID is valid");
+                } else {
+                    reject("Invalid UPI ID");
+                }
+            }, 1000);
+        });
+    }
+
+    function checkBalance(amount) {
+        return new Promise((resolve, reject) => {
+            console.log("Checking balance...");
+            setTimeout(() => {
+                let balance = 5000;
+                if (balance >= amount) {
+                    resolve("Sufficient balance");
+                } else {
+                    reject("Insufficient balance");
+                }
+            }, 1000);
+        });
+    }
+
+    function processPayment(amount) {
+        return new Promise((resolve) => {
+            console.log("Processing payment...");
+            setTimeout(() => {
+                resolve(`₹${amount} transferred successfully`);
+            }, 1000);
+        });
+    }
+
+    function sendConfirmation(message) {
+        return new Promise((resolve) => {
+            console.log("Sending confirmation...");
+            setTimeout(() => {
+                resolve("SMS: " + message);
+            }, 1000);
+        });
+    }
+
+    // Promise chaining
+    validateUPI("student@upi")
+        .then((res) => {
+            console.log(res);
+            return checkBalance(1000);
+        })
+        .then((res) => {
+            console.log(res);
+            return processPayment(1000);
+        })
+        .then((res) => {
+            console.log(res);
+            return sendConfirmation(res);
+        })
+        .then((finalMsg) => {
+            console.log(finalMsg);
+        })
+        .catch((err) => {
+            console.error("Payment failed:", err);
+        });
+</script>
+
+</html>
